@@ -4,9 +4,9 @@
     <id>UMLClass</id>
     <coordinates>
       <x>470</x>
-      <y>410</y>
+      <y>400</y>
       <w>240</w>
-      <h>150</h>
+      <h>170</h>
     </coordinates>
     <panel_attributes>entity: students
 --
@@ -16,6 +16,7 @@ name: varchar(30)
 surname: varchar(30)
 birth_at: date
 address: varchar(80)
+email: varchar(50)
 zip_code: char(6)
 </panel_attributes>
     <additional_attributes/>
@@ -281,25 +282,25 @@ m2=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>660</x>
-      <y>550</y>
+      <y>560</y>
       <w>180</w>
-      <h>180</h>
+      <h>170</h>
     </coordinates>
     <panel_attributes>m1=*
 m2=1</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;150.0;160.0;150.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0;160.0;140.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>510</x>
-      <y>550</y>
+      <y>560</y>
       <w>30</w>
-      <h>150</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>m1=1
 m2=*</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
