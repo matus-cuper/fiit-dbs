@@ -8,7 +8,7 @@
     </properties>
     <root id="root">
       <element id="archive" name="JavaFXApp.jar">
-        <element id="module-output" name="fiit-dbs" />
+        <element id="module-output" name="dbs2017-project-matus-cuper" />
       </element>
     </root>
   </artifact>
