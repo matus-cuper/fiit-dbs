@@ -1,5 +1,6 @@
 # Databázové systémy
 
+
 ## AIS ID 73688
 ## Matúš Cuper
 

@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?><diagram program="umlet" version="13.3">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>400</y>
+      <w>240</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>entity: students
+--
+&lt;&lt;PK&gt;&gt; student_id: long
+&lt;&lt;FK&gt;&gt; secondary_school_id: long
+name: varchar(30)
+surname: varchar(30)
+birth_at: date
+address: varchar(80)
+email: varchar(50)
+zip_code: char(6)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1190</x>
+      <y>210</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>entity: universities
+--
+&lt;&lt;PK&gt;&gt; university_id: long
+name: varchar(50)
+address: varchar(80)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>830</x>
+      <y>70</y>
+      <w>220</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>entity: fields_of_study
+--
+&lt;&lt;PK&gt;&gt; field_of_study_id: long
+name: varchar(40)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>820</x>
+      <y>210</y>
+      <w>250</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>entity: fos_at_universities
+--
+&lt;&lt;PK&gt;&gt; fos_at_university_id: long
+&lt;&lt;FK&gt;&gt; university_id: long
+&lt;&lt;FK&gt;&gt; field_of_study_id: long
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>470</x>
+      <y>190</y>
+      <w>240</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>entity: graduations
+--
+&lt;&lt;PK&gt;&gt; graduation_id: long
+&lt;&lt;FK&gt;&gt; fos_at_university_id: long
+&lt;&lt;FK&gt;&gt; student_id: long
+start_at: date
+finished_at: date
+graduated: boolean
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>820</x>
+      <y>430</y>
+      <w>250</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>entity: registrations
+--
+&lt;&lt;PK&gt;&gt; registration_id: long
+&lt;&lt;FK&gt;&gt; fos_at_university_id: long
+&lt;&lt;FK&gt;&gt; student_id: long
+&lt;&lt;FK&gt;&gt; status_id: long
+changed_at: date
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>400</x>
+      <y>680</y>
+      <w>250</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>entity: graduations_from_ss
+--
+&lt;&lt;PK&gt;&gt; graduation_from_ss_id: long
+&lt;&lt;FK&gt;&gt; student_id: long
+&lt;&lt;FK&gt;&gt; subject_id: long
+graduated_at: date
+mark: numeric(1)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>820</x>
+      <y>660</y>
+      <w>250</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>entity: secondary_schools
+--
+&lt;&lt;PK&gt;&gt; secondary_school_id: long
+name: varchar(50)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>700</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>entity: subjects
+--
+&lt;&lt;PK&gt;&gt; subject_id: long
+name: varchar(30)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>250</y>
+      <w>210</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>entity: award_levels
+--
+&lt;&lt;PK&gt;&gt; award_level_id: long
+name: varchar(20)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>610</y>
+      <w>210</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>entity: award_names
+--
+&lt;&lt;PK&gt;&gt; award_name_id: long
+name: varchar(20)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>140</x>
+      <y>430</y>
+      <w>210</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>entity: awards
+--
+&lt;&lt;PK&gt;&gt; award_id: long
+&lt;&lt;FK&gt;&gt; award_level_id; long
+&lt;&lt;FK&gt;&gt; award_name_id: long
+&lt;&lt;FK&gt;&gt; student_id: long
+awarded_at: date
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1210</x>
+      <y>450</y>
+      <w>170</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>entity: statuses
+--
+&lt;&lt;PK&gt;&gt; status_id: long
+name: varchar(10)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1060</x>
+      <y>250</y>
+      <w>150</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>m1=*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>130</y>
+      <w>30</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>m1=*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>700</x>
+      <y>250</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>m1=*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>290</y>
+      <w>30</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1060</x>
+      <y>480</y>
+      <w>170</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>m1=*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;150.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>660</x>
+      <y>560</y>
+      <w>180</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>m1=*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0;160.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>510</x>
+      <y>560</y>
+      <w>30</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>310</x>
+      <y>730</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>310</y>
+      <w>30</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>240</x>
+      <y>540</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>700</x>
+      <y>480</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>m1=1
+m2=*</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>480</y>
+      <w>150</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>m1=*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>580</x>
+      <y>320</y>
+      <w>30</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>m1=*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+</diagram>
