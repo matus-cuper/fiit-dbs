@@ -1,0 +1,6 @@
+podaná
+spracováva sa
+čaká na platbu
+zrušená
+zamietnutá
+schválená

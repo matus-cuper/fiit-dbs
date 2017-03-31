@@ -1,0 +1,328 @@
+agrochémia a výživa rastlín
+analytická chémia
+anatómia, histológia a embryológia
+andragogika
+anesteziológia a resuscitácia
+anorganická chémia
+anorganické technológie a materiály
+anorganické technológie a materiály
+antropológia
+aplikovaná geofyzika
+aplikovaná geológia
+aplikovaná informatika
+aplikovaná matematika
+aplikovaná mechanika
+archeológia
+architektúra a urbanizmus
+archivníctvo
+astronómia
+automatizácia
+baníctvo
+banská geológia a geologický prieskum
+banské meračstvo a geodézia
+bezpečnosť a ochrana zdravia pri práci
+bezpečnosť technických systémov
+bezpečnostné verejno-správne služby
+biofyzika
+biochémia
+biológia
+biomedicínske inžinierstvo
+biotechnológia
+biotechnológie
+botanika
+cestovný ruch
+cudzie jazyky a kultúry
+časti a mechanizmy strojov
+dejiny a teória divadelného umenia
+dejiny a teória filmového umenia a multimédií
+dejiny a teória umenia
+dejiny filozofie
+dentálna hygiena
+dermatovenerológia
+digitálny management
+diskrétna matematika
+divadelné umenie
+dizajn
+doprava
+dopravné služby
+dopravné stroje a zariadenia
+drevárstvo
+ekonometria a operačný výskum
+ekonómia
+ekonomická teória
+ekonomika a manažment obranných zdrojov
+ekonomika a manažment podniku
+elektroenergetika
+elektronika
+elektrotechnika
+elektrotechnológie a materiály
+energetické stroje a zariadenia
+energetika
+environmentálne inžinierstvo
+environmentálne inžinierstvo stavieb
+environmentálny manažment
+estetika
+etika
+etnológia
+evanjelická teológia
+farmaceutická chémia
+farmácia
+farmakognózia
+farmakológia
+filmové umenie
+filmové umenie a multimédiá
+filozofia
+financie
+financie, bankovníctvo a investovanie
+finančný manažment
+fyziatria
+fyzická geografia a geoekológia
+fyzika
+fyzika kondenzovaných látok a akustika
+fyzika plazmy
+fyzikálna chémia
+fyzikálne inžinierstvo
+fyziológia plodín a drevín
+fyziológia rastlín
+fyziológia živočíchov
+fyzioterapia
+genetika
+geodézia a kartografia
+geofyzika
+geografia
+geológia
+geometria a topológia
+gynekológia a pôrodníctvo
+história
+hospodárska informatika
+hospodárska úprava lesov
+hudobné umenie
+humánna geografia
+hutníctvo
+hutníctvo kovov
+hydromeliorácie
+hygiena
+hygiena potravín
+chémia
+chémia a technológia poživatín
+chémia a technológia životného prostredia
+chemická fyzika
+chemické inžinierstvo
+chemické techmológie
+chemické technológie
+chirurgia
+infekčné a parazitárne choroby zvierat
+informačné systémy
+informatika
+inžinierska geológia
+inžinierske konštrukcie a dopravné stavby
+jadrová a subjadrová fyzika
+jadrová energetika
+jadrová chémia
+kánonické právo
+katolícka teológia
+klasická archeológia
+klasické jazyky
+klinická biochémia
+klinická farmakológia
+klinická psychológia
+knižnično-informačné štúdiá
+kognitívna veda
+krajinárstvo
+krajinná a záhradná architektúra
+kulturológia
+kvalita produkcie
+kvantitatívne metódy v ekonómii
+kvantová elektronika a optika
+kybernetika
+kynológia
+lekárenstvo-sociálna farmácia
+lekárska biofyzika
+lekárska, klinická a farmaceutická biochémia
+lesnícka fytológia
+lesníctvo
+liečebná pedagogika
+literárna veda
+logistika
+logopédia
+ložisková geológia
+ľudské zdroje a presonálny manažment
+makromolekulová chémia
+manažment
+manažment vojenských systémov
+masmediálne štúdiá
+matematická analýza
+matematika
+materiály
+medzinárodné ekonomické vzťahy
+medzinárodné podnikanie
+medzinárodné právo
+medzinárodné vzťahy
+medzné stavy materiálov
+mechatronika
+meracia technika
+meranie
+meteorológia a klimatológia
+metrológia
+mikrobiológia
+mineralurgia
+molekulárna biológia
+molekulárna cytológia
+muzeológia
+muzikológia
+národná a medzinárodná bezpečnosť
+národné hospodárstvo
+neslovanské jazyky a literatúry
+neurológia
+neurovedy
+normálna a patologická fyziológia
+nosné konštrukcie a dopravné stavby
+občianska bezpečnosť
+občianske právo
+obchod a marketing
+obchodné a finančné právo
+obchodné podnikanie
+odborová didaktika
+odvetvové a prierezové ekonomiky
+odvetvové ekonomiky a manažment
+oftalmológia
+ochrana a využívanie krajiny
+ochrana osôb a majetku
+ochrana rastlín
+onkológia
+organická chémia
+organická technológia a technológia palív
+orientálne jazyky a literatúra
+orientálne jazyky a literatúry
+ortopédia
+ošetrovateľstvo
+otorinolaryngológia
+patologická anatómia a súdne lekárstvo
+pedagogika
+pediatria
+pedológia
+pestovanie lesa
+petrológia
+počítačové inžinierstvo
+podniková ekonómia
+podniková psychológia
+podnikové financie a controlling
+podnikový manažment
+poisťovníctvo
+politológia
+poľnohospodárska a lesnícka technika
+poľovníctvo
+pomocné vedy historické
+pôrodná asistencia
+poštové technológie
+potravinárstvo
+pozemné stavby
+pozemné stavby - budovy a prostredie
+pracovné právo
+pravdepodobnosť a matematická štatistika
+právo
+pravoslávna teológia
+predškolská a elementárna pedagogika
+prekladateľstvo a tlmočníctvo
+priemyselné inžinierstvo
+priestorové plánovanie
+procesná technika
+psychiatria
+psychológia
+rádiologická technika
+rastlinná produkcia
+regionálna geografia
+religionistika
+reštaurovanie
+röntgenológia a rádiológia
+silnoprúdová elektrotechnika
+slovanské jazyky a literatúra
+slovanské jazyky a literatúry
+slovenské dejiny
+slovenský jazyk
+slovenský jazyk a literatúra
+sociálna a pracovná psychológia
+sociálna antropológia
+sociálna práca
+sociálna psychológia a psychológia práce
+sociálne služby a poradenstvo
+sociológia
+softvérové inžinierstvo
+spracovanie poľnohospodárskych produktov
+správne právo
+stavby s environmentálnym určením
+stavebníctvo
+strojárske technológie a materiály
+strojárstvo
+súdne inžinierstvo
+svetová ekonomika
+synekológia
+systematická filozofia
+špeciálna pedagogika
+špeciálna rastlinná produkcia
+špeciálna živočíšna produkcia
+šport
+športová edukológia
+Športová humanistika
+športová kinantropológia
+štatistika
+štruktúra a vlastnosti dreva
+tanečné umenie
+technológia makromolekolových látok
+technológia spracovania dreva
+tektonika
+telekomunikácie
+teológia
+teoretická a počítačová chémia
+teoretická elektrotechnika
+teória a dejiny štátu a práva
+teória a dejiny žurnalistiky
+teória hudby
+teória politiky
+teória tvorby budov a prostredia
+teória vyučovania fyziky
+teória vyučovania informatiky
+teória vyučovania matematiky
+trestné právo
+učiteľstvo akademických predmetov
+účtovníctvo
+údržba strojov a zariadení
+umelá inteligencia
+urgentaná zdravotná starostlivosť
+urgentná zdravotná starostlivosť
+urológia
+ústavné právo
+verejná ekonomika a služby
+verejná politika a verejná správa
+verejná správa
+verejná správa a regionálny rozvoj
+verejné zdravotníctvo
+virológia
+vnútorné choroby
+vnútorné choroby zvierat
+vodné stavby
+vojenské spojovacie a informačné systémy
+všeobecná fyzika a matematická fyzika
+všeobecná a experimentálna psychológia
+všeobecná fyzika a matematická fyzika
+všeobecná jazykoveda
+všeobecná rastlinná produkcia
+všeobecná živočíšna produkcia
+všeobecné dejiny
+všeobecné lekárstvo
+všeobecné poľnohospodárstvo
+všeobecné veterinárske lekárstvo
+výrobná technika
+výrobné technológie
+výtvarné umenie
+výzbroj a technika ozbrojených síl
+výživa
+záhradníctvo
+záchranné služby
+zdravotnícke a diagnostické pomôcky
+získavanie a spracovanie zemských zdrojov
+zoológia
+zubná technika
+zubné lekárstvo
+živočíšna produkcia
+žurnalistika
