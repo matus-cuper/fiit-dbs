@@ -9,21 +9,21 @@ WITH avg_gss AS
 	),
 count_a AS
 	(
-	SELECT s.student_id, COUNT(a.award_id)
+	SELECT s.student_id, COUNT(*)
 	FROM students s
 	LEFT JOIN awards a ON s.student_id = a.student_id
 	GROUP BY s.student_id
 	),
 count_r AS
 	(
-	SELECT s.student_id, COUNT(r.registration_id)
+	SELECT s.student_id, COUNT(*)
 	FROM students s
 	LEFT JOIN registrations r ON s.student_id = r.student_id
 	GROUP BY s.student_id
 	),
 count_g AS
 	(
-	SELECT s.student_id, COUNT(g.graduation_id),
+	SELECT s.student_id, COUNT(*),
 		SUM(CASE WHEN g.graduated = TRUE THEN 1 ELSE 0 END) AS count_success
 	FROM students s
 	LEFT JOIN graduations g ON s.student_id = g.student_id
