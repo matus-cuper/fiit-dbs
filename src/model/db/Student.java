@@ -16,7 +16,7 @@ public class Student {
     private SecondarySchool secondarySchool;
     private String name;
     private String surname;
-    private Date birtAt;
+    private Date birthAt;
     private String address;
     private String email;
     private String phone;
@@ -38,7 +38,7 @@ public class Student {
         this.id = resultSet.getInt("student_id");
         this.name = resultSet.getString("name");
         this.surname = resultSet.getString("surname");
-        this.birtAt = resultSet.getDate("birth_at");
+        this.birthAt = resultSet.getDate("birth_at");
         this.marksAverage = resultSet.getDouble("gss_avg");
         this.awardsCount = resultSet.getInt("a_count");
         this.registrationsCount = resultSet.getInt("r_count");
@@ -52,7 +52,7 @@ public class Student {
         this.secondarySchool = secondarySchool;
         this.name = name;
         this.surname = surname;
-        this.birtAt = birtAt;
+        this.birthAt = birtAt;
         this.address = address;
         this.email = email;
         this.phone = phone;
@@ -91,12 +91,12 @@ public class Student {
         this.surname = surname;
     }
 
-    public Date getBirtAt() {
-        return birtAt;
+    public Date getBirthAt() {
+        return birthAt;
     }
 
-    public void setBirtAt(Date birtAt) {
-        this.birtAt = birtAt;
+    public void setBirthAt(Date birthAt) {
+        this.birthAt = birthAt;
     }
 
     public String getAddress() {
