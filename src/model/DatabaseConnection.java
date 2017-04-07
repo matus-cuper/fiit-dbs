@@ -25,11 +25,13 @@ public class DatabaseConnection extends Thread {
     private static Connection connection = null;
     private static Statement statement = null;
 
+    public List<Student> students;
+    private boolean initialLoadReady = false;
 
     public void run() {
         initialize();
 
-        List<Student> students = new LinkedList<>();
+        students = new LinkedList<>();
         ResultSet rs;
 
         try {
@@ -72,15 +74,10 @@ public class DatabaseConnection extends Thread {
                 students.add(new Student(rs));
             }
 
-            for (Student s : students) {
-                System.out.println(s.getMarksAverage() + " " + s.getAwardsCount() + " " +
-                        s.getRegistrationsCount() + " " + s.getGraduationsCountAll() + " " +
-                        s.getGraduationsCountSuccess() + " " + s.getName() + " " + s.getSurname() + " " + s.getBirtAt());
-            }
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Failed during select from statuses", e);
         }
-
+        initialLoadReady = true;
         close();
     }
 
@@ -121,5 +118,9 @@ public class DatabaseConnection extends Thread {
         } catch (SQLException e) {
             LOG.severe("Database access denied. Cannot close connection.");
         }
+    }
+
+    public boolean isInitialLoadReady() {
+        return initialLoadReady;
     }
 }
