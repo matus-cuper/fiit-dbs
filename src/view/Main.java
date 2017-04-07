@@ -5,10 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.PropertyReader;
+import model.DatabaseConnection;
 
 import java.io.IOException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Main extends Application {
@@ -25,10 +24,8 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws IOException {
-        String dbName = PropertyReader.readProperty("database.name");
 
-        System.out.println(dbName);
-        LOG.log(Level.INFO, dbName);
+        DatabaseConnection databaseConnection = new DatabaseConnection();
 
         launch(args);
     }
