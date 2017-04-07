@@ -5,10 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.PropertyReader;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,12 +25,10 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws IOException {
-        Properties p = new Properties();
-        p.load(new FileInputStream("etc/application.properties"));
-        String ahoj = p.getProperty("test");
-        System.out.println(ahoj);
+        String dbName = PropertyReader.readProperty("database.name");
 
-        LOG.log(Level.INFO, ahoj);
+        System.out.println(dbName);
+        LOG.log(Level.INFO, dbName);
 
         launch(args);
     }
