@@ -15,6 +15,7 @@ public class Registration {
     private Date changedAt;
 
 
+    // TODO: Add result set constructor
     public Registration(Integer id, FosAtUniversity fosAtUniversity, Status status, Date changedAt) {
         this.id = id;
         this.fosAtUniversity = fosAtUniversity;

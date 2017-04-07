@@ -1,5 +1,7 @@
 package model.db;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Set;
 
@@ -20,13 +22,32 @@ public class Student {
     private String phone;
     private String zipCode;
 
+    private Double graduationsAverage;
+    private Integer awardsCount;
+    private Integer registrationsCount;
+    private Integer graduationsCountAll;
+    private Integer graduationsCountSuccess;
+
     private Set<Award> awards;
     private Set<Graduation> graduations;
     private Set<GraduationFromSS> graduationsFromSS;
     private Set<Registration> registrations;
 
 
-    public Student(Integer id, SecondarySchool secondarySchool, String name, String surname, Date birtAt, String address, String email, String phone, String zipCode) {
+    public Student(ResultSet resultSet) throws SQLException {
+        this.id = resultSet.getInt("student_id");
+        this.name = resultSet.getString("name");
+        this.surname = resultSet.getString("surname");
+        this.birtAt = resultSet.getDate("birth_at");
+        this.graduationsAverage = resultSet.getDouble("gss_avg");
+        this.awardsCount = resultSet.getInt("a_count");
+        this.registrationsCount = resultSet.getInt("r_count");
+        this.graduationsCountAll = resultSet.getInt("g_count_all");
+        this.graduationsCountSuccess = resultSet.getInt("g_count_success");
+    }
+
+    public Student(Integer id, SecondarySchool secondarySchool, String name, String surname,
+                   Date birtAt, String address, String email, String phone, String zipCode) {
         this.id = id;
         this.secondarySchool = secondarySchool;
         this.name = name;
@@ -108,6 +129,46 @@ public class Student {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public Double getGraduationsAverage() {
+        return graduationsAverage;
+    }
+
+    public void setGraduationsAverage(Double graduationsAverage) {
+        this.graduationsAverage = graduationsAverage;
+    }
+
+    public Integer getAwardsCount() {
+        return awardsCount;
+    }
+
+    public void setAwardsCount(Integer awardsCount) {
+        this.awardsCount = awardsCount;
+    }
+
+    public Integer getRegistrationsCount() {
+        return registrationsCount;
+    }
+
+    public void setRegistrationsCount(Integer registrationsCount) {
+        this.registrationsCount = registrationsCount;
+    }
+
+    public Integer getGraduationsCountAll() {
+        return graduationsCountAll;
+    }
+
+    public void setGraduationsCountAll(Integer graduationsCountAll) {
+        this.graduationsCountAll = graduationsCountAll;
+    }
+
+    public Integer getGraduationsCountSuccess() {
+        return graduationsCountSuccess;
+    }
+
+    public void setGraduationsCountSuccess(Integer graduationsCountSuccess) {
+        this.graduationsCountSuccess = graduationsCountSuccess;
     }
 
     public Set<Award> getAwards() {

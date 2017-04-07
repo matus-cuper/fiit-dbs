@@ -16,6 +16,7 @@ public class Graduation {
     private Boolean graduated;
 
 
+    // TODO: Add result set constructor
     public Graduation(Integer id, FosAtUniversity fosAtUniversity, Date startedAt, Date finishedAt, Boolean graduated) {
         this.id = id;
         this.fosAtUniversity = fosAtUniversity;

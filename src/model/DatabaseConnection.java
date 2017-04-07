@@ -1,7 +1,7 @@
 package model;
 
-import model.db.FosAtUniversity;
 import model.db.Status;
+import model.db.Student;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -35,17 +35,45 @@ public class DatabaseConnection extends Thread {
 
         try {
             rs = statement.executeQuery("" +
-                    "SELECT fos.*, \n" +
-                    "\tf.name AS field_of_study_name,\n" +
-                    "\tu.name AS university_name, u.address AS university_address\n" +
-                    "FROM fos_at_universities fos\n" +
-                    "JOIN fields_of_study f ON fos.field_of_study_id = f.field_of_study_id\n" +
-                    "JOIN universities u ON fos.university_id = u.university_id\n" +
+                    "SELECT s.student_id, s.name, s.surname, s.birth_at,\n" +
+                    "\tCOALESCE(gss.avg, 5.00) AS gss_avg,\n" +
+                    "\tCOALESCE(a.count, 0) AS a_count,\n" +
+                    "\tCOALESCE(r.count, 0) AS r_count,\n" +
+                    "\tCOALESCE(g.count, 0) AS g_count_all,\n" +
+                    "\tCOALESCE(g.count_success, 0) AS g_count_success\n" +
+                    "FROM students s\n" +
+                    "LEFT JOIN\n" +
+                    "\t(\n" +
+                    "\tSELECT gss.student_id, ROUND(AVG(gss.mark), 2) AS avg\n" +
+                    "\tFROM graduations_from_ss gss\n" +
+                    "\tGROUP BY gss.student_id\n" +
+                    "\t) gss ON s.student_id = gss.student_id\n" +
+                    "LEFT JOIN\n" +
+                    "\t(\n" +
+                    "\tSELECT a.student_id, COUNT(*)\n" +
+                    "\tFROM awards a\n" +
+                    "\tGROUP BY a.student_id\n" +
+                    "\t) a ON s.student_id = a.student_id\n" +
+                    "LEFT JOIN\n" +
+                    "\t(\n" +
+                    "\tSELECT r.student_id, COUNT(*)\n" +
+                    "\tFROM registrations r\n" +
+                    "\tGROUP BY r.student_id\n" +
+                    "\t) r ON s.student_id = r.student_id\n" +
+                    "LEFT JOIN\n" +
+                    "\t(\n" +
+                    "\tSELECT g.student_id, COUNT(*),\n" +
+                    "\t\tSUM(CASE WHEN g.graduated = TRUE THEN 1 ELSE 0 END) AS count_success\n" +
+                    "\tFROM graduations g\n" +
+                    "\tGROUP BY g.student_id\n" +
+                    "\t) g ON s.student_id = g.student_id\n" +
                     "LIMIT 100");
 
             while (rs.next()) {
-                FosAtUniversity s = new FosAtUniversity(rs);
-                System.out.println(s.getId() + " " + s.getUniversity().getName() + " " + s.getUniversity().getAddress() + " " + s.getFieldOfStudy().getName());
+                Student s = new Student(rs);
+                System.out.println(s.getGraduationsAverage() + " " + s.getAwardsCount() + " " +
+                        s.getRegistrationsCount() + " " + s.getGraduationsCountAll() + " " +
+                        s.getGraduationsCountSuccess() + " " + s.getName() + " " + s.getSurname() + " " + s.getBirtAt());
             }
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Failed during select from statuses", e);
