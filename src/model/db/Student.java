@@ -22,7 +22,7 @@ public class Student {
     private String phone;
     private String zipCode;
 
-    private Double graduationsAverage;
+    private Double marksAverage;
     private Integer awardsCount;
     private Integer registrationsCount;
     private Integer graduationsCountAll;
@@ -39,7 +39,7 @@ public class Student {
         this.name = resultSet.getString("name");
         this.surname = resultSet.getString("surname");
         this.birtAt = resultSet.getDate("birth_at");
-        this.graduationsAverage = resultSet.getDouble("gss_avg");
+        this.marksAverage = resultSet.getDouble("gss_avg");
         this.awardsCount = resultSet.getInt("a_count");
         this.registrationsCount = resultSet.getInt("r_count");
         this.graduationsCountAll = resultSet.getInt("g_count_all");
@@ -131,12 +131,12 @@ public class Student {
         this.zipCode = zipCode;
     }
 
-    public Double getGraduationsAverage() {
-        return graduationsAverage;
+    public Double getMarksAverage() {
+        return marksAverage;
     }
 
-    public void setGraduationsAverage(Double graduationsAverage) {
-        this.graduationsAverage = graduationsAverage;
+    public void setMarksAverage(Double marksAverage) {
+        this.marksAverage = marksAverage;
     }
 
     public Integer getAwardsCount() {

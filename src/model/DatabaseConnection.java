@@ -1,6 +1,5 @@
 package model;
 
-import model.db.Status;
 import model.db.Student;
 
 import java.sql.*;
@@ -30,7 +29,7 @@ public class DatabaseConnection extends Thread {
     public void run() {
         initialize();
 
-        List<Status> statuses = new LinkedList<>();
+        List<Student> students = new LinkedList<>();
         ResultSet rs;
 
         try {
@@ -70,8 +69,11 @@ public class DatabaseConnection extends Thread {
                     "LIMIT 100");
 
             while (rs.next()) {
-                Student s = new Student(rs);
-                System.out.println(s.getGraduationsAverage() + " " + s.getAwardsCount() + " " +
+                students.add(new Student(rs));
+            }
+
+            for (Student s : students) {
+                System.out.println(s.getMarksAverage() + " " + s.getAwardsCount() + " " +
                         s.getRegistrationsCount() + " " + s.getGraduationsCountAll() + " " +
                         s.getGraduationsCountSuccess() + " " + s.getName() + " " + s.getSurname() + " " + s.getBirtAt());
             }
