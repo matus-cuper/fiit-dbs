@@ -8,11 +8,11 @@
           <TableColumn fx:id="nameColumn" prefWidth="160.0" text="Name" />
           <TableColumn fx:id="surnameColumn" prefWidth="160.0" text="Surname" />
           <TableColumn fx:id="birthAtColumn" prefWidth="160.0" text="Date of birth" />
-          <TableColumn fx:id="marksColumn" prefWidth="100.0" text="Marks" />
-          <TableColumn fx:id="awardsColumn" prefWidth="100.0" text="Awards" />
-          <TableColumn fx:id="registrationsColumn" prefWidth="150.0" text="Registrations" />
-          <TableColumn fx:id="graduationsAllColumn" prefWidth="140.0" text="Graduated" />
-          <TableColumn fx:id="graduationsSuccessColumn" prefWidth="230.0" text="Graduated successfully" />
+          <TableColumn fx:id="marksColumn" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Marks" />
+          <TableColumn fx:id="awardsColumn" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Awards" />
+          <TableColumn fx:id="registrationsColumn" prefWidth="150.0" style="-fx-alignment: CENTER;" text="Registrations" />
+          <TableColumn fx:id="graduationsAllColumn" prefWidth="130.0" style="-fx-alignment: CENTER;" text="Graduated" />
+          <TableColumn fx:id="graduationsSuccessColumn" prefWidth="220.0" style="-fx-alignment: CENTER;" text="Graduated successfully" />
       </columns>
     </TableView>
     <TextField fx:id="nameField" layoutX="15.0" layoutY="570.0" prefWidth="210.0" promptText="Name" />

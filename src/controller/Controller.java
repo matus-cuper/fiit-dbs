@@ -5,9 +5,11 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import model.DatabaseConnection;
 import model.db.Student;
 
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -50,17 +52,48 @@ public class Controller {
             }
         }
 
-        ObservableList<Student> tableData = FXCollections.observableArrayList();
-        for (int i = 0; i < 20; i++) {
-            tableData.add(databaseConnection.students.get(i));
-        }
+        Initializer initializer = new Initializer();
+        initializer.start();
+    }
 
-        for (Student s : databaseConnection.students) {
-            System.out.println(s.getMarksAverage() + " " + s.getAwardsCount() + " " +
-                    s.getRegistrationsCount() + " " + s.getGraduationsCountAll() + " " +
-                    s.getGraduationsCountSuccess() + " " + s.getName() + " " + s.getSurname() + " " + s.getBirtAt());
-        }
 
+    private void initializeColumns() {
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
+        surnameColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("surname"));
+        birthAtColumn.setCellValueFactory(new PropertyValueFactory<Student, Date>("birthAt"));
+        marksColumn.setCellValueFactory(new PropertyValueFactory<Student, Double>("marksAverage"));
+        awardsColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("awardsCount"));
+        registrationsColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("registrationsCount"));
+        graduationsAllColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("graduationsCountAll"));
+        graduationsSuccessColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("graduationsCountSuccess"));
+    }
+
+
+    private class Initializer extends Thread {
+
+        public void run() {
+
+            while (mainTableView == null) {
+                try {
+                    Thread.currentThread().sleep(500);
+                } catch (InterruptedException e) {
+                    LOG.log(Level.SEVERE, "Error occurred during waiting for initial data load", e);
+                }
+            }
+
+            ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.students);
+
+            for (Student s : databaseConnection.students) {
+                System.out.println(s.getMarksAverage() + " " + s.getAwardsCount() + " " +
+                        s.getRegistrationsCount() + " " + s.getGraduationsCountAll() + " " +
+                        s.getGraduationsCountSuccess() + " " + s.getName() + " " + s.getSurname() + " " + s.getBirthAt());
+            }
+
+            mainTableView.setEditable(true);
+            initializeColumns();
+            mainTableView.setItems(tableData);
+
+        }
 
     }
 }
