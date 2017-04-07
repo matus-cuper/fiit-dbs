@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  *
  * Class represent connection to database
  */
-public class DatabaseConnection {
+public class DatabaseConnection extends Thread {
 
     private static final Logger LOG = Logger.getLogger(DatabaseConnection.class.getName());
 
@@ -26,7 +26,7 @@ public class DatabaseConnection {
     private static Statement statement = null;
 
 
-    public DatabaseConnection() {
+    public void run() {
         initialize();
 
         List<Status> statuses = new LinkedList<>();
@@ -43,7 +43,7 @@ public class DatabaseConnection {
             LOG.log(Level.SEVERE, "Failed during select from statuses", e);
         }
 
-        stop();
+        close();
     }
 
 
@@ -69,7 +69,7 @@ public class DatabaseConnection {
     /**
      * Close connection to database after all work
      */
-    private void stop() {
+    private void close() {
         try {
             if (statement != null)
                 statement.close();
