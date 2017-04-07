@@ -1,5 +1,8 @@
 package model.db;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
@@ -11,6 +14,12 @@ public class FosAtUniversity {
     private University university;
     private FieldOfStudy fieldOfStudy;
 
+
+    public FosAtUniversity(ResultSet resultSet) throws SQLException {
+        this.id = resultSet.getInt("field_of_study_id");
+        this.university = new University(resultSet.getInt("university_id"), resultSet.getString("university_name"), resultSet.getString("university_address"));
+        this.fieldOfStudy = new FieldOfStudy(resultSet.getInt("field_of_study_id"), resultSet.getString("field_of_study_name"));
+    }
 
     public FosAtUniversity(Integer id, University university, FieldOfStudy fieldOfStudy) {
         this.id = id;

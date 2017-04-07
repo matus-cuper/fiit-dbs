@@ -1,5 +1,6 @@
 package model;
 
+import model.db.FosAtUniversity;
 import model.db.Status;
 
 import java.sql.*;
@@ -33,11 +34,18 @@ public class DatabaseConnection extends Thread {
         ResultSet rs;
 
         try {
-            rs = statement.executeQuery("SELECT * FROM statuses");
+            rs = statement.executeQuery("" +
+                    "SELECT fos.*, \n" +
+                    "\tf.name AS field_of_study_name,\n" +
+                    "\tu.name AS university_name, u.address AS university_address\n" +
+                    "FROM fos_at_universities fos\n" +
+                    "JOIN fields_of_study f ON fos.field_of_study_id = f.field_of_study_id\n" +
+                    "JOIN universities u ON fos.university_id = u.university_id\n" +
+                    "LIMIT 100");
 
             while (rs.next()) {
-                Status s = new Status(rs);
-                System.out.println(s.getId() + " " + s.getName());
+                FosAtUniversity s = new FosAtUniversity(rs);
+                System.out.println(s.getId() + " " + s.getUniversity().getName() + " " + s.getUniversity().getAddress() + " " + s.getFieldOfStudy().getName());
             }
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Failed during select from statuses", e);

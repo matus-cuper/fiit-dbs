@@ -1,5 +1,8 @@
 package model.db;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
@@ -10,6 +13,11 @@ public class FieldOfStudy {
     private Integer id;
     private String name;
 
+
+    public FieldOfStudy(ResultSet resultSet) throws SQLException {
+        this.id = resultSet.getInt("field_of_study_id");
+        this.name = resultSet.getString("name");
+    }
 
     public FieldOfStudy(Integer id, String name) {
         this.id = id;
