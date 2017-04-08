@@ -23,6 +23,8 @@ public class Controller {
     @FXML
     private TableView mainTableView;
     @FXML
+    private TableColumn idColumn;
+    @FXML
     private TableColumn nameColumn;
     @FXML
     private TableColumn surnameColumn;
@@ -84,7 +86,7 @@ public class Controller {
     public void handleTableDoubleClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
             Student rowData = (Student) mainTableView.getSelectionModel().getSelectedItem();
-            System.out.println(rowData.getName() + " " + rowData.getSurname());
+            System.out.println(rowData.getId() + " " + rowData.getName() + " " + rowData.getSurname());
         }
     }
 
@@ -94,6 +96,7 @@ public class Controller {
     }
 
     private void initializeColumns() {
+        idColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("surname"));
         birthAtColumn.setCellValueFactory(new PropertyValueFactory<Student, Date>("birthAt"));

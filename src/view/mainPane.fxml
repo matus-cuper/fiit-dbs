@@ -5,6 +5,7 @@
 <Pane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.102-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
     <TableView fx:id="mainTableView" onMouseClicked="#handleTableDoubleClick" prefHeight="546.0" prefWidth="1200.0">
       <columns>
+         <TableColumn fx:id="idColumn" text="ID" visible="false" />
           <TableColumn fx:id="nameColumn" prefWidth="160.0" text="Name" />
           <TableColumn fx:id="surnameColumn" prefWidth="160.0" text="Surname" />
           <TableColumn fx:id="birthAtColumn" prefWidth="160.0" text="Date of birth" />
