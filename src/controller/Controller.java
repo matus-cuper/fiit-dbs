@@ -3,9 +3,12 @@ package controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import model.DatabaseConnection;
 import model.db.Student;
 
@@ -70,8 +73,18 @@ public class Controller {
 
             ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.getStudents(actualOffset, windowSize));
             LOG.log(Level.INFO, "Students were read");
+            mainTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
             initializeColumns();
             mainTableView.setItems(tableData);
+        }
+    }
+
+    @FXML
+    public void handleTableDoubleClick(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
+            Student rowData = (Student) mainTableView.getSelectionModel().getSelectedItem();
+            System.out.println(rowData.getName() + " " + rowData.getSurname());
         }
     }
 
