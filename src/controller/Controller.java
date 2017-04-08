@@ -70,7 +70,6 @@ public class Controller {
 
             ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.getStudents(actualOffset, windowSize));
             LOG.log(Level.INFO, "Students were read");
-
             initializeColumns();
             mainTableView.setItems(tableData);
         }
