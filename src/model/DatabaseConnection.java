@@ -103,6 +103,39 @@ public class DatabaseConnection extends Thread {
         return students;
     }
 
+    public Student getStudent(int id) {
+        Student student = null;
+        List<PreparedStatement> preparedStatements = new LinkedList<>();
+        List<ResultSet> resultSets = new LinkedList<>();
+
+        try {
+            connection.setAutoCommit(false);
+
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.studentById()));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.graduationsFromSSByStudent()));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.awardsByStudent()));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.graduationsByStudent()));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.registrationsByStudent()));
+
+            for (PreparedStatement p : preparedStatements) {
+                p.setInt(1, id);
+                resultSets.add(p.executeQuery());
+            }
+            connection.commit();
+            student = new Student(resultSets);
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during selecting details about student", e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "Error occurred during setting auto commit back to true", e);
+            }
+        }
+
+        return student;
+    }
+
     public boolean isConnectionReady() {
         return connectionReady;
     }

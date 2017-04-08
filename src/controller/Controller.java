@@ -91,7 +91,7 @@ public class Controller {
     public void handleTableDoubleClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
             Student student = (Student) mainTableView.getSelectionModel().getSelectedItem();
-            createDetailedView(student);
+            createDetailedView(databaseConnection.getStudent(student.getId()));
         }
     }
 

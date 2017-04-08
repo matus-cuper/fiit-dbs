@@ -3,7 +3,8 @@ package model.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Matus Cuper on 7.4.2017.
@@ -28,11 +29,43 @@ public class Student {
     private Integer graduationsCountAll;
     private Integer graduationsCountSuccess;
 
-    private Set<Award> awards;
-    private Set<Graduation> graduations;
-    private Set<GraduationFromSS> graduationsFromSS;
-    private Set<Registration> registrations;
+    private List<Award> awards;
+    private List<Graduation> graduations;
+    private List<GraduationFromSS> graduationsFromSS;
+    private List<Registration> registrations;
 
+
+    public Student(List<ResultSet> resultSets) throws SQLException {
+        ResultSet studentRS = resultSets.get(0);
+        studentRS.next();
+
+        this.id = studentRS.getInt("student_id");
+        this.secondarySchool = new SecondarySchool(studentRS.getInt("secondary_school_id"),
+                studentRS.getString("secondary_school_name"), studentRS.getString("secondary_school_address"));
+        this.name = studentRS.getString("name");
+        this.surname = studentRS.getString("surname");
+        this.birthAt = studentRS.getDate("birth_at");
+        this.address = studentRS.getString("address");
+        this.email = studentRS.getString("email");
+        this.phone = studentRS.getString("phone");
+        this.zipCode = studentRS.getString("zip_code");
+
+        this.graduationsFromSS = new LinkedList<>();
+        while (resultSets.get(1).next())
+            this.graduationsFromSS.add(new GraduationFromSS(resultSets.get(1)));
+
+        this.awards = new LinkedList<>();
+        while (resultSets.get(2).next())
+            this.awards.add(new Award(resultSets.get(2)));
+
+        this.graduations = new LinkedList<>();
+        while (resultSets.get(3).next())
+            this.graduations.add(new Graduation(resultSets.get(3)));
+
+        this.registrations = new LinkedList<>();
+        while (resultSets.get(4).next())
+            this.registrations.add(new Registration(resultSets.get(4)));
+    }
 
     public Student(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getInt("student_id");
@@ -171,35 +204,35 @@ public class Student {
         this.graduationsCountSuccess = graduationsCountSuccess;
     }
 
-    public Set<Award> getAwards() {
+    public List<Award> getAwards() {
         return awards;
     }
 
-    public void setAwards(Set<Award> awards) {
+    public void setAwards(List<Award> awards) {
         this.awards = awards;
     }
 
-    public Set<Graduation> getGraduations() {
+    public List<Graduation> getGraduations() {
         return graduations;
     }
 
-    public void setGraduations(Set<Graduation> graduations) {
+    public void setGraduations(List<Graduation> graduations) {
         this.graduations = graduations;
     }
 
-    public Set<GraduationFromSS> getGraduationsFromSS() {
+    public List<GraduationFromSS> getGraduationsFromSS() {
         return graduationsFromSS;
     }
 
-    public void setGraduationsFromSS(Set<GraduationFromSS> graduationsFromSS) {
+    public void setGraduationsFromSS(List<GraduationFromSS> graduationsFromSS) {
         this.graduationsFromSS = graduationsFromSS;
     }
 
-    public Set<Registration> getRegistrations() {
+    public List<Registration> getRegistrations() {
         return registrations;
     }
 
-    public void setRegistrations(Set<Registration> registrations) {
+    public void setRegistrations(List<Registration> registrations) {
         this.registrations = registrations;
     }
 }

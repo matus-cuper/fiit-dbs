@@ -1,5 +1,7 @@
 package model.db;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -16,7 +18,14 @@ public class Graduation {
     private Boolean graduated;
 
 
-    // TODO: Add result set constructor
+    public Graduation(ResultSet resultSet) throws SQLException {
+        this.id = resultSet.getInt("graduation_id");
+        this.fosAtUniversity = new FosAtUniversity(resultSet);
+        this.startedAt = resultSet.getDate("started_at");
+        this.finishedAt = resultSet.getDate("finished_at");
+        this.graduated = resultSet.getBoolean("graduated");
+    }
+
     public Graduation(Integer id, FosAtUniversity fosAtUniversity, Date startedAt, Date finishedAt, Boolean graduated) {
         this.id = id;
         this.fosAtUniversity = fosAtUniversity;

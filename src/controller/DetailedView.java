@@ -12,6 +12,7 @@ class DetailedView {
 
 
     DetailedView(Student student) {
-        System.out.println(student.getId());
+        System.out.println(student.getId() + " " + student.getName());
+        System.out.println(student.getSecondarySchool().getName() + " " + student.getSecondarySchool().getAddress());
     }
 }
