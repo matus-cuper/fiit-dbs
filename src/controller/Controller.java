@@ -58,6 +58,28 @@ public class Controller {
         initializer.start();
     }
 
+    private class Initializer extends Thread {
+        public void run() {
+            while (mainTableView == null) {
+                try {
+                    Thread.currentThread().sleep(500);
+                } catch (InterruptedException e) {
+                    LOG.log(Level.SEVERE, "Error occurred during waiting for initial data load", e);
+                }
+            }
+
+            ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.getStudents(actualOffset, windowSize));
+            LOG.log(Level.INFO, "Students were read");
+
+            initializeColumns();
+            mainTableView.setItems(tableData);
+        }
+    }
+
+    public void handleExit() {
+        databaseConnection.close();
+        LOG.log(Level.INFO, "Connection was closed");
+    }
 
     private void initializeColumns() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
@@ -68,37 +90,5 @@ public class Controller {
         registrationsColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("registrationsCount"));
         graduationsAllColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("graduationsCountAll"));
         graduationsSuccessColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("graduationsCountSuccess"));
-    }
-
-
-    private class Initializer extends Thread {
-
-        public void run() {
-
-            while (mainTableView == null) {
-                try {
-                    Thread.currentThread().sleep(500);
-                } catch (InterruptedException e) {
-                    LOG.log(Level.SEVERE, "Error occurred during waiting for initial data load", e);
-                }
-            }
-
-            ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.getStudents(actualOffset, windowSize));
-
-            for (Student s : databaseConnection.getStudents(0, 100)) {
-                System.out.println(s.getMarksAverage() + " " + s.getAwardsCount() + " " +
-                        s.getRegistrationsCount() + " " + s.getGraduationsCountAll() + " " +
-                        s.getGraduationsCountSuccess() + " " + s.getName() + " " + s.getSurname() + " " + s.getBirthAt());
-            }
-
-            mainTableView.setEditable(true);
-            initializeColumns();
-            mainTableView.setItems(tableData);
-
-            System.out.println("Student table contains " + databaseConnection.countRows("students"));
-
-            databaseConnection.close();
-        }
-
     }
 }

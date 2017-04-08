@@ -1,10 +1,11 @@
 package view;
 
+import controller.Controller;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,12 +15,23 @@ public class Main extends Application {
 
     private static final Logger LOG = Logger.getLogger(Main.class.getName());
 
+    private Controller controller;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("mainPane.fxml"));
-        primaryStage.setTitle("Student database");
-        primaryStage.setScene(new Scene(root, 1200, 700));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane pane = fxmlLoader.load(getClass().getResource("mainPane.fxml"));
+        controller = new Controller();
+        fxmlLoader.setController(controller);
+
+        primaryStage.setTitle("Students database");
+        primaryStage.setScene(new Scene(pane, 1200, 700));
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() {
+        controller.handleExit();
     }
 
 
