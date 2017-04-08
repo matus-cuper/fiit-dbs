@@ -78,7 +78,6 @@ public class DatabaseConnection extends Thread {
             LOG.log(Level.SEVERE, "Failed during select from statuses", e);
         }
         initialLoadReady = true;
-        close();
     }
 
 
@@ -90,34 +89,47 @@ public class DatabaseConnection extends Thread {
             if (connection == null)
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (SQLException e) {
-            LOG.severe("Database access error occurred.");
+            LOG.log(Level.SEVERE, "Error occurred during getting connection", e);
         }
 
         try {
             if (statement == null)
                 statement = connection.createStatement();
         } catch (SQLException e) {
-            LOG.severe("Database access error occurred or method called on closed statement.");
+            LOG.log(Level.SEVERE, "Error occurred during creating statement", e);
         }
     }
 
     /**
      * Close connection to database after all work
      */
-    private void close() {
+    public void close() {
         try {
             if (statement != null)
                 statement.close();
         } catch (SQLException e) {
-            LOG.severe("Database access denied. Cannot close statement.");
+            LOG.log(Level.SEVERE, "Error occurred during closing statement", e);
         }
 
         try {
             if (connection != null)
                 connection.close();
         } catch (SQLException e) {
-            LOG.severe("Database access denied. Cannot close connection.");
+            LOG.log(Level.SEVERE, "Error occurred during closing connection", e);
         }
+    }
+
+    public int countRows(String tableName) {
+        Integer result = null;
+        try {
+            ResultSet resultSet = statement.executeQuery(PreparedQuery.countRows(tableName));
+            resultSet.next();
+            result = resultSet.getInt(1);
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during counting rows of table " + tableName, e);
+        }
+
+        return (result != null) ? result : 0;
     }
 
     public boolean isInitialLoadReady() {

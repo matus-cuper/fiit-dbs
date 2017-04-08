@@ -93,6 +93,9 @@ public class Controller {
             initializeColumns();
             mainTableView.setItems(tableData);
 
+            System.out.println("Student table contains " + databaseConnection.countRows("students"));
+
+            databaseConnection.close();
         }
 
     }
