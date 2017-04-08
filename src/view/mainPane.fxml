@@ -17,8 +17,8 @@
     </TableView>
     <TextField fx:id="nameField" layoutX="15.0" layoutY="570.0" prefWidth="210.0" promptText="Name" />
     <TextField fx:id="surnameField" layoutX="15.0" layoutY="610.0" prefWidth="210.0" promptText="Surname" />
-    <TextField fx:id="birthAtFromField" layoutX="255.0" layoutY="570.0" prefWidth="210.0" promptText="Birth from" />
-    <TextField fx:id="birthAtToField" layoutX="255.0" layoutY="610.0" prefWidth="210.0" promptText="Birth to" />
+    <TextField fx:id="birthAtAfterField" layoutX="255.0" layoutY="570.0" prefWidth="210.0" promptText="Birth after" />
+    <TextField fx:id="birthAtUntilField" layoutX="255.0" layoutY="610.0" prefWidth="210.0" promptText="Birth until" />
     <TextField fx:id="marksField" layoutX="495.0" layoutY="570.0" prefWidth="210.0" promptText="Marks" />
     <TextField fx:id="awardsField" layoutX="495.0" layoutY="610.0" prefWidth="210.0" promptText="Awards" />
     <TextField fx:id="registrationsField" layoutX="735.0" layoutY="570.0" prefWidth="210.0" promptText="Registrations" />
