@@ -36,6 +36,8 @@ public class Controller {
     @FXML
     private TableColumn graduationsSuccessColumn;
 
+    private int actualOffset = 0;
+    private final int windowSize = 100;
     private DatabaseConnection databaseConnection;
 
 
@@ -44,7 +46,7 @@ public class Controller {
         databaseConnection = new DatabaseConnection();
         databaseConnection.start();
 
-        while (!databaseConnection.isInitialLoadReady()) {
+        while (!databaseConnection.isConnectionReady()) {
             try {
                 Thread.currentThread().sleep(50);
             } catch (InterruptedException e) {
@@ -81,9 +83,9 @@ public class Controller {
                 }
             }
 
-            ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.students);
+            ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.getStudents(actualOffset, windowSize));
 
-            for (Student s : databaseConnection.students) {
+            for (Student s : databaseConnection.getStudents(0, 100)) {
                 System.out.println(s.getMarksAverage() + " " + s.getAwardsCount() + " " +
                         s.getRegistrationsCount() + " " + s.getGraduationsCountAll() + " " +
                         s.getGraduationsCountSuccess() + " " + s.getName() + " " + s.getSurname() + " " + s.getBirthAt());
