@@ -3,15 +3,20 @@ package controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import model.DatabaseConnection;
 import model.db.Student;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,8 +90,24 @@ public class Controller {
     @FXML
     public void handleTableDoubleClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
-            Student rowData = (Student) mainTableView.getSelectionModel().getSelectedItem();
-            System.out.println(rowData.getId() + " " + rowData.getName() + " " + rowData.getSurname());
+            Student student = (Student) mainTableView.getSelectionModel().getSelectedItem();
+            createDetailedView(student);
+        }
+    }
+
+    private void createDetailedView(Student student) {
+        Stage secondaryStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        DetailedView controller = new DetailedView(student);
+
+        try {
+            Pane pane = fxmlLoader.load(getClass().getResource("../view/detailedPane.fxml"));
+            fxmlLoader.setController(controller);
+            secondaryStage.setTitle("Student detail");
+            secondaryStage.setScene(new Scene(pane, 120, 70));
+            secondaryStage.show();
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, "Missing detailedPane.fxml file in view directory", e);
         }
     }
 
