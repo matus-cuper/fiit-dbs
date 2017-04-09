@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.Pane?>
 <Pane prefHeight="615.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.102-ea"
-      xmlns:fx="http://javafx.com/fxml/1">
-    <TableView fx:id="studentTableView" layoutX="15.0" layoutY="15.0" prefHeight="185.0" prefWidth="970.0">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DetailedView">
+    <TableView fx:id="studentTableView" layoutX="15.0" layoutY="15.0" prefHeight="185.0" prefWidth="970.0" >
       <columns>
           <TableColumn fx:id="keyColumn" prefWidth="300.0" text="Key"/>
           <TableColumn fx:id="valueColumn" prefWidth="660.0" text="Value"/>
@@ -13,7 +13,8 @@
     <TableView fx:id="graduationsFromSSTableView" layoutX="15.0" layoutY="210.0" prefHeight="90.0" prefWidth="970.0">
       <columns>
           <TableColumn fx:id="secondarySchoolNameColumn" prefWidth="410.0" text="Secondary school"/>
-          <TableColumn fx:id="secondarySchoolAddressColumn" prefWidth="300.0" text="Address"/>
+          <TableColumn fx:id="secondarySchoolAddressColumn" prefWidth="200.0" text="Address"/>
+          <TableColumn fx:id="secondarySchoolSubjectColumn" style="-fx-alignment: CENTER" prefWidth="200.0" text="Subject"/>
           <TableColumn fx:id="secondarySchoolMarkColumn" style="-fx-alignment: CENTER" prefWidth="100.0" text="Mark"/>
           <TableColumn fx:id="secondarySchoolGraduatedAtColumn" prefWidth="160.0" text="Graduated at"/>
       </columns>

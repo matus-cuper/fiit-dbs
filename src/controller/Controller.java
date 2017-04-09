@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -14,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.DatabaseConnection;
+import model.db.Status;
 import model.db.Student;
 
 import java.io.IOException;
@@ -52,7 +54,6 @@ public class Controller {
 
 
     public Controller() {
-
         databaseConnection = new DatabaseConnection();
         databaseConnection.start();
 
@@ -74,7 +75,7 @@ public class Controller {
                 try {
                     Thread.currentThread().sleep(500);
                 } catch (InterruptedException e) {
-                    LOG.log(Level.SEVERE, "Error occurred during waiting for initial data load", e);
+                    LOG.log(Level.SEVERE, "Error occurred during waiting for mainTableView rendering", e);
                 }
             }
 
@@ -96,16 +97,16 @@ public class Controller {
     }
 
     private void createDetailedView(Student student) {
-        Stage secondaryStage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        DetailedView controller = new DetailedView(student);
-
         try {
-            Pane pane = fxmlLoader.load(getClass().getResource("../view/detailedPane.fxml"));
-            fxmlLoader.setController(controller);
-            secondaryStage.setTitle("Student detail");
-            secondaryStage.setScene(new Scene(pane, 120, 70));
-            secondaryStage.show();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/detailedPane.fxml"));
+            Parent parent = fxmlLoader.load();
+            DetailedView controller = fxmlLoader.getController();
+            controller.setStudent(student);
+
+            Stage detailedStage = new Stage();
+            detailedStage.setTitle("Student detail");
+            detailedStage.setScene(new Scene(parent, 1000, 615));
+            detailedStage.show();
         } catch (IOException e) {
             LOG.log(Level.SEVERE, "Missing detailedPane.fxml file in view directory", e);
         }
