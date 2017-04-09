@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,7 +36,10 @@ public class Controller {
     private TableColumn<Student, Double> marksColumn;
     @FXML
     private TableColumn<Student, Date> birthAtColumn;
+    @FXML
+    private Button previousButton, nextButton;
 
+    private int tableSize;
     private int actualOffset = 0;
     private final int windowSize = 100;
     private DatabaseConnection databaseConnection;
@@ -53,6 +57,7 @@ public class Controller {
             }
         }
 
+        tableSize = databaseConnection.countRows("students");
         Initializer initializer = new Initializer();
         initializer.start();
     }
@@ -84,6 +89,24 @@ public class Controller {
         }
     }
 
+    @FXML
+    public void handlePreviousButton() {
+        nextButton.setDisable(false);
+        actualOffset = actualOffset - windowSize;
+        if (actualOffset == 0)
+            previousButton.setDisable(true);
+        updateTableData();
+    }
+
+    @FXML
+    public void handleNextButton() {
+        previousButton.setDisable(false);
+        actualOffset = actualOffset + windowSize;
+        if (actualOffset + windowSize > tableSize)
+            nextButton.setDisable(true);
+        updateTableData();
+    }
+
     private void createDetailedView(Student student) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/detailedPane.fxml"));
@@ -98,6 +121,11 @@ public class Controller {
         } catch (IOException e) {
             LOG.log(Level.SEVERE, "Missing detailedPane.fxml file in view directory", e);
         }
+    }
+
+    private void updateTableData() {
+        ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.getStudents(actualOffset, windowSize));
+        mainTableView.setItems(tableData);
     }
 
     public void handleExit() {

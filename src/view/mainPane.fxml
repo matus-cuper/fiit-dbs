@@ -29,6 +29,6 @@
     <Button fx:id="createButton" layoutX="467.0" layoutY="650.0" mnemonicParsing="false" text="Create" />
     <Button fx:id="updateButton" layoutX="567.0" layoutY="650.0" mnemonicParsing="false" text="Update" />
     <Button fx:id="deleteButton" layoutX="667.0" layoutY="650.0" mnemonicParsing="false" text="Delete" />
-    <Button fx:id="previousButton" layoutX="400.0" layoutY="650.0" mnemonicParsing="false" text="&lt;&lt;" />
-    <Button fx:id="nextButton" layoutX="760.0" layoutY="650.0" mnemonicParsing="false" text="&gt;&gt;" />
+    <Button fx:id="previousButton" disable="true" layoutX="400.0" layoutY="650.0" mnemonicParsing="false" onAction="#handlePreviousButton" text="&lt;&lt;" />
+    <Button fx:id="nextButton" layoutX="760.0" layoutY="650.0" mnemonicParsing="false" onAction="#handleNextButton" text="&gt;&gt;" />
 </Pane>
