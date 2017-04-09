@@ -12,10 +12,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.DatabaseConnection;
-import model.db.Status;
 import model.db.Student;
 
 import java.io.IOException;
@@ -30,23 +28,8 @@ public class Controller {
     @FXML
     private TableView mainTableView;
     @FXML
-    private TableColumn idColumn;
-    @FXML
-    private TableColumn nameColumn;
-    @FXML
-    private TableColumn surnameColumn;
-    @FXML
-    private TableColumn birthAtColumn;
-    @FXML
-    private TableColumn marksColumn;
-    @FXML
-    private TableColumn awardsColumn;
-    @FXML
-    private TableColumn registrationsColumn;
-    @FXML
-    private TableColumn graduationsAllColumn;
-    @FXML
-    private TableColumn graduationsSuccessColumn;
+    private TableColumn idColumn, nameColumn, surnameColumn, birthAtColumn, marksColumn,
+            awardsColumn, registrationsColumn, graduationsAllColumn, graduationsSuccessColumn;
 
     private int actualOffset = 0;
     private final int windowSize = 100;

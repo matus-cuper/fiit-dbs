@@ -18,7 +18,7 @@ public class Graduation {
     private Boolean graduated;
 
 
-    public Graduation(ResultSet resultSet) throws SQLException {
+    Graduation(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getInt("graduation_id");
         this.fosAtUniversity = new FosAtUniversity(resultSet);
         this.startedAt = resultSet.getDate("started_at");
@@ -66,7 +66,7 @@ public class Graduation {
         this.finishedAt = finishedAt;
     }
 
-    public Boolean getGraduated() {
+    public Boolean isGraduated() {
         return graduated;
     }
 
