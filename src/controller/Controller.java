@@ -26,10 +26,15 @@ public class Controller {
     private static final Logger LOG = Logger.getLogger(Controller.class.getName());
 
     @FXML
-    private TableView mainTableView;
+    private TableView<Student> mainTableView;
     @FXML
-    private TableColumn idColumn, nameColumn, surnameColumn, birthAtColumn, marksColumn,
-            awardsColumn, registrationsColumn, graduationsAllColumn, graduationsSuccessColumn;
+    private TableColumn<Student, String> nameColumn, surnameColumn;
+    @FXML
+    private TableColumn<Student, Integer> idColumn, awardsColumn, registrationsColumn, graduationsAllColumn, graduationsSuccessColumn;
+    @FXML
+    private TableColumn<Student, Double> marksColumn;
+    @FXML
+    private TableColumn<Student, Date> birthAtColumn;
 
     private int actualOffset = 0;
     private final int windowSize = 100;
@@ -42,7 +47,7 @@ public class Controller {
 
         while (!databaseConnection.isConnectionReady()) {
             try {
-                Thread.currentThread().sleep(50);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 LOG.log(Level.SEVERE, "Error occurred during waiting for initial data load", e);
             }
@@ -56,7 +61,7 @@ public class Controller {
         public void run() {
             while (mainTableView == null) {
                 try {
-                    Thread.currentThread().sleep(500);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     LOG.log(Level.SEVERE, "Error occurred during waiting for mainTableView rendering", e);
                 }
@@ -74,7 +79,7 @@ public class Controller {
     @FXML
     public void handleTableDoubleClick(MouseEvent mouseEvent) {
         if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
-            Student student = (Student) mainTableView.getSelectionModel().getSelectedItem();
+            Student student = mainTableView.getSelectionModel().getSelectedItem();
             createDetailedView(databaseConnection.getStudent(student.getId()));
         }
     }
@@ -101,14 +106,14 @@ public class Controller {
     }
 
     private void initializeColumns() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("name"));
-        surnameColumn.setCellValueFactory(new PropertyValueFactory<Student, String>("surname"));
-        birthAtColumn.setCellValueFactory(new PropertyValueFactory<Student, Date>("birthAt"));
-        marksColumn.setCellValueFactory(new PropertyValueFactory<Student, Double>("marksAverage"));
-        awardsColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("awardsCount"));
-        registrationsColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("registrationsCount"));
-        graduationsAllColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("graduationsCountAll"));
-        graduationsSuccessColumn.setCellValueFactory(new PropertyValueFactory<Student, Integer>("graduationsCountSuccess"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
+        birthAtColumn.setCellValueFactory(new PropertyValueFactory<>("birthAt"));
+        marksColumn.setCellValueFactory(new PropertyValueFactory<>("marksAverage"));
+        awardsColumn.setCellValueFactory(new PropertyValueFactory<>("awardsCount"));
+        registrationsColumn.setCellValueFactory(new PropertyValueFactory<>("registrationsCount"));
+        graduationsAllColumn.setCellValueFactory(new PropertyValueFactory<>("graduationsCountAll"));
+        graduationsSuccessColumn.setCellValueFactory(new PropertyValueFactory<>("graduationsCountSuccess"));
     }
 }

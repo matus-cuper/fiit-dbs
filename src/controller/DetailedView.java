@@ -26,20 +26,38 @@ public class DetailedView {
     private static final Logger LOG = Logger.getLogger(DetailedView.class.getName());
 
     @FXML
-    private TableView studentTableView, graduationsFromSSTableView, awardsTableView, graduationsTableView, registrationsTableView;
+    private TableView<StudentTable> studentTableView;
     @FXML
-    private TableColumn keyColumn, valueColumn;
+    private TableView<SecondarySchoolTable> graduationsFromSSTableView;
     @FXML
-    private TableColumn secondarySchoolNameColumn, secondarySchoolAddressColumn, secondarySchoolSubjectColumn,
-            secondarySchoolMarkColumn, secondarySchoolGraduatedAtColumn;
+    private TableView<AwardTable> awardsTableView;
     @FXML
-    private TableColumn awardNameColumn, awardLevelColumn, awardAwardedAtColumn;
+    private TableView<GraduationTable> graduationsTableView;
     @FXML
-    private TableColumn graduationUniversityColumn, graduationAddressColumn, graduationFieldOfStudyColumn,
-            graduationStartedAtColumn, graduationFinishedAtColumn, graduationGraduatedColumn;
+    private TableView<RegistrationTable> registrationsTableView;
     @FXML
-    private TableColumn registrationUniversityColumn, registrationAddressColumn, registrationFieldOfStudyColumn,
-            registrationChangedAtColumn, registrationStatusColumn;
+    private TableColumn<StudentTable, String> keyColumn, valueColumn;
+    @FXML
+    private TableColumn<SecondarySchoolTable, String> secondarySchoolNameColumn, secondarySchoolAddressColumn, secondarySchoolSubjectColumn;
+    @FXML
+    private TableColumn<SecondarySchoolTable, Integer> secondarySchoolMarkColumn;
+    @FXML
+    private TableColumn<SecondarySchoolTable, Date> secondarySchoolGraduatedAtColumn;
+    @FXML
+    private TableColumn<AwardTable, String> awardNameColumn, awardLevelColumn;
+    @FXML
+    private TableColumn<AwardTable, Date> awardAwardedAtColumn;
+    @FXML
+    private TableColumn<GraduationTable, String> graduationUniversityColumn, graduationAddressColumn, graduationFieldOfStudyColumn;
+    @FXML
+    private TableColumn<GraduationTable, Date> graduationStartedAtColumn, graduationFinishedAtColumn;
+    @FXML
+    private TableColumn<GraduationTable, Boolean> graduationGraduatedColumn;
+    @FXML
+    private TableColumn<RegistrationTable, String> registrationUniversityColumn, registrationAddressColumn,
+            registrationFieldOfStudyColumn, registrationStatusColumn;
+    @FXML
+    private TableColumn<RegistrationTable, Date> registrationChangedAtColumn;
 
     private Student student;
 
@@ -49,7 +67,7 @@ public class DetailedView {
     private class Initializer extends Thread {
         public void run() {
             try {
-                Thread.currentThread().sleep(500);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 LOG.log(Level.SEVERE, "Error occurred during waiting for studentTableView rendering", e);
             }
@@ -124,35 +142,36 @@ public class DetailedView {
     }
 
     private void initializeColumns() {
-        keyColumn.setCellValueFactory(new PropertyValueFactory<StudentTable, String>("key"));
-        valueColumn.setCellValueFactory(new PropertyValueFactory<StudentTable, String>("value"));
+        keyColumn.setCellValueFactory(new PropertyValueFactory<>("key"));
+        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
-        secondarySchoolNameColumn.setCellValueFactory(new PropertyValueFactory<SecondarySchoolTable, String>("name"));
-        secondarySchoolAddressColumn.setCellValueFactory(new PropertyValueFactory<SecondarySchoolTable, String>("address"));
-        secondarySchoolSubjectColumn.setCellValueFactory(new PropertyValueFactory<SecondarySchoolTable, String>("subject"));
-        secondarySchoolMarkColumn.setCellValueFactory(new PropertyValueFactory<SecondarySchoolTable, Integer>("mark"));
-        secondarySchoolGraduatedAtColumn.setCellValueFactory(new PropertyValueFactory<SecondarySchoolTable, Date>("graduatedAt"));
+        secondarySchoolNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        secondarySchoolAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        secondarySchoolSubjectColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
+        secondarySchoolMarkColumn.setCellValueFactory(new PropertyValueFactory<>("mark"));
+        secondarySchoolGraduatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("graduatedAt"));
 
-        awardNameColumn.setCellValueFactory(new PropertyValueFactory<AwardTable, String>("name"));
-        awardLevelColumn.setCellValueFactory(new PropertyValueFactory<AwardTable, String>("level"));
-        awardAwardedAtColumn.setCellValueFactory(new PropertyValueFactory<AwardTable, Date>("awardedAt"));
+        awardNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        awardLevelColumn.setCellValueFactory(new PropertyValueFactory<>("level"));
+        awardAwardedAtColumn.setCellValueFactory(new PropertyValueFactory<>("awardedAt"));
 
-        graduationUniversityColumn.setCellValueFactory(new PropertyValueFactory<GraduationTable, String>("university"));
-        graduationAddressColumn.setCellValueFactory(new PropertyValueFactory<GraduationTable, String>("address"));
-        graduationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<GraduationTable, String>("fieldOfStudy"));
-        graduationStartedAtColumn.setCellValueFactory(new PropertyValueFactory<GraduationTable, Date>("startedAt"));
-        graduationFinishedAtColumn.setCellValueFactory(new PropertyValueFactory<GraduationTable, Date>("finishedAt"));
-        graduationGraduatedColumn.setCellValueFactory(new PropertyValueFactory<GraduationTable, Boolean>("graduated"));
+        graduationUniversityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
+        graduationAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        graduationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
+        graduationStartedAtColumn.setCellValueFactory(new PropertyValueFactory<>("startedAt"));
+        graduationFinishedAtColumn.setCellValueFactory(new PropertyValueFactory<>("finishedAt"));
+        graduationGraduatedColumn.setCellValueFactory(new PropertyValueFactory<>("graduated"));
 
-        registrationUniversityColumn.setCellValueFactory(new PropertyValueFactory<RegistrationTable, String>("university"));
-        registrationAddressColumn.setCellValueFactory(new PropertyValueFactory<RegistrationTable, String>("address"));
-        registrationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<RegistrationTable, String>("fieldOfStudy"));
-        registrationChangedAtColumn.setCellValueFactory(new PropertyValueFactory<RegistrationTable, Date>("changedAt"));
-        registrationStatusColumn.setCellValueFactory(new PropertyValueFactory<RegistrationTable, String>("status"));
+        registrationUniversityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
+        registrationAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        registrationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
+        registrationChangedAtColumn.setCellValueFactory(new PropertyValueFactory<>("changedAt"));
+        registrationStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
     void setStudent(Student student) {
         this.student = student;
+        LOG.log(Level.INFO, "Detailed view of student " + student.getId());
         Initializer initializer = new Initializer();
         initializer.start();
     }
