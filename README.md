@@ -10,3 +10,6 @@ Dokumentácia k dátovému modelu sa nachádza v `doc/01/navrh_datoveho_modelu_C
 
 ## 2. Analytický report
 Dokumentácia k analytickému reportu sa nachádza v `doc/02/analyticky_report_Cuper.pdf` a použité dotazy s tabuľkami v `doc/queries`. V `doc/02` sa taktiež nachádza sviečkový graf a histogram.
+
+## 3. Implementovaný scenár
+Dokumentácia k implementovanému scenáru sa nachádza v `doc/03/implementovany_scenar_Cuper.pdf` a v `doc/03` sú aj screenshoty aplikácie.
