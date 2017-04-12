@@ -83,6 +83,16 @@ class PreparedQuery {
                 "\t) nt ON r.fos_at_university_id = nt.fos_at_university_id\n" +
                 "WHERE r.student_id = ?;";
 
+    static final String deleteStudentById = "DELETE FROM students WHERE student_id = ?;";
+
+    static final String deleteGraduationsFromSSByStudentId = "DELETE FROM graduations_from_ss WHERE student_id = ?;";
+
+    static final String deleteAwardsByStudentId = "DELETE FROM awards WHERE student_id = ?;";
+
+    static final String deleteGraduationsByStudentId = "DELETE FROM graduations WHERE student_id = ?;";
+
+    static final String deleteRegistrationsByStudentId = "DELETE FROM registrations WHERE student_id = ?;";
+
 
     private PreparedQuery() {}
 

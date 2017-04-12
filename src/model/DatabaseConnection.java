@@ -136,6 +136,41 @@ public class DatabaseConnection extends Thread {
         return student;
     }
 
+    public void deleteStudentsById(List<Integer> studentIds) {
+        try {
+            connection.setAutoCommit(false);
+            studentIds.forEach(this::deleteStudentById);
+            connection.commit();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during deleting student information", e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "Error occurred during setting auto commit back to true", e);
+            }
+        }
+    }
+
+    private void deleteStudentById(Integer studentId) {
+
+        List<PreparedStatement> preparedStatements = new LinkedList<>();
+        try {
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.deleteRegistrationsByStudentId));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.deleteGraduationsByStudentId));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.deleteAwardsByStudentId));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.deleteGraduationsFromSSByStudentId));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.deleteStudentById));
+
+            for (PreparedStatement p : preparedStatements) {
+                p.setInt(1, studentId);
+                p.executeUpdate();
+            }
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during deleting student information", e);
+        }
+    }
+
     public boolean isConnectionReady() {
         return connectionReady;
     }

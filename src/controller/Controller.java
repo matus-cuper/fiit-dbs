@@ -19,6 +19,8 @@ import model.db.Student;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +45,44 @@ public class Controller {
     private int actualOffset = 0;
     private final int windowSize = 100;
     private DatabaseConnection databaseConnection;
+
+    @FXML
+    public void handleTableDoubleClick(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
+            Student student = mainTableView.getSelectionModel().getSelectedItem();
+            createDetailedView(databaseConnection.getStudent(student.getId()));
+        }
+    }
+
+    @FXML
+    public void handlePreviousButton() {
+        nextButton.setDisable(false);
+        actualOffset = actualOffset - windowSize;
+        if (actualOffset == 0)
+            previousButton.setDisable(true);
+        updateTableData();
+    }
+
+    @FXML
+    public void handleNextButton() {
+        previousButton.setDisable(false);
+        actualOffset = actualOffset + windowSize;
+        if (actualOffset + windowSize > tableSize)
+            nextButton.setDisable(true);
+        updateTableData();
+    }
+
+    @FXML
+    public void handleDeleteButton() {
+        List<Integer> studentIds = new LinkedList<>();
+        for (Student student : mainTableView.getSelectionModel().getSelectedItems()) {
+            studentIds.add(student.getId());
+            LOG.log(Level.INFO, "Deleting student " + student.getId());
+        }
+
+        databaseConnection.deleteStudentsById(studentIds);
+        updateTableData();
+    }
 
 
     public Controller() {
@@ -79,32 +119,6 @@ public class Controller {
             initializeColumns();
             mainTableView.setItems(tableData);
         }
-    }
-
-    @FXML
-    public void handleTableDoubleClick(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2) {
-            Student student = mainTableView.getSelectionModel().getSelectedItem();
-            createDetailedView(databaseConnection.getStudent(student.getId()));
-        }
-    }
-
-    @FXML
-    public void handlePreviousButton() {
-        nextButton.setDisable(false);
-        actualOffset = actualOffset - windowSize;
-        if (actualOffset == 0)
-            previousButton.setDisable(true);
-        updateTableData();
-    }
-
-    @FXML
-    public void handleNextButton() {
-        previousButton.setDisable(false);
-        actualOffset = actualOffset + windowSize;
-        if (actualOffset + windowSize > tableSize)
-            nextButton.setDisable(true);
-        updateTableData();
     }
 
     private void createDetailedView(Student student) {
