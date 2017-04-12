@@ -41,10 +41,8 @@ public class Controller {
     @FXML
     private Button previousButton, nextButton;
 
-    private int tableSize;
-    private int actualOffset = 0;
-    private final int windowSize = 100;
     private DatabaseConnection databaseConnection;
+    private ObservableList<Student> tableData;
 
     @FXML
     public void handleTableDoubleClick(MouseEvent mouseEvent) {
@@ -57,8 +55,8 @@ public class Controller {
     @FXML
     public void handlePreviousButton() {
         nextButton.setDisable(false);
-        actualOffset = actualOffset - windowSize;
-        if (actualOffset == 0)
+        databaseConnection.previousWindow();
+        if (databaseConnection.firstWindow())
             previousButton.setDisable(true);
         updateTableData();
     }
@@ -66,8 +64,8 @@ public class Controller {
     @FXML
     public void handleNextButton() {
         previousButton.setDisable(false);
-        actualOffset = actualOffset + windowSize;
-        if (actualOffset + windowSize > tableSize)
+        databaseConnection.nextWindow();
+        if (databaseConnection.lastWindow())
             nextButton.setDisable(true);
         updateTableData();
     }
@@ -97,7 +95,6 @@ public class Controller {
             }
         }
 
-        tableSize = databaseConnection.countRows("students");
         Initializer initializer = new Initializer();
         initializer.start();
     }
@@ -112,7 +109,7 @@ public class Controller {
                 }
             }
 
-            ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.getStudents(actualOffset, windowSize));
+            ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.getStudents());
             LOG.log(Level.INFO, "Students were read");
             mainTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -138,7 +135,7 @@ public class Controller {
     }
 
     private void updateTableData() {
-        ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.getStudents(actualOffset, windowSize));
+        tableData = FXCollections.observableArrayList(databaseConnection.getStudents());
         mainTableView.setItems(tableData);
     }
 

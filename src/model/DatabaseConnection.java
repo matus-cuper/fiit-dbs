@@ -22,13 +22,17 @@ public class DatabaseConnection extends Thread {
     private static final String DB_USER = PropertyReader.readProperty("database.user");
     private static final String DB_PASSWORD = PropertyReader.readProperty("database.password");
 
-    private static Connection connection = null;
-    private static Statement statement = null;
+    private Connection connection = null;
+    private Statement statement = null;
 
     private boolean connectionReady = false;
+    private int tableSize;
+    private int actualOffset = 0;
+    private final int windowSize = 100;
 
     public void run() {
         initialize();
+        tableSize = countRows("students");
         connectionReady = true;
     }
 
@@ -71,7 +75,7 @@ public class DatabaseConnection extends Thread {
         }
     }
 
-    public int countRows(String tableName) {
+    private int countRows(String tableName) {
         Integer result = null;
         try {
             ResultSet resultSet = statement.executeQuery(PreparedQuery.countRows(tableName));
@@ -84,13 +88,13 @@ public class DatabaseConnection extends Thread {
         return (result != null) ? result : 0;
     }
 
-    public List<Student> getStudents(int offset, int limit) {
+    public List<Student> getStudents() {
 
         List<Student> students = new LinkedList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.mainTable);
-            preparedStatement.setInt(1, offset);
-            preparedStatement.setInt(2, limit);
+            preparedStatement.setInt(1, actualOffset);
+            preparedStatement.setInt(2, windowSize);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
@@ -171,7 +175,37 @@ public class DatabaseConnection extends Thread {
         }
     }
 
+    public void previousWindow() {
+        if (!firstWindow())
+            actualOffset = actualOffset - windowSize;
+    }
+
+    public void nextWindow() {
+        if (actualOffset + windowSize <= tableSize)
+            actualOffset = actualOffset + windowSize;
+    }
+
+    public boolean firstWindow() {
+        return actualOffset == 0;
+    }
+
+    public boolean lastWindow() {
+        return (actualOffset + windowSize) > tableSize;
+    }
+
     public boolean isConnectionReady() {
         return connectionReady;
+    }
+
+    public int getTableSize() {
+        return tableSize;
+    }
+
+    public int getActualOffset() {
+        return actualOffset;
+    }
+
+    public int getWindowSize() {
+        return windowSize;
     }
 }
