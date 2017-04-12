@@ -88,7 +88,7 @@ public class DatabaseConnection extends Thread {
 
         List<Student> students = new LinkedList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.mainTable());
+            PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.mainTable);
             preparedStatement.setInt(1, offset);
             preparedStatement.setInt(2, limit);
 
@@ -111,11 +111,11 @@ public class DatabaseConnection extends Thread {
         try {
             connection.setAutoCommit(false);
 
-            preparedStatements.add(connection.prepareStatement(PreparedQuery.studentById()));
-            preparedStatements.add(connection.prepareStatement(PreparedQuery.graduationsFromSSByStudent()));
-            preparedStatements.add(connection.prepareStatement(PreparedQuery.awardsByStudent()));
-            preparedStatements.add(connection.prepareStatement(PreparedQuery.graduationsByStudent()));
-            preparedStatements.add(connection.prepareStatement(PreparedQuery.registrationsByStudent()));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.studentById));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.graduationsFromSSByStudent));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.awardsByStudent));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.graduationsByStudent));
+            preparedStatements.add(connection.prepareStatement(PreparedQuery.registrationsByStudent));
 
             for (PreparedStatement p : preparedStatements) {
                 p.setInt(1, id);
