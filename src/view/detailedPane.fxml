@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<Pane prefHeight="615.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.102-ea"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DetailedView">
+    <TableView fx:id="studentTableView" layoutX="15.0" layoutY="15.0" prefHeight="185.0" prefWidth="970.0" >
+      <columns>
+          <TableColumn fx:id="keyColumn" prefWidth="200.0" text="Key"/>
+          <TableColumn fx:id="valueColumn" prefWidth="750.0" text="Value"/>
+      </columns>
+    </TableView>
+    <TableView fx:id="graduationsFromSSTableView" layoutX="15.0" layoutY="210.0" prefHeight="90.0" prefWidth="970.0">
+      <columns>
+          <TableColumn fx:id="secondarySchoolNameColumn" prefWidth="340.0" text="Secondary school"/>
+          <TableColumn fx:id="secondarySchoolAddressColumn" prefWidth="190.0" text="Address"/>
+          <TableColumn fx:id="secondarySchoolSubjectColumn" style="-fx-alignment: CENTER" prefWidth="180.0" text="Subject"/>
+          <TableColumn fx:id="secondarySchoolMarkColumn" style="-fx-alignment: CENTER" prefWidth="90.0" text="Mark"/>
+          <TableColumn fx:id="secondarySchoolGraduatedAtColumn" style="-fx-alignment: CENTER" prefWidth="150.0" text="Graduated at"/>
+      </columns>
+    </TableView>
+    <TableView fx:id="awardsTableView" layoutX="15.0" layoutY="310.0" prefHeight="90.0" prefWidth="970.0">
+      <columns>
+          <TableColumn fx:id="awardNameColumn" prefWidth="500.0" text="Name"/>
+          <TableColumn fx:id="awardLevelColumn" style="-fx-alignment: CENTER" prefWidth="300.0" text="Level"/>
+          <TableColumn fx:id="awardAwardedAtColumn" style="-fx-alignment: CENTER" prefWidth="150.0" text="Awarded at"/>
+      </columns>
+    </TableView>
+    <TableView fx:id="graduationsTableView" layoutX="15.0" layoutY="410.0" prefHeight="90.0" prefWidth="970.0">
+      <columns>
+          <TableColumn fx:id="graduationUniversityColumn" prefWidth="300.0" text="University"/>
+          <TableColumn fx:id="graduationAddressColumn" prefWidth="150.0" text="Address"/>
+          <TableColumn fx:id="graduationFieldOfStudyColumn" prefWidth="190.0" text="Field of study"/>
+          <TableColumn fx:id="graduationStartedAtColumn" style="-fx-alignment: CENTER" prefWidth="110.0" text="Started at"/>
+          <TableColumn fx:id="graduationFinishedAtColumn" style="-fx-alignment: CENTER" prefWidth="110.0" text="Finished at"/>
+          <TableColumn fx:id="graduationGraduatedColumn" style="-fx-alignment: CENTER" prefWidth="90.0"
+                       text="Graduated"/>
+      </columns>
+    </TableView>
+    <TableView fx:id="registrationsTableView" layoutX="15.0" layoutY="510.0" prefHeight="90.0" prefWidth="970.0">
+      <columns>
+          <TableColumn fx:id="registrationUniversityColumn" prefWidth="300.0" text="University"/>
+          <TableColumn fx:id="registrationAddressColumn" prefWidth="150.0" text="Address"/>
+          <TableColumn fx:id="registrationFieldOfStudyColumn" prefWidth="190.0" text="Field of study"/>
+          <TableColumn fx:id="registrationChangedAtColumn" style="-fx-alignment: CENTER" prefWidth="190.0" text="Changed at"/>
+          <TableColumn fx:id="registrationStatusColumn" style="-fx-alignment: CENTER" prefWidth="120.0" text="Status"/>
+      </columns>
+    </TableView>
+</Pane>
