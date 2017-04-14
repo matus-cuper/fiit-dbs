@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Date;
 import java.text.ParseException;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,7 +11,7 @@ import java.util.logging.Logger;
  *
  * This class represents filters applied on query
  */
-public class StudentFilter {
+public class StudentFilter extends Observable {
 
     private static final Logger LOG = Logger.getLogger(StudentFilter.class.getName());
 
@@ -26,12 +27,18 @@ public class StudentFilter {
 
     public StudentFilter() {}
 
+    private void change() {
+        setChanged();
+        notifyObservers();
+    }
+
     public String getName() {
         return name != null ? name + "%" : "%";
     }
 
     public void setName(String name) {
         this.name = name;
+        change();
     }
 
     public String getSurname() {
@@ -40,6 +47,7 @@ public class StudentFilter {
 
     public void setSurname(String surname) {
         this.surname = surname;
+        change();
     }
 
     @SuppressWarnings("deprecation")
@@ -56,6 +64,7 @@ public class StudentFilter {
             this.birthAfter = null;
             // TODO show warning
         }
+        change();
     }
 
     @SuppressWarnings("deprecation")
@@ -72,6 +81,7 @@ public class StudentFilter {
             this.birthUntil = null;
             // TODO show warning
         }
+        change();
     }
 
     Double getAverageGreater() {
@@ -86,6 +96,7 @@ public class StudentFilter {
             this.averageGreater = null;
             // TODO show warning
         }
+        change();
     }
 
     Double getAverageLower() {
@@ -100,6 +111,7 @@ public class StudentFilter {
             this.averageLower = null;
             // TODO show warning
         }
+        change();
     }
 
     Integer getCountGreater() {
@@ -114,6 +126,7 @@ public class StudentFilter {
             this.countGreater = null;
             // TODO show warning
         }
+        change();
     }
 
     Integer getCountLower() {
@@ -128,5 +141,6 @@ public class StudentFilter {
             this.countLower = null;
             // TODO show warning
         }
+        change();
     }
 }

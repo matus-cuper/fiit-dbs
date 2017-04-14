@@ -107,8 +107,11 @@ public class DatabaseConnection extends Thread {
             preparedStatement.setInt(10, windowSize);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next())
+            tableSize = 0;
+            while (resultSet.next()) {
                 students.add(new Student(resultSet));
+                tableSize++;
+            }
 
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Error occurred during selecting students into main table", e);

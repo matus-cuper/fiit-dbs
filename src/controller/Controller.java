@@ -16,13 +16,11 @@ import model.StudentFilter;
 import model.db.Student;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Controller {
+public class Controller implements Observer {
 
     private static final Logger LOG = Logger.getLogger(Controller.class.getName());
 
@@ -97,6 +95,8 @@ public class Controller {
             }
         }
 
+        filter = new StudentFilter();
+        filter.addObserver(this);
         Initializer initializer = new Initializer();
         initializer.start();
     }
@@ -111,15 +111,25 @@ public class Controller {
                 }
             }
 
-            ObservableList<Student> tableData = FXCollections.observableArrayList(databaseConnection.getStudents());
+            tableData = FXCollections.observableArrayList(databaseConnection.getStudents());
             LOG.log(Level.INFO, "Students were read");
             mainTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-            filter = new StudentFilter();
             initializeListeners();
             initializeColumns();
             mainTableView.setItems(tableData);
         }
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        databaseConnection.setFilter(filter);
+        LOG.log(Level.INFO, "Students were filtered");
+        updateTableData();
+
+        nextButton.setDisable(false);
+        if (databaseConnection.lastWindow())
+            nextButton.setDisable(true);
     }
 
     private void createDetailedView(Student student) {
