@@ -1,8 +1,9 @@
 package model;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Matus Cuper on 12.4.2017.
@@ -11,27 +12,22 @@ import java.util.Date;
  */
 public class StudentFilter {
 
-    private String name;
-    private String surname;
-    private Date birthAfter;
-    private Date birthUntil;
-    private Double averageGreater;
-    private Double averageLower;
-    private Integer countGreater;
-    private Integer countLower;
+    private static final Logger LOG = Logger.getLogger(StudentFilter.class.getName());
 
-    private static SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+    private String name = null;
+    private String surname = null;
+    private Date birthAfter = null;
+    private Date birthUntil = null;
+    private Double averageGreater = null;
+    private Double averageLower = null;
+    private Integer countGreater = null;
+    private Integer countLower = null;
 
 
-    public StudentFilter() {
-        averageGreater = 1.;
-        averageLower = 5.;
-        countGreater = 0;
-        countLower = Integer.MAX_VALUE;
-    }
+    public StudentFilter() {}
 
     public String getName() {
-        return name;
+        return name != null ? name + "%" : "%";
     }
 
     public void setName(String name) {
@@ -39,83 +35,97 @@ public class StudentFilter {
     }
 
     public String getSurname() {
-        return surname;
+        return surname != null ? surname + "%" : "%";
     }
 
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
+    @SuppressWarnings("deprecation")
     public Date getBirthAfter() {
-        return birthAfter;
+        // new Date(0, 1, 1) is 1900-01-01
+        return birthAfter != null ? birthAfter : new Date(0, 0, 1);
     }
 
     public void setBirthAfter(String birthAfter) {
         try {
-            this.birthAfter = parser.parse(birthAfter);
+            this.birthAfter = Utils.parseDate(birthAfter);
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOG.log(Level.INFO, "Unparseable date " + birthAfter);
+            this.birthAfter = null;
             // TODO show warning
         }
     }
 
+    @SuppressWarnings("deprecation")
     public Date getBirthUntil() {
-        return birthUntil;
+        // new Date(200, 1, 1) is 2100-01-01
+        return birthUntil != null ? birthUntil : new Date(200, 0, 1);
     }
 
     public void setBirthUntil(String birthUntil) {
         try {
-            this.birthUntil = parser.parse(birthUntil);
+            this.birthUntil = Utils.parseDate(birthUntil);
         } catch (ParseException e) {
-            e.printStackTrace();
+            LOG.log(Level.INFO, "Unparseable date " + birthUntil);
+            this.birthUntil = null;
             // TODO show warning
         }
     }
 
     public Double getAverageGreater() {
-        return averageGreater;
+        return averageGreater != null ? averageGreater : new Double(1.0);
     }
 
     public void setAverageGreater(String averageGreater) {
         try {
             this.averageGreater = Double.parseDouble(averageGreater);
         } catch (NumberFormatException e) {
+            LOG.log(Level.INFO, "Unparseable double " + averageGreater);
+            this.averageGreater = null;
             // TODO show warning
         }
     }
 
     public Double getAverageLower() {
-        return averageLower;
+        return averageLower != null ? averageLower : new Double(5.0);
     }
 
     public void setAverageLower(String averageLower) {
         try {
             this.averageLower = Double.parseDouble(averageLower);
         } catch (NumberFormatException e) {
+            LOG.log(Level.INFO, "Unparseable double " + averageLower);
+            this.averageLower = null;
             // TODO show warning
         }
     }
 
     public Integer getCountGreater() {
-        return countGreater;
+        return countGreater != null ? countGreater : new Integer(0);
     }
 
     public void setCountGreater(String countGreater) {
         try {
             this.countGreater = Integer.parseInt(countGreater);
         } catch (NumberFormatException e) {
+            LOG.log(Level.INFO, "Unparseable integer " + countGreater);
+            this.countGreater = null;
             // TODO show warning
         }
     }
 
     public Integer getCountLower() {
-        return countLower;
+        return countLower != null ? countLower : new Integer(Integer.MAX_VALUE);
     }
 
     public void setCountLower(String countLower) {
         try {
             this.countLower = Integer.parseInt(countLower);
         } catch (NumberFormatException e) {
+            LOG.log(Level.INFO, "Unparseable integer " + countLower);
+            this.countLower = null;
             // TODO show warning
         }
     }
