@@ -58,6 +58,7 @@ public class StudentFilter extends Observable {
 
     public void setBirthAfter(String birthAfter) {
         try {
+            LOG.log(Level.INFO, birthAfter);
             this.birthAfter = Utils.parseDate(birthAfter);
         } catch (ParseException e) {
             LOG.log(Level.INFO, "Unparseable date " + birthAfter);

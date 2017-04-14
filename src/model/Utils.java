@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Logger;
@@ -19,7 +18,8 @@ class Utils {
 
     private Utils() {}
 
+    @SuppressWarnings("deprecation")
     static java.sql.Date parseDate(String date) throws ParseException {
-        return (Date) parser.parse(date);
+        return new java.sql.Date(parser.parse(date).getYear(), parser.parse(date).getMonth(), parser.parse(date).getDate());
     }
 }
