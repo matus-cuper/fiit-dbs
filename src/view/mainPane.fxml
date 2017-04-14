@@ -16,16 +16,14 @@
           <TableColumn fx:id="graduationsSuccessColumn" prefWidth="220.0" style="-fx-alignment: CENTER" text="Graduated successfully" />
       </columns>
     </TableView>
-    <TextField fx:id="nameField" layoutX="15.0" layoutY="570.0" prefWidth="210.0" promptText="Name" />
-    <TextField fx:id="surnameField" layoutX="15.0" layoutY="610.0" prefWidth="210.0" promptText="Surname" />
-    <TextField fx:id="birthAtAfterField" layoutX="255.0" layoutY="570.0" prefWidth="210.0" promptText="Birth after" />
-    <TextField fx:id="birthAtUntilField" layoutX="255.0" layoutY="610.0" prefWidth="210.0" promptText="Birth until" />
-    <TextField fx:id="marksField" layoutX="495.0" layoutY="570.0" prefWidth="210.0" promptText="Marks" />
-    <TextField fx:id="awardsField" layoutX="495.0" layoutY="610.0" prefWidth="210.0" promptText="Awards" />
-    <TextField fx:id="registrationsField" layoutX="735.0" layoutY="570.0" prefWidth="210.0" promptText="Registrations" />
-    <TextField fx:id="graduationsRatioField" layoutX="735.0" layoutY="610.0" prefWidth="210.0" promptText="Graduated ratio" />
-    <TextField fx:id="graduationsAllField" layoutX="975.0" layoutY="570.0" prefWidth="210.0" promptText="Graduated" />
-    <TextField fx:id="graduationsSuccessField" layoutX="975.0" layoutY="610.0" prefWidth="210.0" promptText="Graduated successfully" />
+    <TextField fx:id="nameField" layoutX="15.0" layoutY="570.0" prefWidth="270.0" promptText="Name" />
+    <TextField fx:id="surnameField" layoutX="15.0" layoutY="610.0" prefWidth="270.0" promptText="Surname" />
+    <TextField fx:id="birthAtAfterField" layoutX="315.0" layoutY="570.0" prefWidth="270.0" promptText="Birth after" />
+    <TextField fx:id="birthAtUntilField" layoutX="315.0" layoutY="610.0" prefWidth="270.0" promptText="Birth until" />
+    <TextField fx:id="marksGreaterField" layoutX="615.0" layoutY="570.0" prefWidth="270.0" promptText="Marks average greater" />
+    <TextField fx:id="marksLowerField" layoutX="615.0" layoutY="610.0" prefWidth="270.0" promptText="Marks average lower" />
+    <TextField fx:id="registrationsGreaterField" layoutX="915.0" layoutY="570.0" prefWidth="270.0" promptText="Registrations count greater" />
+    <TextField fx:id="registrationsLowerField" layoutX="915.0" layoutY="610.0" prefWidth="270.0" promptText="Registrations count lower" />
     <Button fx:id="createButton" layoutX="467.0" layoutY="650.0" mnemonicParsing="false" text="Create" />
     <Button fx:id="updateButton" layoutX="567.0" layoutY="650.0" mnemonicParsing="false" text="Update" />
     <Button fx:id="deleteButton" layoutX="667.0" layoutY="650.0" mnemonicParsing="false" onAction="#handleDeleteButton" text="Delete" />

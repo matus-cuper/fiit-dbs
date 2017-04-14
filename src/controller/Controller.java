@@ -6,15 +6,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.DatabaseConnection;
+import model.StudentFilter;
 import model.db.Student;
 
 import java.io.IOException;
@@ -40,9 +38,13 @@ public class Controller {
     private TableColumn<Student, Date> birthAtColumn;
     @FXML
     private Button previousButton, nextButton;
+    @FXML
+    private TextField nameField, surnameField, birthAtAfterField, birthAtUntilField, marksGreaterField, marksLowerField,
+            registrationsGreaterField, registrationsLowerField;
 
     private DatabaseConnection databaseConnection;
     private ObservableList<Student> tableData;
+    private StudentFilter filter;
 
     @FXML
     public void handleTableDoubleClick(MouseEvent mouseEvent) {
@@ -113,6 +115,8 @@ public class Controller {
             LOG.log(Level.INFO, "Students were read");
             mainTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+            filter = new StudentFilter();
+            initializeListeners();
             initializeColumns();
             mainTableView.setItems(tableData);
         }
@@ -142,6 +146,17 @@ public class Controller {
     public void handleExit() {
         databaseConnection.close();
         LOG.log(Level.INFO, "Connection was closed");
+    }
+
+    private void initializeListeners() {
+        nameField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setName(newValue)));
+        surnameField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setSurname(newValue)));
+        birthAtAfterField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setBirthAfter(newValue)));
+        birthAtUntilField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setBirthUntil(newValue)));
+        marksGreaterField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setAverageGreater(newValue)));
+        marksLowerField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setAverageLower(newValue)));
+        registrationsGreaterField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setCountGreater(newValue)));
+        registrationsLowerField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setCountLower(newValue)));
     }
 
     private void initializeColumns() {
