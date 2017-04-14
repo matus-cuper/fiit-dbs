@@ -24,6 +24,7 @@ public class DatabaseConnection extends Thread {
 
     private Connection connection = null;
     private Statement statement = null;
+    private StudentFilter filter;
 
     private boolean connectionReady = false;
     private int tableSize;
@@ -33,6 +34,7 @@ public class DatabaseConnection extends Thread {
     public void run() {
         initialize();
         tableSize = countRows("students");
+        filter = new StudentFilter();
         connectionReady = true;
     }
 
@@ -93,8 +95,16 @@ public class DatabaseConnection extends Thread {
         List<Student> students = new LinkedList<>();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.mainTable);
-            preparedStatement.setInt(1, actualOffset);
-            preparedStatement.setInt(2, windowSize);
+            preparedStatement.setString(1, filter.getName());
+            preparedStatement.setString(2, filter.getSurname());
+            preparedStatement.setDate(3, filter.getBirthAfter());
+            preparedStatement.setDate(4, filter.getBirthUntil());
+            preparedStatement.setDouble(5, filter.getAverageGreater());
+            preparedStatement.setDouble(6, filter.getAverageLower());
+            preparedStatement.setInt(7, filter.getCountGreater());
+            preparedStatement.setInt(8, filter.getCountLower());
+            preparedStatement.setInt(9, actualOffset);
+            preparedStatement.setInt(10, windowSize);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next())
@@ -207,5 +217,13 @@ public class DatabaseConnection extends Thread {
 
     public int getWindowSize() {
         return windowSize;
+    }
+
+    public StudentFilter getFilter() {
+        return filter;
+    }
+
+    public void setFilter(StudentFilter filter) {
+        this.filter = filter;
     }
 }

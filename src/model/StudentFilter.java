@@ -1,7 +1,7 @@
 package model;
 
+import java.sql.Date;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +43,7 @@ public class StudentFilter {
     }
 
     @SuppressWarnings("deprecation")
-    public Date getBirthAfter() {
+    Date getBirthAfter() {
         // new Date(0, 1, 1) is 1900-01-01
         return birthAfter != null ? birthAfter : new Date(0, 0, 1);
     }
@@ -59,7 +59,7 @@ public class StudentFilter {
     }
 
     @SuppressWarnings("deprecation")
-    public Date getBirthUntil() {
+    Date getBirthUntil() {
         // new Date(200, 1, 1) is 2100-01-01
         return birthUntil != null ? birthUntil : new Date(200, 0, 1);
     }
@@ -74,7 +74,7 @@ public class StudentFilter {
         }
     }
 
-    public Double getAverageGreater() {
+    Double getAverageGreater() {
         return averageGreater != null ? averageGreater : new Double(1.0);
     }
 
@@ -88,7 +88,7 @@ public class StudentFilter {
         }
     }
 
-    public Double getAverageLower() {
+    Double getAverageLower() {
         return averageLower != null ? averageLower : new Double(5.0);
     }
 
@@ -102,7 +102,7 @@ public class StudentFilter {
         }
     }
 
-    public Integer getCountGreater() {
+    Integer getCountGreater() {
         return countGreater != null ? countGreater : new Integer(0);
     }
 
@@ -116,7 +116,7 @@ public class StudentFilter {
         }
     }
 
-    public Integer getCountLower() {
+    Integer getCountLower() {
         return countLower != null ? countLower : new Integer(Integer.MAX_VALUE);
     }
 

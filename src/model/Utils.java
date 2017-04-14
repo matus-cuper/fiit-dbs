@@ -1,8 +1,8 @@
 package model;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Logger;
 
 /**
@@ -19,7 +19,7 @@ class Utils {
 
     private Utils() {}
 
-    static Date parseDate(String date) throws ParseException {
-        return parser.parse(date);
+    static java.sql.Date parseDate(String date) throws ParseException {
+        return (Date) parser.parse(date);
     }
 }
