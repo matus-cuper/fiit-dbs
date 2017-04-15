@@ -82,6 +82,16 @@ public class Controller implements Observer {
         updateTableData();
     }
 
+    @FXML
+    public void handleCreateButton() {
+        createStudentView();
+    }
+
+    @FXML
+    public void handleUpdateButton() {
+
+    }
+
 
     public Controller() {
         databaseConnection = new DatabaseConnection();
@@ -145,6 +155,20 @@ public class Controller implements Observer {
             detailedStage.show();
         } catch (IOException e) {
             LOG.log(Level.SEVERE, "Missing detailedPane.fxml file in view directory", e);
+        }
+    }
+
+    private void createStudentView() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/newStudentPane.fxml"));
+            Parent parent = fxmlLoader.load();
+
+            Stage detailedStage = new Stage();
+            detailedStage.setTitle("New student");
+            detailedStage.setScene(new Scene(parent, 1000, 615));
+            detailedStage.show();
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, "Missing newStudentPane.fxml file in view directory", e);
         }
     }
 
