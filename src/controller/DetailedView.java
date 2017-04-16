@@ -1,6 +1,6 @@
 package controller;
 
-import controller.db.*;
+import controller.detail.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

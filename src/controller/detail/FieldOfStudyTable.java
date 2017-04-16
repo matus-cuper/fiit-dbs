@@ -1,4 +1,4 @@
-package controller.db;
+package controller.detail;
 
 /**
  * Created by Matus Cuper on 9.4.2017.

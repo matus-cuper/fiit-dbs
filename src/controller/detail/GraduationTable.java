@@ -1,4 +1,4 @@
-package controller.db;
+package controller.detail;
 
 import java.util.Date;
 
