@@ -24,6 +24,11 @@ public class FieldOfStudy {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public Integer getId() {
         return id;
     }
