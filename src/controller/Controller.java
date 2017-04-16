@@ -162,6 +162,8 @@ public class Controller implements Observer {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/newStudentPane.fxml"));
             Parent parent = fxmlLoader.load();
+            NewStudentView controller = fxmlLoader.getController();
+            controller.setAncestor(this);
 
             Stage detailedStage = new Stage();
             detailedStage.setTitle("New student");
@@ -203,5 +205,9 @@ public class Controller implements Observer {
         registrationsColumn.setCellValueFactory(new PropertyValueFactory<>("registrationsCount"));
         graduationsAllColumn.setCellValueFactory(new PropertyValueFactory<>("graduationsCountAll"));
         graduationsSuccessColumn.setCellValueFactory(new PropertyValueFactory<>("graduationsCountSuccess"));
+    }
+
+    DatabaseConnection getDatabaseConnection() {
+        return databaseConnection;
     }
 }

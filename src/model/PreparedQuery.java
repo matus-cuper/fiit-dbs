@@ -126,4 +126,8 @@ class PreparedQuery {
     static String countRows(String tableName) {
         return "SELECT COUNT(*) FROM " + tableName + ";";
     }
+
+    static String allRecords(String tableName) {
+        return "SELECT * FROM " + tableName + ";";
+    }
 }

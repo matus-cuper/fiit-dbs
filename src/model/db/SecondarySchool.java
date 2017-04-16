@@ -27,6 +27,11 @@ public class SecondarySchool {
         this.address = address;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -188,6 +188,15 @@ public class DatabaseConnection extends Thread {
         }
     }
 
+    public ResultSet getAllTableData(String tableName) {
+        try {
+            return statement.executeQuery(PreparedQuery.allRecords(tableName));
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during getting all records from table " + tableName, e);
+        }
+        return null;
+    }
+
     public void previousWindow() {
         if (!firstWindow())
             actualOffset = actualOffset - windowSize;
