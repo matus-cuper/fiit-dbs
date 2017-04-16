@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import model.db.*;
 
 import java.sql.ResultSet;
@@ -37,6 +38,9 @@ public class NewStudentView {
     private ComboBox<AwardName> awardNameCombo;
     @FXML
     private ComboBox<AwardLevel> awardLevelCombo;
+    @FXML
+    private DatePicker graduationFromSSGraduatedAtPicker, registrationChangedAtPicker, awardAwardedAtPicker,
+            graduationStartedAtPicker, graduationFinishedAtPicker;
 
     private ObservableList<SecondarySchool> secondarySchoolsData;
     private ObservableList<Subject> subjectsData;
@@ -50,6 +54,14 @@ public class NewStudentView {
 
 
     public NewStudentView() {}
+
+    private void setFormatter() {
+        graduationFromSSGraduatedAtPicker.setConverter(new MyConverter());
+        registrationChangedAtPicker.setConverter(new MyConverter());
+        awardAwardedAtPicker.setConverter(new MyConverter());
+        graduationStartedAtPicker.setConverter(new MyConverter());
+        graduationFinishedAtPicker.setConverter(new MyConverter());
+    }
 
     private void setCombos() {
         secondarySchoolsData = FXCollections.observableArrayList(getSecondarySchools());
@@ -165,5 +177,6 @@ public class NewStudentView {
     void setAncestor(Controller ancestor) {
         this.ancestor = ancestor;
         setCombos();
+        setFormatter();
     }
 }
