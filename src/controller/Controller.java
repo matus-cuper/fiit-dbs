@@ -165,7 +165,7 @@ public class Controller implements Observer {
 
             Stage detailedStage = new Stage();
             detailedStage.setTitle("New student");
-            detailedStage.setScene(new Scene(parent, 1000, 615));
+            detailedStage.setScene(new Scene(parent, 965, 770));
             detailedStage.show();
         } catch (IOException e) {
             LOG.log(Level.SEVERE, "Missing newStudentPane.fxml file in view directory", e);
