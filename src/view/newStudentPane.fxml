@@ -31,7 +31,7 @@
     <TextField fx:id="graduationFromSSMarkField" layoutX="465.0" layoutY="310.0" prefWidth="130.0" />
     <DatePicker fx:id="graduationFromSSGraduatedAtPicker" layoutX="605.0" layoutY="310.0" prefWidth="150.0" />
     <Button fx:id="graduationFromSSAddButton" layoutX="765.0" layoutY="310.0" onAction="#handleGraduationFromSSAddButton" text="Add" />
-    <Button fx:id="graduationFromSSRemoveButton" layoutX="765.0" layoutY="240.0" text="Remove" />
+    <Button fx:id="graduationFromSSRemoveButton" layoutX="765.0" layoutY="240.0" onAction="#handleGraduationFromSSRemoveButton" text="Remove" />
 
     <TableView fx:id="registrationsTableView" layoutX="15.0" layoutY="350.0" prefHeight="90.0" prefWidth="740.0">
         <columns>
@@ -46,7 +46,7 @@
     <DatePicker fx:id="registrationChangedAtPicker" layoutX="495.0" layoutY="450.0" prefWidth="130.0" />
     <ComboBox fx:id="registrationStatusCombo" layoutX="635.0" layoutY="450.0" prefWidth="120.0" promptText="Status" />
     <Button fx:id="registrationAddButton" layoutX="765.0" layoutY="450.0" onAction="#handleRegistrationAddButton" text="Add" />
-    <Button fx:id="registrationRemoveButton" layoutX="765.0" layoutY="380.0" text="Remove" />
+    <Button fx:id="registrationRemoveButton" layoutX="765.0" layoutY="380.0" onAction="#handleRegistrationDeleteButton" text="Remove" />
 
     <TableView fx:id="awardsTableView" layoutX="15.0" layoutY="490.0" prefHeight="90.0" prefWidth="820.0">
         <columns>
@@ -59,7 +59,7 @@
     <ComboBox fx:id="awardLevelCombo" layoutX="435.0" layoutY="590.0" prefWidth="240.0" promptText="Award level" />
     <DatePicker fx:id="awardAwardedAtPicker" layoutX="685.0" layoutY="590.0" prefWidth="150.0" />
     <Button fx:id="awardAddButton" layoutX="845.0" layoutY="590.0" onAction="#handleAwardAddButton" text="Add" />
-    <Button fx:id="awardRemoveButton" layoutX="845.0" layoutY="520.0" text="Remove" />
+    <Button fx:id="awardRemoveButton" layoutX="845.0" layoutY="520.0" onAction="#handleAwardDeleteButton" text="Remove" />
 
     <TableView fx:id="graduationsTableView" layoutX="15.0" layoutY="630.0" prefHeight="90.0" prefWidth="820.0">
         <columns>
@@ -76,5 +76,5 @@
     <DatePicker fx:id="graduationFinishedAtPicker" layoutX="635.0" layoutY="730.0" prefWidth="130.0" />
     <CheckBox fx:id="graduationGraduatedCheck" layoutX="790.0" layoutY="734.0" />
     <Button fx:id="graduationAddButton" layoutX="845.0" layoutY="730.0" onAction="#handleGraduationAddButton" text="Add" />
-    <Button fx:id="graduationRemoveButton" layoutX="845.0" layoutY="660.0" text="Remove" />
+    <Button fx:id="graduationRemoveButton" layoutX="845.0" layoutY="660.0" onAction="#handleGraduationDeleteButton" text="Remove" />
 </Pane>

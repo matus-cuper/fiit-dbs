@@ -155,6 +155,27 @@ public class NewStudentView {
         }
     }
 
+    @FXML
+    public void handleGraduationFromSSRemoveButton() {
+        graduationsFromSSData.remove(graduationsFromSSTableView.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    public void handleRegistrationDeleteButton() {
+        registrationsData.remove(registrationsTableView.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    public void handleAwardDeleteButton() {
+        awardsData.remove(awardsTableView.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    public void handleGraduationDeleteButton() {
+        graduationsData.remove(graduationsTableView.getSelectionModel().getSelectedItem());
+    }
+
+
     public NewStudentView() {
         graduationsFromSSData = FXCollections.observableArrayList();
         registrationsData = FXCollections.observableArrayList();
