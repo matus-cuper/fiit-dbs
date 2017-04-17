@@ -41,7 +41,7 @@ public class NewStudentView {
     private ComboBox<AwardLevel> awardLevelCombo;
     @FXML
     private DatePicker graduationFromSSGraduatedAtPicker, registrationChangedAtPicker, awardAwardedAtPicker,
-            graduationStartedAtPicker, graduationFinishedAtPicker;
+            graduationStartedAtPicker, graduationFinishedAtPicker, birthAtPicker;
     @FXML
     private Button addStudentButton, graduationFromSSAddButton, graduationFromSSRemoveButton, registrationAddButton,
             registrationRemoveButton, awardAddButton, awardRemoveButton, graduationAddButton, graduationRemoveButton;
@@ -82,7 +82,7 @@ public class NewStudentView {
     @FXML
     private TableColumn<Boolean, Graduation> graduationGraduatedColumn;
     @FXML
-    private TextField nameField, surnameField, birthAtField, phoneField, emailField, addressField, zipCodeField,
+    private TextField nameField, surnameField, phoneField, emailField, addressField, zipCodeField,
             graduationFromSSMarkField;
     @FXML
     private CheckBox graduationGraduatedCheck;
@@ -175,6 +175,25 @@ public class NewStudentView {
         graduationsData.remove(graduationsTableView.getSelectionModel().getSelectedItem());
     }
 
+    @FXML
+    public void handleAddStudentButton() {
+        try {
+            Student student = new Student(secondarySchoolCombo.getValue(), nameField.getText(), surnameField.getText(),
+                    birthAtPicker.getValue(), addressField.getText(), emailField.getText(), phoneField.getText(),
+                    zipCodeField.getText());
+            if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
+                throw new IllegalArgumentException();
+
+            student.setGraduationsFromSS(graduationsFromSSData);
+            student.setRegistrations(registrationsData);
+            student.setAwards(awardsData);
+            student.setGraduations(graduationsData);
+        } catch (IllegalArgumentException e) {
+            LOG.log(Level.INFO, "Show window", e);
+            // TODO throw warning
+        }
+    }
+
 
     public NewStudentView() {
         graduationsFromSSData = FXCollections.observableArrayList();
@@ -189,6 +208,7 @@ public class NewStudentView {
         awardAwardedAtPicker.setConverter(new MyConverter());
         graduationStartedAtPicker.setConverter(new MyConverter());
         graduationFinishedAtPicker.setConverter(new MyConverter());
+        birthAtPicker.setConverter(new MyConverter());
     }
 
     private void setCombos() {

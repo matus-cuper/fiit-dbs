@@ -9,7 +9,7 @@
     <Label layoutX="780.0" layoutY="15.0" text="Phone" />
     <TextField fx:id="nameField" layoutX="15.0" layoutY="40.0" />
     <TextField fx:id="surnameField" layoutX="270.0" layoutY="40.0" />
-    <TextField fx:id="birthAtField" layoutX="525.0" layoutY="40.0" />
+    <DatePicker fx:id="birthAtPicker" layoutX="525.0" layoutY="40.0" />
     <TextField fx:id="phoneField" layoutX="780.0" layoutY="40.0" />
     <Label layoutX="15.0" layoutY="85.0" text="Email" />
     <Label layoutX="270.0" layoutY="85.0" text="Address" />
@@ -18,7 +18,7 @@
     <TextField fx:id="addressField" layoutX="270.0" layoutY="110.0" prefWidth="425.0" />
     <TextField fx:id="zipCodeField" layoutX="780.0" layoutY="110.0" />
     <ComboBox fx:id="secondarySchoolCombo" layoutX="15.0" layoutY="155.0" prefWidth="680.0" promptText="Secondary School" />
-    <Button fx:id="addStudentButton" layoutX="780.0" layoutY="155.0" text="Add student" />
+    <Button fx:id="addStudentButton" layoutX="780.0" layoutY="155.0" onAction="#handleAddStudentButton" text="Add student" />
 
     <TableView fx:id="graduationsFromSSTableView" layoutX="15.0" layoutY="210.0" prefHeight="90.0" prefWidth="740.0">
         <columns>

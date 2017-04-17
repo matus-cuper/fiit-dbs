@@ -1,7 +1,11 @@
 package model.db;
 
+import model.Utils;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -90,6 +94,35 @@ public class Student {
         this.email = email;
         this.phone = phone;
         this.zipCode = zipCode;
+    }
+
+    public Student(SecondarySchool secondarySchool, String name, String surname, LocalDate birthAt, String address,
+                   String email, String phone, String zipCode) throws IllegalArgumentException {
+        if (name == null || surname == null || birthAt == null || address == null || email == null || phone == null || zipCode == null)
+            throw new IllegalArgumentException();
+
+        try {
+            this.birthAt = Utils.parseDate(birthAt.toString());
+            // TODO for email - contains @ only once, contains . once after @
+            // TODO for phone - starts with + and others are numbers, max size 15 chars with +
+            if (!phone.startsWith("+"))
+                throw new IllegalArgumentException();
+            // TODO for zipCode - contains only numbers, max 5 after removing spaces
+
+            // /*
+            this.email = email;
+            this.phone = phone;
+            this.zipCode = zipCode;
+            // */
+
+        } catch (ParseException e) {
+            throw new IllegalArgumentException();
+        }
+
+        this.secondarySchool = secondarySchool;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
     }
 
     public Integer getId() {
@@ -208,7 +241,11 @@ public class Student {
         return awards;
     }
 
-    public void setAwards(List<Award> awards) {
+    public void setAwards(List<Award> awards) throws IllegalArgumentException {
+        for (Award award : awards)
+            if (award.getAwardedAt().before(this.birthAt))
+                throw new IllegalArgumentException();
+
         this.awards = awards;
     }
 
@@ -216,7 +253,11 @@ public class Student {
         return graduations;
     }
 
-    public void setGraduations(List<Graduation> graduations) {
+    public void setGraduations(List<Graduation> graduations) throws IllegalArgumentException {
+        for (Graduation graduation : graduations)
+            if (graduation.getStartedAt().before(this.birthAt) || graduation.getFinishedAt().before(this.birthAt))
+                throw new IllegalArgumentException();
+
         this.graduations = graduations;
     }
 
@@ -224,7 +265,11 @@ public class Student {
         return graduationsFromSS;
     }
 
-    public void setGraduationsFromSS(List<GraduationFromSS> graduationsFromSS) {
+    public void setGraduationsFromSS(List<GraduationFromSS> graduationsFromSS) throws IllegalArgumentException {
+        for (GraduationFromSS graduation : graduationsFromSS)
+            if (graduation.getGraduatedAt().before(this.birthAt))
+                throw new IllegalArgumentException();
+
         this.graduationsFromSS = graduationsFromSS;
     }
 
@@ -232,7 +277,11 @@ public class Student {
         return registrations;
     }
 
-    public void setRegistrations(List<Registration> registrations) {
+    public void setRegistrations(List<Registration> registrations) throws IllegalArgumentException {
+        for (Registration registration : registrations)
+            if (registration.getChangedAt().before(this.birthAt))
+                throw new IllegalArgumentException();
+
         this.registrations = registrations;
     }
 }
