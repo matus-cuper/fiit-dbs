@@ -1,7 +1,11 @@
 package model.db;
 
+import model.Utils;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -29,6 +33,20 @@ public class Award {
         this.awardLevel = awardLevel;
         this.awardName = awardName;
         this.awardedAt = awardedAt;
+    }
+
+    public Award(AwardName awardName, AwardLevel awardLevel, LocalDate awardedAt) throws IllegalArgumentException {
+        if (awardName == null || awardLevel == null || awardedAt == null)
+            throw new IllegalArgumentException();
+
+        try {
+            this.awardedAt = Utils.parseDate(awardedAt.toString());
+        } catch (ParseException e) {
+            throw new IllegalArgumentException();
+        }
+
+        this.awardName = awardName;
+        this.awardLevel = awardLevel;
     }
 
     public Integer getId() {

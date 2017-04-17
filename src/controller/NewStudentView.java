@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import model.db.*;
 
 import java.sql.ResultSet;
@@ -47,11 +48,35 @@ public class NewStudentView {
     @FXML
     private TableView<GraduationFromSS> graduationsFromSSTableView;
     @FXML
-    private TableColumn<String, Subject> secondarySchoolSubjectColumn;
+    private TableView<Registration> registrationsTableView;
+    @FXML
+    private TableView<Award> awardsTableView;
+    @FXML
+    private TableView<Graduation> graduationsTableView;
+    @FXML
+    private TableColumn<Subject, GraduationFromSS> secondarySchoolSubjectColumn;
     @FXML
     private TableColumn<Integer, GraduationFromSS> secondarySchoolMarkColumn;
     @FXML
     private TableColumn<Date, GraduationFromSS> secondarySchoolGraduatedAtColumn;
+    @FXML
+    private TableColumn<FosAtUniversity, Registration> registrationUniversityColumn, registrationFieldOfStudyColumn;
+    @FXML
+    private TableColumn<Date, Registration> registrationChangedAtColumn;
+    @FXML
+    private TableColumn<Status, Registration> registrationStatusColumn;
+    @FXML
+    private TableColumn<AwardName, Award> awardNameColumn;
+    @FXML
+    private TableColumn<AwardLevel, Award> awardLevelColumn;
+    @FXML
+    private TableColumn<Date, Award> awardAwardedAtColumn;
+    @FXML
+    private TableColumn<FosAtUniversity, Graduation> graduationUniversityColumn, graduationFieldOfStudyColumn;
+    @FXML
+    private TableColumn<Date, Graduation> graduationStartedAtColumn, graduationFinishedAtColumn;
+    @FXML
+    private TableColumn<Boolean, Graduation> graduationGraduatedColumn;
     @FXML
     private TextField nameField, surnameField, birthAtField, phoneField, emailField, addressField, zipCodeField,
             graduationFromSSMarkField;
@@ -65,41 +90,73 @@ public class NewStudentView {
     private ObservableList<FieldOfStudy> fieldsOfStudyData;
     private ObservableList<AwardName> awardNamesData;
     private ObservableList<AwardLevel> awardLevelsData;
+    private ObservableList<GraduationFromSS> graduationsFromSSData;
+    private ObservableList<Registration> registrationsData;
+    private ObservableList<Award> awardsData;
+    private ObservableList<Graduation> graduationsData;
 
     private Controller ancestor;
 
     @FXML
     public void handleGraduationFromSSAddButton() {
-        System.out.println(graduationFromSSSubjectCombo.getValue());
-        System.out.println(graduationFromSSMarkField.getText());
-        System.out.println(graduationFromSSGraduatedAtPicker.getValue());
+        try {
+            GraduationFromSS graduation = new GraduationFromSS(graduationFromSSSubjectCombo.getValue(),
+                    graduationFromSSMarkField.getText(), graduationFromSSGraduatedAtPicker.getValue());
+            graduationsFromSSData.add(graduation);
+            graduationsFromSSTableView.setItems(graduationsFromSSData);
+        } catch (IllegalArgumentException e) {
+            LOG.log(Level.INFO, "Show window", e);
+            // TODO throw warning
+        }
     }
 
     @FXML
     public void handleRegistrationAddButton() {
-        System.out.println(registrationUniversityCombo.getValue());
-        System.out.println(registrationFieldOfStudyCombo.getValue());
-        System.out.println(registrationChangedAtPicker.getValue());
-        System.out.println(registrationStatusCombo.getValue());
+        try {
+            Registration registration = new Registration(registrationUniversityCombo.getValue(),
+                    registrationFieldOfStudyCombo.getValue(), registrationChangedAtPicker.getValue(),
+                    registrationStatusCombo.getValue());
+            registrationsData.add(registration);
+            registrationsTableView.setItems(registrationsData);
+        } catch (IllegalArgumentException e) {
+            LOG.log(Level.INFO, "Show window", e);
+            // TODO throw warning
+        }
     }
 
     @FXML
     public void handleAwardAddButton() {
-        System.out.println(awardNameCombo.getValue());
-        System.out.println(awardLevelCombo.getValue());
-        System.out.println(awardAwardedAtPicker.getValue());
+        try {
+            Award award = new Award(awardNameCombo.getValue(), awardLevelCombo.getValue(),
+                    awardAwardedAtPicker.getValue());
+            awardsData.add(award);
+            awardsTableView.setItems(awardsData);
+        } catch (IllegalArgumentException e) {
+            LOG.log(Level.INFO, "Show window", e);
+            // TODO throw warning
+        }
     }
 
     @FXML
     public void handleGraduationAddButton() {
-        System.out.println(graduationUniversityCombo.getValue());
-        System.out.println(graduationFieldOfStudyCombo.getValue());
-        System.out.println(graduationStartedAtPicker.getValue());
-        System.out.println(graduationFinishedAtPicker.getValue());
-        System.out.println(graduationGraduatedCheck.isSelected());
+        try {
+            Graduation graduation = new Graduation(graduationUniversityCombo.getValue(),
+                    graduationFieldOfStudyCombo.getValue(), graduationStartedAtPicker.getValue(),
+                    graduationFinishedAtPicker.getValue(), graduationGraduatedCheck.isSelected());
+            graduationsData.add(graduation);
+            graduationsTableView.setItems(graduationsData);
+        } catch (IllegalArgumentException e) {
+            LOG.log(Level.INFO, "Show window", e);
+            // TODO throw warning
+        }
     }
 
-    public NewStudentView() {}
+    public NewStudentView() {
+        graduationsFromSSData = FXCollections.observableArrayList();
+        registrationsData = FXCollections.observableArrayList();
+        awardsData = FXCollections.observableArrayList();
+        graduationsData = FXCollections.observableArrayList();
+    }
 
     private void setFormatter() {
         graduationFromSSGraduatedAtPicker.setConverter(new MyConverter());
@@ -127,6 +184,27 @@ public class NewStudentView {
         registrationStatusCombo.setItems(statusesData);
         awardNameCombo.setItems(awardNamesData);
         awardLevelCombo.setItems(awardLevelsData);
+    }
+
+    private void initializeColumns() {
+        secondarySchoolSubjectColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
+        secondarySchoolMarkColumn.setCellValueFactory(new PropertyValueFactory<>("mark"));
+        secondarySchoolGraduatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("graduatedAt"));
+
+        registrationUniversityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
+        registrationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
+        registrationChangedAtColumn.setCellValueFactory(new PropertyValueFactory<>("changedAt"));
+        registrationStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        awardNameColumn.setCellValueFactory(new PropertyValueFactory<>("awardName"));
+        awardLevelColumn.setCellValueFactory(new PropertyValueFactory<>("awardLevel"));
+        awardAwardedAtColumn.setCellValueFactory(new PropertyValueFactory<>("awardedAt"));
+
+        graduationUniversityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
+        graduationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
+        graduationStartedAtColumn.setCellValueFactory(new PropertyValueFactory<>("startedAt"));
+        graduationFinishedAtColumn.setCellValueFactory(new PropertyValueFactory<>("finishedAt"));
+        graduationGraduatedColumn.setCellValueFactory(new PropertyValueFactory<>("graduated"));
     }
 
     private List<SecondarySchool> getSecondarySchools() {
@@ -224,5 +302,6 @@ public class NewStudentView {
         this.ancestor = ancestor;
         setCombos();
         setFormatter();
+        initializeColumns();
     }
 }

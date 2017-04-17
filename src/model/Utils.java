@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
  *
  * Class represents utility functions
  */
-class Utils {
+public class Utils {
 
     private static SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -16,7 +16,7 @@ class Utils {
     private Utils() {}
 
     @SuppressWarnings("deprecation")
-    static java.sql.Date parseDate(String date) throws ParseException {
+    public static java.sql.Date parseDate(String date) throws ParseException {
         return new java.sql.Date(parser.parse(date).getTime());
     }
 }
