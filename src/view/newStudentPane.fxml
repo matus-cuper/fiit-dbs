@@ -41,9 +41,9 @@
             <TableColumn fx:id="registrationStatusColumn" prefWidth="120.0" style="-fx-alignment: CENTER" text="Status" />
         </columns>
     </TableView>
-    <ComboBox fx:id="registrationUniversityCombo" layoutX="15.0" layoutY="450.0" prefWidth="290.0" promptText="University" />
-    <ComboBox fx:id="registrationFieldOfStudyCombo" layoutX="315.0" layoutY="450.0" prefWidth="190.0" promptText="Field of study" />
-    <DatePicker fx:id="registrationChangedAtPicker" layoutX="515.0" layoutY="450.0" prefWidth="110.0" />
+    <ComboBox fx:id="registrationUniversityCombo" layoutX="15.0" layoutY="450.0" prefWidth="280.0" promptText="University" />
+    <ComboBox fx:id="registrationFieldOfStudyCombo" layoutX="305.0" layoutY="450.0" prefWidth="180.0" promptText="Field of study" />
+    <DatePicker fx:id="registrationChangedAtPicker" layoutX="495.0" layoutY="450.0" prefWidth="130.0" />
     <ComboBox fx:id="registrationStatusCombo" layoutX="635.0" layoutY="450.0" prefWidth="120.0" promptText="Status" />
     <Button fx:id="registrationAddButton" layoutX="765.0" layoutY="450.0" text="Add" />
     <Button fx:id="registrationRemoveButton" layoutX="765.0" layoutY="380.0" text="Remove" />
@@ -55,9 +55,9 @@
             <TableColumn fx:id="awardAwardedAtColumn" prefWidth="110.0" style="-fx-alignment: CENTER" text="Awarded at" />
         </columns>
     </TableView>
-    <ComboBox fx:id="awardNameCombo" layoutX="15.0" layoutY="590.0" prefWidth="440.0" promptText="Award name" />
-    <ComboBox fx:id="awardLevelCombo" layoutX="465.0" layoutY="590.0" prefWidth="250.0" promptText="Award level" />
-    <DatePicker fx:id="awardAwardedAtPicker" layoutX="725.0" layoutY="590.0" prefWidth="110.0" />
+    <ComboBox fx:id="awardNameCombo" layoutX="15.0" layoutY="590.0" prefWidth="410.0" promptText="Award name" />
+    <ComboBox fx:id="awardLevelCombo" layoutX="435.0" layoutY="590.0" prefWidth="240.0" promptText="Award level" />
+    <DatePicker fx:id="awardAwardedAtPicker" layoutX="685.0" layoutY="590.0" prefWidth="150.0" />
     <Button fx:id="awardAddButton" layoutX="845.0" layoutY="590.0" text="Add" />
     <Button fx:id="awardRemoveButton" layoutX="845.0" layoutY="520.0" text="Remove" />
 
@@ -70,11 +70,11 @@
             <TableColumn fx:id="graduationGraduatedColumn" prefWidth="90.0" style="-fx-alignment: CENTER" text="Graduated" />
         </columns>
     </TableView>
-    <ComboBox fx:id="graduationUniversityCombo" layoutX="15.0" layoutY="730.0" prefWidth="300.0" promptText="University" />
-    <ComboBox fx:id="graduationFieldOfStudyCombo" layoutX="325.0" layoutY="730.0" prefWidth="190.0" promptText="Field of study" />
-    <DatePicker fx:id="graduationStartedAtPicker" layoutX="525.0" layoutY="730.0" prefWidth="110.0" />
-    <DatePicker fx:id="graduationFinishedAtPicker" layoutX="645.0" layoutY="730.0" prefWidth="110.0" />
-    <CheckBox fx:id="graduationGraduatedCheck" layoutX="780.0" layoutY="734.0" />
+    <ComboBox fx:id="graduationUniversityCombo" layoutX="15.0" layoutY="730.0" prefWidth="280.0" promptText="University" />
+    <ComboBox fx:id="graduationFieldOfStudyCombo" layoutX="305.0" layoutY="730.0" prefWidth="180.0" promptText="Field of study" />
+    <DatePicker fx:id="graduationStartedAtPicker" layoutX="495.0" layoutY="730.0" prefWidth="130.0" />
+    <DatePicker fx:id="graduationFinishedAtPicker" layoutX="635.0" layoutY="730.0" prefWidth="130.0" />
+    <CheckBox fx:id="graduationGraduatedCheck" layoutX="790.0" layoutY="734.0" />
     <Button fx:id="graduationAddButton" layoutX="845.0" layoutY="730.0" text="Add" />
     <Button fx:id="graduationRemoveButton" layoutX="845.0" layoutY="660.0" text="Remove" />
 </Pane>
