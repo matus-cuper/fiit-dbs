@@ -72,7 +72,7 @@ public class DetailedView {
                 LOG.log(Level.SEVERE, "Error occurred during waiting for studentTableView rendering", e);
             }
 
-            ObservableList<StudentTable> studentsData = FXCollections.observableArrayList(getStudents());
+            ObservableList<StudentTable> studentsData = FXCollections.observableArrayList(getStudent());
             ObservableList<SecondarySchoolTable> graduationsFromSSData = FXCollections.observableArrayList(getGraduationsFromSS());
             ObservableList<AwardTable> awardsData = FXCollections.observableArrayList(getAwards());
             ObservableList<GraduationTable> graduationsData = FXCollections.observableArrayList(getGraduations());
@@ -88,18 +88,18 @@ public class DetailedView {
         }
     }
 
-    private List<StudentTable> getStudents() {
-        List<StudentTable> students = new LinkedList<>();
+    private List<StudentTable> getStudent() {
+        List<StudentTable> student = new LinkedList<>();
 
-        students.add(new StudentTable("Name", student.getName()));
-        students.add(new StudentTable("Surname", student.getSurname()));
-        students.add(new StudentTable("Born at", student.getBirthAt().toString()));
-        students.add(new StudentTable("Address", student.getAddress()));
-        students.add(new StudentTable("Email", student.getEmail()));
-        students.add(new StudentTable("Phone", student.getPhone()));
-        students.add(new StudentTable("Zip code", student.getZipCode()));
+        student.add(new StudentTable("Name", this.student.getName()));
+        student.add(new StudentTable("Surname", this.student.getSurname()));
+        student.add(new StudentTable("Born at", this.student.getBirthAt().toString()));
+        student.add(new StudentTable("Address", this.student.getAddress()));
+        student.add(new StudentTable("Email", this.student.getEmail()));
+        student.add(new StudentTable("Phone", this.student.getPhone()));
+        student.add(new StudentTable("Zip code", this.student.getZipCode()));
 
-        return students;
+        return student;
     }
 
     private List<SecondarySchoolTable> getGraduationsFromSS() {

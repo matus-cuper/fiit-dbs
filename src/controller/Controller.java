@@ -63,6 +63,7 @@ public class Controller implements Observer {
 
     @FXML
     public void handleNextButton() {
+        // TODO handle next button, bug after second window
         previousButton.setDisable(false);
         databaseConnection.nextWindow();
         if (databaseConnection.lastWindow())
@@ -84,12 +85,15 @@ public class Controller implements Observer {
 
     @FXML
     public void handleCreateButton() {
-        createStudentView();
+        createNewStudentView();
     }
 
     @FXML
     public void handleUpdateButton() {
-
+        for (Student student : mainTableView.getSelectionModel().getSelectedItems()) {
+            createUpdateStudentView(databaseConnection.getStudent(student.getId()));
+            LOG.log(Level.INFO, "Updating student " + student.getId());
+        }
     }
 
 
@@ -158,7 +162,7 @@ public class Controller implements Observer {
         }
     }
 
-    private void createStudentView() {
+    private void createNewStudentView() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/newStudentPane.fxml"));
             Parent parent = fxmlLoader.load();
@@ -171,6 +175,23 @@ public class Controller implements Observer {
             detailedStage.show();
         } catch (IOException e) {
             LOG.log(Level.SEVERE, "Missing newStudentPane.fxml file in view directory", e);
+        }
+    }
+
+    private void createUpdateStudentView(Student student) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/updateStudentPane.fxml"));
+            Parent parent = fxmlLoader.load();
+            UpdateStudentView controller = fxmlLoader.getController();
+            controller.setStudent(student);
+            controller.setAncestor(this);
+
+            Stage updatedStage = new Stage();
+            updatedStage.setTitle("Update student");
+            updatedStage.setScene(new Scene(parent, 965, 770));
+            updatedStage.show();
+        } catch (IOException e) {
+            LOG.log(Level.SEVERE, "Missing updateStudentPane.fxml file in view directory", e);
         }
     }
 

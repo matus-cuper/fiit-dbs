@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<Pane prefHeight="770.0" prefWidth="965.0" xmlns="http://javafx.com/javafx/8.0.102-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UpdateStudentView">
+    <Label layoutX="15.0" layoutY="15.0" text="Name" />
+    <Label layoutX="270.0" layoutY="15.0" text="Surname" />
+    <Label layoutX="525.0" layoutY="15.0" text="Date of birth" />
+    <Label layoutX="780.0" layoutY="15.0" text="Phone" />
+    <TextField fx:id="nameField" layoutX="15.0" layoutY="40.0" />
+    <TextField fx:id="surnameField" layoutX="270.0" layoutY="40.0" />
+    <DatePicker fx:id="birthAtPicker" layoutX="525.0" layoutY="40.0" />
+    <TextField fx:id="phoneField" layoutX="780.0" layoutY="40.0" />
+    <Label layoutX="15.0" layoutY="85.0" text="Email" />
+    <Label layoutX="270.0" layoutY="85.0" text="Address" />
+    <Label layoutX="780.0" layoutY="85.0" text="Zip code" />
+    <TextField fx:id="emailField" layoutX="15.0" layoutY="110.0" />
+    <TextField fx:id="addressField" layoutX="270.0" layoutY="110.0" prefWidth="425.0" />
+    <TextField fx:id="zipCodeField" layoutX="780.0" layoutY="110.0" />
+    <ComboBox fx:id="secondarySchoolCombo" layoutX="15.0" layoutY="155.0" prefWidth="680.0" promptText="Secondary School" />
+    <Button fx:id="addStudentButton" layoutX="780.0" layoutY="155.0" onAction="#handleAddStudentButton" text="Add student" />
+
+    <TableView fx:id="graduationsFromSSTableView" layoutX="15.0" layoutY="210.0" prefHeight="90.0" prefWidth="740.0">
+        <columns>
+            <TableColumn fx:id="secondarySchoolSubjectColumn" prefWidth="440.0" style="-fx-alignment: CENTER" text="Subject" />
+            <TableColumn fx:id="secondarySchoolMarkColumn" prefWidth="130.0" style="-fx-alignment: CENTER" text="Mark" />
+            <TableColumn fx:id="secondarySchoolGraduatedAtColumn" prefWidth="150.0" style="-fx-alignment: CENTER" text="Graduated at" />
+        </columns>
+    </TableView>
+    <ComboBox fx:id="graduationFromSSSubjectCombo" layoutX="15.0" layoutY="310.0" prefWidth="440.0" promptText="Subject" />
+    <TextField fx:id="graduationFromSSMarkField" layoutX="465.0" layoutY="310.0" prefWidth="130.0" />
+    <DatePicker fx:id="graduationFromSSGraduatedAtPicker" layoutX="605.0" layoutY="310.0" prefWidth="150.0" />
+    <Button fx:id="graduationFromSSAddButton" layoutX="765.0" layoutY="310.0" onAction="#handleGraduationFromSSAddButton" text="Add" />
+    <Button fx:id="graduationFromSSRemoveButton" layoutX="765.0" layoutY="240.0" onAction="#handleGraduationFromSSRemoveButton" text="Remove" />
+
+    <TableView fx:id="registrationsTableView" layoutX="15.0" layoutY="350.0" prefHeight="90.0" prefWidth="740.0">
+        <columns>
+            <TableColumn fx:id="registrationUniversityColumn" prefWidth="300.0" text="University" />
+            <TableColumn fx:id="registrationFieldOfStudyColumn" prefWidth="190.0" text="Field of study" />
+            <TableColumn fx:id="registrationChangedAtColumn" prefWidth="110.0" style="-fx-alignment: CENTER" text="Changed at" />
+            <TableColumn fx:id="registrationStatusColumn" prefWidth="120.0" style="-fx-alignment: CENTER" text="Status" />
+        </columns>
+    </TableView>
+    <ComboBox fx:id="registrationUniversityCombo" layoutX="15.0" layoutY="450.0" prefWidth="280.0" promptText="University" />
+    <ComboBox fx:id="registrationFieldOfStudyCombo" layoutX="305.0" layoutY="450.0" prefWidth="180.0" promptText="Field of study" />
+    <DatePicker fx:id="registrationChangedAtPicker" layoutX="495.0" layoutY="450.0" prefWidth="130.0" />
+    <ComboBox fx:id="registrationStatusCombo" layoutX="635.0" layoutY="450.0" prefWidth="120.0" promptText="Status" />
+    <Button fx:id="registrationAddButton" layoutX="765.0" layoutY="450.0" onAction="#handleRegistrationAddButton" text="Add" />
+    <Button fx:id="registrationRemoveButton" layoutX="765.0" layoutY="380.0" onAction="#handleRegistrationDeleteButton" text="Remove" />
+
+    <TableView fx:id="awardsTableView" layoutX="15.0" layoutY="490.0" prefHeight="90.0" prefWidth="820.0">
+        <columns>
+            <TableColumn fx:id="awardNameColumn" prefWidth="440.0" text="Name" />
+            <TableColumn fx:id="awardLevelColumn" prefWidth="250.0" style="-fx-alignment: CENTER" text="Level" />
+            <TableColumn fx:id="awardAwardedAtColumn" prefWidth="110.0" style="-fx-alignment: CENTER" text="Awarded at" />
+        </columns>
+    </TableView>
+    <ComboBox fx:id="awardNameCombo" layoutX="15.0" layoutY="590.0" prefWidth="410.0" promptText="Award name" />
+    <ComboBox fx:id="awardLevelCombo" layoutX="435.0" layoutY="590.0" prefWidth="240.0" promptText="Award level" />
+    <DatePicker fx:id="awardAwardedAtPicker" layoutX="685.0" layoutY="590.0" prefWidth="150.0" />
+    <Button fx:id="awardAddButton" layoutX="845.0" layoutY="590.0" onAction="#handleAwardAddButton" text="Add" />
+    <Button fx:id="awardRemoveButton" layoutX="845.0" layoutY="520.0" onAction="#handleAwardDeleteButton" text="Remove" />
+
+    <TableView fx:id="graduationsTableView" layoutX="15.0" layoutY="630.0" prefHeight="90.0" prefWidth="820.0">
+        <columns>
+            <TableColumn fx:id="graduationUniversityColumn" prefWidth="300.0" text="University" />
+            <TableColumn fx:id="graduationFieldOfStudyColumn" prefWidth="190.0" text="Field of study" />
+            <TableColumn fx:id="graduationStartedAtColumn" prefWidth="110.0" style="-fx-alignment: CENTER" text="Started at" />
+            <TableColumn fx:id="graduationFinishedAtColumn" prefWidth="110.0" style="-fx-alignment: CENTER" text="Finished at" />
+            <TableColumn fx:id="graduationGraduatedColumn" prefWidth="90.0" style="-fx-alignment: CENTER" text="Graduated" />
+        </columns>
+    </TableView>
+    <ComboBox fx:id="graduationUniversityCombo" layoutX="15.0" layoutY="730.0" prefWidth="280.0" promptText="University" />
+    <ComboBox fx:id="graduationFieldOfStudyCombo" layoutX="305.0" layoutY="730.0" prefWidth="180.0" promptText="Field of study" />
+    <DatePicker fx:id="graduationStartedAtPicker" layoutX="495.0" layoutY="730.0" prefWidth="130.0" />
+    <DatePicker fx:id="graduationFinishedAtPicker" layoutX="635.0" layoutY="730.0" prefWidth="130.0" />
+    <CheckBox fx:id="graduationGraduatedCheck" layoutX="790.0" layoutY="734.0" />
+    <Button fx:id="graduationAddButton" layoutX="845.0" layoutY="730.0" onAction="#handleGraduationAddButton" text="Add" />
+    <Button fx:id="graduationRemoveButton" layoutX="845.0" layoutY="660.0" onAction="#handleGraduationDeleteButton" text="Remove" />
+</Pane>
