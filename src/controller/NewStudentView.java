@@ -3,12 +3,12 @@ package controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.*;
 import model.db.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -41,6 +41,22 @@ public class NewStudentView {
     @FXML
     private DatePicker graduationFromSSGraduatedAtPicker, registrationChangedAtPicker, awardAwardedAtPicker,
             graduationStartedAtPicker, graduationFinishedAtPicker;
+    @FXML
+    private Button addStudentButton, graduationFromSSAddButton, graduationFromSSRemoveButton, registrationAddButton,
+            registrationRemoveButton, awardAddButton, awardRemoveButton, graduationAddButton, graduationRemoveButton;
+    @FXML
+    private TableView<GraduationFromSS> graduationsFromSSTableView;
+    @FXML
+    private TableColumn<String, Subject> secondarySchoolSubjectColumn;
+    @FXML
+    private TableColumn<Integer, GraduationFromSS> secondarySchoolMarkColumn;
+    @FXML
+    private TableColumn<Date, GraduationFromSS> secondarySchoolGraduatedAtColumn;
+    @FXML
+    private TextField nameField, surnameField, birthAtField, phoneField, emailField, addressField, zipCodeField,
+            graduationFromSSMarkField;
+    @FXML
+    private CheckBox graduationGraduatedCheck;
 
     private ObservableList<SecondarySchool> secondarySchoolsData;
     private ObservableList<Subject> subjectsData;
@@ -52,6 +68,36 @@ public class NewStudentView {
 
     private Controller ancestor;
 
+    @FXML
+    public void handleGraduationFromSSAddButton() {
+        System.out.println(graduationFromSSSubjectCombo.getValue());
+        System.out.println(graduationFromSSMarkField.getText());
+        System.out.println(graduationFromSSGraduatedAtPicker.getValue());
+    }
+
+    @FXML
+    public void handleRegistrationAddButton() {
+        System.out.println(registrationUniversityCombo.getValue());
+        System.out.println(registrationFieldOfStudyCombo.getValue());
+        System.out.println(registrationChangedAtPicker.getValue());
+        System.out.println(registrationStatusCombo.getValue());
+    }
+
+    @FXML
+    public void handleAwardAddButton() {
+        System.out.println(awardNameCombo.getValue());
+        System.out.println(awardLevelCombo.getValue());
+        System.out.println(awardAwardedAtPicker.getValue());
+    }
+
+    @FXML
+    public void handleGraduationAddButton() {
+        System.out.println(graduationUniversityCombo.getValue());
+        System.out.println(graduationFieldOfStudyCombo.getValue());
+        System.out.println(graduationStartedAtPicker.getValue());
+        System.out.println(graduationFinishedAtPicker.getValue());
+        System.out.println(graduationGraduatedCheck.isSelected());
+    }
 
     public NewStudentView() {}
 
