@@ -80,12 +80,12 @@ public class Student {
     }
 
     public Student(Integer id, SecondarySchool secondarySchool, String name, String surname,
-                   Date birtAt, String address, String email, String phone, String zipCode) {
+                   Date birthAt, String address, String email, String phone, String zipCode) {
         this.id = id;
         this.secondarySchool = secondarySchool;
         this.name = name;
         this.surname = surname;
-        this.birthAt = birtAt;
+        this.birthAt = birthAt;
         this.address = address;
         this.email = email;
         this.phone = phone;
