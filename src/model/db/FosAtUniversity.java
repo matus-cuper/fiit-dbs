@@ -15,16 +15,21 @@ public class FosAtUniversity {
     private FieldOfStudy fieldOfStudy;
 
 
-    public FosAtUniversity(ResultSet resultSet) throws SQLException {
+    FosAtUniversity(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getInt("field_of_study_id");
         this.university = new University(resultSet.getInt("university_id"), resultSet.getString("university_name"), resultSet.getString("university_address"));
         this.fieldOfStudy = new FieldOfStudy(resultSet.getInt("field_of_study_id"), resultSet.getString("field_of_study_name"));
     }
 
-    public FosAtUniversity(Integer id, University university, FieldOfStudy fieldOfStudy) {
+    FosAtUniversity(Integer id, University university, FieldOfStudy fieldOfStudy) {
         this.id = id;
         this.university = university;
         this.fieldOfStudy = fieldOfStudy;
+    }
+
+    @Override
+    public String toString() {
+        return fieldOfStudy.getName();
     }
 
     public Integer getId() {

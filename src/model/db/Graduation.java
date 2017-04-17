@@ -20,6 +20,7 @@ public class Graduation {
     private Date startedAt;
     private Date finishedAt;
     private Boolean graduated;
+    private String university;
 
 
     Graduation(ResultSet resultSet) throws SQLException {
@@ -46,15 +47,17 @@ public class Graduation {
         try {
             this.startedAt = Utils.parseDate(startedAt.toString());
             this.finishedAt = Utils.parseDate(finishedAt.toString());
-            if (this.startedAt.before(this.finishedAt))
+            if (this.startedAt.after(this.finishedAt))
                 throw new IllegalArgumentException();
         } catch (ParseException e) {
             throw new IllegalArgumentException();
         }
 
+        this.fosAtUniversity = new FosAtUniversity(1, university, fieldOfStudy);
         // TODO unique constraints on university and field of study in fos_at_universities table
 //        this.fosAtUniversity(university, fieldOfStudy);
         this.graduated = graduated;
+        this.university = this.fosAtUniversity.getUniversity().getName();
     }
 
     public Integer getId() {
@@ -95,5 +98,9 @@ public class Graduation {
 
     public void setGraduated(Boolean graduated) {
         this.graduated = graduated;
+    }
+
+    public String getUniversity() {
+        return university;
     }
 }

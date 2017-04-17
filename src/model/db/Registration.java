@@ -19,6 +19,7 @@ public class Registration {
     private FosAtUniversity fosAtUniversity;
     private Status status;
     private Date changedAt;
+    private String university;
 
 
     Registration(ResultSet resultSet) throws SQLException {
@@ -46,9 +47,11 @@ public class Registration {
             throw new IllegalArgumentException();
         }
 
+        this.fosAtUniversity = new FosAtUniversity(1, university, fieldOfStudy);
         // TODO unique constraints on university and field of study in fos_at_universities table
 //        this.fosAtUniversity = new FosAtUniversity(university, fieldOfStudy);
         this.status = status;
+        this.university = this.fosAtUniversity.getUniversity().getName();
     }
 
     public Integer getId() {
@@ -81,5 +84,9 @@ public class Registration {
 
     public void setChangedAt(Date changedAt) {
         this.changedAt = changedAt;
+    }
+
+    public String getUniversity() {
+        return university;
     }
 }
