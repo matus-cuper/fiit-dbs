@@ -177,8 +177,10 @@ public class NewStudentView {
 
     @FXML
     public void handleAddStudentButton() {
+
+        Student student = null;
         try {
-            Student student = new Student(secondarySchoolCombo.getValue(), nameField.getText(), surnameField.getText(),
+            student = new Student(secondarySchoolCombo.getValue(), nameField.getText(), surnameField.getText(),
                     birthAtPicker.getValue(), addressField.getText(), emailField.getText(), phoneField.getText(),
                     zipCodeField.getText());
             if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
@@ -192,6 +194,9 @@ public class NewStudentView {
             LOG.log(Level.INFO, "Show window", e);
             // TODO throw warning
         }
+
+        if (student != null)
+            ancestor.getDatabaseConnection().insertStudent(student);
     }
 
 

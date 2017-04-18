@@ -98,22 +98,29 @@ public class Student {
 
     public Student(SecondarySchool secondarySchool, String name, String surname, LocalDate birthAt, String address,
                    String email, String phone, String zipCode) throws IllegalArgumentException {
-        if (name == null || surname == null || birthAt == null || address == null || email == null || phone == null || zipCode == null)
+        if (name == null || surname == null || birthAt == null || address == null ||
+                email == null || phone == null || zipCode == null)
             throw new IllegalArgumentException();
 
         try {
-            this.birthAt = Utils.parseDate(birthAt.toString());
-            // TODO for email - contains @ only once, contains . once after @
-            // TODO for phone - starts with + and others are numbers, max size 15 chars with +
-            if (!phone.startsWith("+"))
+            if (Utils.countMatches(email, "@") != 1 ||
+                    Utils.countMatches(email.substring(email.lastIndexOf("@") + 1), ".") != 1)
                 throw new IllegalArgumentException();
-            // TODO for zipCode - contains only numbers, max 5 after removing spaces
 
-            // /*
+            phone = Utils.removeWhitespaces(phone);
+            if (!phone.startsWith("+") ||
+                    !Utils.containOnlyNumbers(phone.substring(1)) ||
+                    phone.length() > 15)
+                throw new IllegalArgumentException();
+
+            zipCode = Utils.removeWhitespaces(zipCode);
+            if (!Utils.containOnlyNumbers(zipCode) || zipCode.length() > 5)
+                throw new IllegalArgumentException();
+
+            this.birthAt = Utils.parseDate(birthAt.toString());
             this.email = email;
             this.phone = phone;
             this.zipCode = zipCode;
-            // */
 
         } catch (ParseException e) {
             throw new IllegalArgumentException();

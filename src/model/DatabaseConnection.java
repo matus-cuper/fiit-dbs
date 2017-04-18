@@ -188,6 +188,10 @@ public class DatabaseConnection extends Thread {
         }
     }
 
+    public void insertStudent(Student student) {
+
+    }
+
     public ResultSet getAllTableData(String tableName) {
         try {
             return statement.executeQuery(PreparedQuery.allRecords(tableName));
