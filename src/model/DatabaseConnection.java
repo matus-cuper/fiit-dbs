@@ -37,7 +37,7 @@ public class DatabaseConnection extends Thread {
         filter = new StudentFilter();
         connectionReady = true;
     }
-
+    // TODO unify table classes setters
 
     /**
      * Created connection to database given by connect String

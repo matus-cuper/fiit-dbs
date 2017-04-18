@@ -43,7 +43,7 @@ CREATE TABLE fos_at_universities (
 
 CREATE TABLE students (
 	student_id SERIAL NOT NULL PRIMARY KEY,
-	secondary_school_id BIGINT NOT NULL REFERENCES secondary_schools (secondary_school_id),
+	secondary_school_id BIGINT REFERENCES secondary_schools (secondary_school_id),
 	name VARCHAR(30) NOT NULL,
 	surname VARCHAR(30) NOT NULL,
 	birth_at DATE NOT NULL,
