@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Utils;
 import model.db.*;
+import view.ErrorDialog;
+import view.InformationDialog;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -111,8 +113,8 @@ public class NewStudentView {
             graduationsFromSSData.add(graduation);
             graduationsFromSSTableView.setItems(graduationsFromSSData);
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.INFO, "Show window", e);
-            // TODO throw warning
+            new ErrorDialog("Cannot add graduation", "Null values are forbidden\n" +
+                    "Mark must be integer between 1 and 4");
         }
     }
 
@@ -125,8 +127,7 @@ public class NewStudentView {
             registrationsData.add(registration);
             registrationsTableView.setItems(registrationsData);
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.INFO, "Show window", e);
-            // TODO throw warning
+            new ErrorDialog("Cannot add registration", "Null values are forbidden\n");
         }
     }
 
@@ -138,8 +139,7 @@ public class NewStudentView {
             awardsData.add(award);
             awardsTableView.setItems(awardsData);
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.INFO, "Show window", e);
-            // TODO throw warning
+            new ErrorDialog("Cannot add award", "Null values are forbidden\n");
         }
     }
 
@@ -152,8 +152,8 @@ public class NewStudentView {
             graduationsData.add(graduation);
             graduationsTableView.setItems(graduationsData);
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.INFO, "Show window", e);
-            // TODO throw warning
+            new ErrorDialog("Cannot add graduation", "Null values are forbidden\n" +
+                    "Finished must be after started");
         }
     }
 
@@ -193,12 +193,20 @@ public class NewStudentView {
             student.setAwards(awardsData);
             student.setGraduations(graduationsData);
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.INFO, "Show window", e);
-            // TODO throw warning
+            new ErrorDialog("Cannot add student", "Null values are forbidden (except secondary school)\n" +
+                    "Email address must contain . after @\n" +
+                    "Phone number must start with +\n" +
+                    "Phone number and zip code must contain only numbers\n" +
+                    "Date of birth must be before any other date\n" +
+                    "Maximum length is name(30), surname(30), address(80),\n" +
+                    "email(70), phone(15) and zipCode(5)");
         }
 
-        if (student != null)
+        if (student != null) {
             ancestor.getDatabaseConnection().insertStudent(student);
+            new InformationDialog("Added student " + student.getName() + " " +
+                    student.getSurname() + " with ID " + student.getId());
+        }
     }
 
 

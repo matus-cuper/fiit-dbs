@@ -17,6 +17,7 @@ public class Graduation {
     private Date finishedAt;
     private Boolean graduated;
     private String university;
+    // TODO add string fieldOfStudy
 
 
     Graduation(ResultSet resultSet) throws SQLException {

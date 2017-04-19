@@ -431,5 +431,6 @@ public class DatabaseConnection extends Thread {
     public void setFilter(StudentFilter filter) {
         actualOffset = 0;
         this.filter = filter;
+        LOG.log(Level.INFO, "Filter " + filter);
     }
 }

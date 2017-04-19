@@ -8,6 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Utils;
 import model.db.*;
+import view.ErrorDialog;
+import view.InformationDialog;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -106,6 +108,7 @@ public class UpdateStudentView {
     private Controller ancestor;
     private Student student;
 
+    // TODO remove this duplicate of NewStudentView
     @FXML
     public void handleGraduationFromSSAddButton() {
         try {
@@ -114,11 +117,12 @@ public class UpdateStudentView {
             graduationsFromSSData.add(graduation);
             graduationsFromSSTableView.setItems(graduationsFromSSData);
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.INFO, "Show window", e);
-            // TODO throw warning
+            new ErrorDialog("Cannot add graduation", "Null values are forbidden\n" +
+                    "Mark must be integer between 1 and 4");
         }
     }
 
+    // TODO remove this duplicate of NewStudentView
     @FXML
     public void handleRegistrationAddButton() {
         try {
@@ -128,11 +132,11 @@ public class UpdateStudentView {
             registrationsData.add(registration);
             registrationsTableView.setItems(registrationsData);
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.INFO, "Show window", e);
-            // TODO throw warning
+            new ErrorDialog("Cannot add registration", "Null values are forbidden\n");
         }
     }
 
+    // TODO remove this duplicate of NewStudentView
     @FXML
     public void handleAwardAddButton() {
         try {
@@ -141,11 +145,11 @@ public class UpdateStudentView {
             awardsData.add(award);
             awardsTableView.setItems(awardsData);
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.INFO, "Show window", e);
-            // TODO throw warning
+            new ErrorDialog("Cannot add award", "Null values are forbidden\n");
         }
     }
 
+    // TODO remove this duplicate of NewStudentView
     @FXML
     public void handleGraduationAddButton() {
         try {
@@ -155,8 +159,8 @@ public class UpdateStudentView {
             graduationsData.add(graduation);
             graduationsTableView.setItems(graduationsData);
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.INFO, "Show window", e);
-            // TODO throw warning
+            new ErrorDialog("Cannot add graduation", "Null values are forbidden\n" +
+                    "Finished must be after started");
         }
     }
 
@@ -195,9 +199,16 @@ public class UpdateStudentView {
             student.setGraduations(graduationsData);
 
             ancestor.getDatabaseConnection().updateStudent(student);
+            new InformationDialog("Added student " + student.getName() + " " + student.getSurname() + " with ID " +
+                    student.getId());
         } catch (IllegalArgumentException e) {
-            LOG.log(Level.INFO, "Show window", e);
-            // TODO throw warning
+            new ErrorDialog("Cannot add student", "Null values are forbidden (except secondary school)\n" +
+                    "Email address must contain . after @\n" +
+                    "Phone number must start with +\n" +
+                    "Phone number and zip code must contain only numbers\n" +
+                    "Date of birth must be before any other date\n" +
+                    "Maximum length is name(30), surname(30), address(80),\n" +
+                    "email(70), phone(15) and zipCode(5)");
         }
     }
 

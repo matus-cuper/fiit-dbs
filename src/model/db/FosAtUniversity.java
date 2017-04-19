@@ -32,6 +32,7 @@ public class FosAtUniversity {
         this.fieldOfStudy = fieldOfStudy;
     }
 
+    // TODO remove this one
     @Override
     public String toString() {
         return fieldOfStudy.getName();

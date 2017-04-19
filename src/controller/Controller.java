@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import model.DatabaseConnection;
 import model.StudentFilter;
 import model.db.Student;
+import view.InformationDialog;
 
 import java.io.IOException;
 import java.util.*;
@@ -73,11 +74,14 @@ public class Controller implements Observer {
     @FXML
     public void handleDeleteButton() {
         List<Integer> studentIds = new LinkedList<>();
+        List<String> message = new LinkedList<>(Collections.singletonList("Deleted students:"));
+
         for (Student student : mainTableView.getSelectionModel().getSelectedItems()) {
             studentIds.add(student.getId());
-            LOG.log(Level.INFO, "Deleting student " + student.getId());
+            message.add(student.getName() + " " + student.getSurname() + " with ID " + student.getId());
         }
 
+        new InformationDialog(message);
         databaseConnection.deleteStudentsById(studentIds);
         updateTableData();
     }
@@ -89,10 +93,8 @@ public class Controller implements Observer {
 
     @FXML
     public void handleUpdateButton() {
-        for (Student student : mainTableView.getSelectionModel().getSelectedItems()) {
+        for (Student student : mainTableView.getSelectionModel().getSelectedItems())
             createUpdateStudentView(databaseConnection.getStudent(student.getId()));
-            LOG.log(Level.INFO, "Updating student " + student.getId());
-        }
     }
 
 
@@ -137,7 +139,6 @@ public class Controller implements Observer {
     @Override
     public void update(Observable observable, Object o) {
         databaseConnection.setFilter(filter);
-        LOG.log(Level.INFO, "Students were filtered");
         updateTableData();
 
         nextButton.setDisable(false);

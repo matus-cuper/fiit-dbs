@@ -1,5 +1,7 @@
 package model;
 
+import view.ErrorDialog;
+
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.Observable;
@@ -30,6 +32,12 @@ public class StudentFilter extends Observable {
     private void change() {
         setChanged();
         notifyObservers();
+    }
+
+    @Override
+    public String toString() {
+        return getName() + " " + getSurname() + " " + getBirthAfter() + " " + getBirthUntil() + " " +
+                getAverageGreater() + " " + getAverageLower() + " " + getCountGreater() + " " + getCountLower();
     }
 
     public String getName() {
@@ -63,6 +71,7 @@ public class StudentFilter extends Observable {
             LOG.log(Level.INFO, "Unparseable date " + birthAfter);
             this.birthAfter = null;
             // TODO show warning
+            // TODO add date completion
         }
         change();
     }
@@ -80,6 +89,7 @@ public class StudentFilter extends Observable {
             LOG.log(Level.INFO, "Unparseable date " + birthUntil);
             this.birthUntil = null;
             // TODO show warning
+            // TODO add date completion
         }
         change();
     }
@@ -92,9 +102,8 @@ public class StudentFilter extends Observable {
         try {
             this.averageGreater = Double.parseDouble(averageGreater);
         } catch (NumberFormatException e) {
-            LOG.log(Level.INFO, "Unparseable double " + averageGreater);
             this.averageGreater = null;
-            // TODO show warning
+            new ErrorDialog("Unparseable double", "Average must be double");
         }
         change();
     }
@@ -107,9 +116,8 @@ public class StudentFilter extends Observable {
         try {
             this.averageLower = Double.parseDouble(averageLower);
         } catch (NumberFormatException e) {
-            LOG.log(Level.INFO, "Unparseable double " + averageLower);
             this.averageLower = null;
-            // TODO show warning
+            new ErrorDialog("Unparseable double", "Average must be double");
         }
         change();
     }
@@ -122,9 +130,8 @@ public class StudentFilter extends Observable {
         try {
             this.countGreater = Integer.parseInt(countGreater);
         } catch (NumberFormatException e) {
-            LOG.log(Level.INFO, "Unparseable integer " + countGreater);
             this.countGreater = null;
-            // TODO show warning
+            new ErrorDialog("Unparseable integer", "Count must be integer");
         }
         change();
     }
@@ -137,9 +144,8 @@ public class StudentFilter extends Observable {
         try {
             this.countLower = Integer.parseInt(countLower);
         } catch (NumberFormatException e) {
-            LOG.log(Level.INFO, "Unparseable integer " + countLower);
             this.countLower = null;
-            // TODO show warning
+            new ErrorDialog("Unparseable integer", "Count must be integer");
         }
         change();
     }
