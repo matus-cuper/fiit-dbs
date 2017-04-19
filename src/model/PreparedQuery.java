@@ -134,6 +134,9 @@ class PreparedQuery {
     static final String insertFosAtUniversityId = "INSERT INTO fos_at_universities (university_id, " +
             "field_of_study_id) VALUES (?, ?);";
 
+    static final String updateStudent = "UPDATE students SET (secondary_school_id, name, surname, birth_at, address, " +
+            "email, phone, zip_code) = (?, ?, ?, ?, ?, ?, ?, ?) WHERE student_id = ?;";
+
     private PreparedQuery() {}
 
     /**

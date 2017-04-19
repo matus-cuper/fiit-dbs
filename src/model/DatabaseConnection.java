@@ -270,6 +270,88 @@ public class DatabaseConnection extends Thread {
         }
     }
 
+    public void updateStudent(Student student) {
+        List<PreparedStatement> statements = new LinkedList<>();
+
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement studentStatement = connection.prepareStatement(PreparedQuery.updateStudent);
+
+            studentStatement.setInt(1, student.getSecondarySchool().getId());
+            studentStatement.setString(2, student.getName());
+            studentStatement.setString(3, student.getSurname());
+            studentStatement.setDate(4, Utils.parseDate(student.getBirthAt()));
+            studentStatement.setString(5, student.getAddress());
+            studentStatement.setString(6, student.getEmail());
+            studentStatement.setString(7, student.getPhone());
+            studentStatement.setString(8, student.getZipCode());
+            studentStatement.setInt(9, student.getId());
+
+            studentStatement.executeUpdate();
+
+            statements.add(connection.prepareStatement(PreparedQuery.deleteRegistrationsByStudentId));
+            statements.add(connection.prepareStatement(PreparedQuery.deleteGraduationsByStudentId));
+            statements.add(connection.prepareStatement(PreparedQuery.deleteAwardsByStudentId));
+            statements.add(connection.prepareStatement(PreparedQuery.deleteGraduationsFromSSByStudentId));
+
+            for (PreparedStatement statement : statements)
+                statement.setInt(1, student.getId());
+
+            for (GraduationFromSS graduation : student.getGraduationsFromSS()) {
+                PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertGraduationFromSS);
+                statement.setInt(1, student.getId());
+                statement.setInt(2, graduation.getSubject().getId());
+                statement.setDate(3, Utils.parseDate(graduation.getGraduatedAt()));
+                statement.setInt(4, graduation.getMark());
+                statements.add(statement);
+            }
+
+            for (Award award : student.getAwards()) {
+                PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertAward);
+                statement.setInt(1, award.getAwardLevel().getId());
+                statement.setInt(2, award.getAwardName().getId());
+                statement.setInt(3, student.getId());
+                statement.setDate(4, Utils.parseDate(award.getAwardedAt()));
+                statements.add(statement);
+            }
+
+            for (Graduation graduation : student.getGraduations()) {
+                graduation.getFosAtUniversity().setId(getFosAtUniversityId(graduation.getFosAtUniversity()));
+                PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertGraduation);
+                statement.setInt(1, graduation.getFosAtUniversity().getId());
+                statement.setInt(2, student.getId());
+                statement.setDate(3, Utils.parseDate(graduation.getStartedAt()));
+                statement.setDate(4, Utils.parseDate(graduation.getFinishedAt()));
+                statement.setBoolean(5, graduation.isGraduated());
+                statements.add(statement);
+            }
+
+            for (Registration registration : student.getRegistrations()) {
+                registration.getFosAtUniversity().setId(getFosAtUniversityId(registration.getFosAtUniversity()));
+                PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertRegistration);
+                statement.setInt(1, registration.getFosAtUniversity().getId());
+                statement.setInt(2, student.getId());
+                statement.setInt(3, registration.getStatus().getId());
+                statement.setDate(4, Utils.parseDate(registration.getChangedAt()));
+                statements.add(statement);
+            }
+
+            for (PreparedStatement statement : statements)
+                statement.executeUpdate();
+
+            connection.commit();
+            LOG.log(Level.INFO, "Updating student " + student.getId());
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during inserting student information", e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "Error occurred during setting auto commit back to true", e);
+            }
+        }
+    }
+
     private Integer getFosAtUniversityId(FosAtUniversity fosAtUniversity) throws SQLException {
 
         PreparedStatement statement = connection.prepareStatement(PreparedQuery.selectFosAtUniversityId);

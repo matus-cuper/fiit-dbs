@@ -11,6 +11,8 @@ import model.db.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,7 +47,7 @@ public class UpdateStudentView {
     private DatePicker graduationFromSSGraduatedAtPicker, registrationChangedAtPicker, awardAwardedAtPicker,
             graduationStartedAtPicker, graduationFinishedAtPicker, birthAtPicker;
     @FXML
-    private Button addStudentButton, graduationFromSSAddButton, graduationFromSSRemoveButton, registrationAddButton,
+    private Button updateStudentButton, graduationFromSSAddButton, graduationFromSSRemoveButton, registrationAddButton,
             registrationRemoveButton, awardAddButton, awardRemoveButton, graduationAddButton, graduationRemoveButton;
     @FXML
     private TableView<GraduationFromSS> graduationsFromSSTableView;
@@ -179,11 +181,11 @@ public class UpdateStudentView {
     }
 
     @FXML
-    public void handleAddStudentButton() {
+    public void handleUpdateStudentButton() {
         try {
-            Student student = new Student(secondarySchoolCombo.getValue(), nameField.getText(), surnameField.getText(),
-                    Utils.convertDate(birthAtPicker.getValue()), addressField.getText(), emailField.getText(),
-                    phoneField.getText(), zipCodeField.getText());
+            Student student = new Student(this.student.getId(), secondarySchoolCombo.getValue(), nameField.getText(),
+                    surnameField.getText(), Utils.convertDate(birthAtPicker.getValue()), addressField.getText(),
+                    emailField.getText(), phoneField.getText(), zipCodeField.getText());
             if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
                 throw new IllegalArgumentException();
 
@@ -191,6 +193,8 @@ public class UpdateStudentView {
             student.setRegistrations(registrationsData);
             student.setAwards(awardsData);
             student.setGraduations(graduationsData);
+
+            ancestor.getDatabaseConnection().updateStudent(student);
         } catch (IllegalArgumentException e) {
             LOG.log(Level.INFO, "Show window", e);
             // TODO throw warning
@@ -390,7 +394,7 @@ public class UpdateStudentView {
 
         nameField.setText(student.getName());
         surnameField.setText(student.getSurname());
-//        birthAtPicker.setValue();
+        birthAtPicker.setValue(Instant.ofEpochMilli(student.getBirthAt().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
         phoneField.setText(student.getPhone());
         emailField.setText(student.getEmail());
         addressField.setText(student.getAddress());
