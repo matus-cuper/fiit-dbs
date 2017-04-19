@@ -311,13 +311,11 @@ public class DatabaseConnection extends Thread {
     }
 
     public void previousWindow() {
-        if (!firstWindow())
-            actualOffset = actualOffset - windowSize;
+        actualOffset = actualOffset - windowSize;
     }
 
     public void nextWindow() {
-        if (actualOffset + windowSize <= tableSize)
-            actualOffset = actualOffset + windowSize;
+        actualOffset = actualOffset + windowSize;
     }
 
     public boolean firstWindow() {
@@ -325,7 +323,7 @@ public class DatabaseConnection extends Thread {
     }
 
     public boolean lastWindow() {
-        return (actualOffset + windowSize) > tableSize;
+        return windowSize > tableSize;
     }
 
     public boolean isConnectionReady() {
@@ -349,6 +347,7 @@ public class DatabaseConnection extends Thread {
     }
 
     public void setFilter(StudentFilter filter) {
+        actualOffset = 0;
         this.filter = filter;
     }
 }

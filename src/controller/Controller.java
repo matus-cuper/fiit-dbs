@@ -63,7 +63,6 @@ public class Controller implements Observer {
 
     @FXML
     public void handleNextButton() {
-        // TODO handle next button, bug after second window
         previousButton.setDisable(false);
         databaseConnection.nextWindow();
         if (databaseConnection.lastWindow())
@@ -144,6 +143,9 @@ public class Controller implements Observer {
         nextButton.setDisable(false);
         if (databaseConnection.lastWindow())
             nextButton.setDisable(true);
+        previousButton.setDisable(false);
+        if (databaseConnection.firstWindow())
+            previousButton.setDisable(true);
     }
 
     private void createDetailedView(Student student) {
