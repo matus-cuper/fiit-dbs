@@ -103,6 +103,10 @@ public class Student {
             throw new IllegalArgumentException();
 
         try {
+
+            if (name.length() > 30 || surname.length() > 30 || address.length() > 80 || email.length() > 70)
+                throw new IllegalArgumentException();
+
             if (Utils.countMatches(email, "@") != 1 ||
                     Utils.countMatches(email.substring(email.lastIndexOf("@") + 1), ".") != 1)
                 throw new IllegalArgumentException();
@@ -114,10 +118,13 @@ public class Student {
                 throw new IllegalArgumentException();
 
             zipCode = Utils.removeWhitespaces(zipCode);
-            if (!Utils.containOnlyNumbers(zipCode) || zipCode.length() > 5)
+            if (!Utils.containOnlyNumbers(zipCode) || zipCode.length() != 5)
                 throw new IllegalArgumentException();
 
+            this.name = name;
+            this.surname = surname;
             this.birthAt = Utils.parseDate(birthAt.toString());
+            this.address = address;
             this.email = email;
             this.phone = phone;
             this.zipCode = zipCode;
@@ -125,11 +132,7 @@ public class Student {
         } catch (ParseException e) {
             throw new IllegalArgumentException();
         }
-        // TODO test size of
         this.secondarySchool = secondarySchool;
-        this.name = name;
-        this.surname = surname;
-        this.address = address;
     }
 
     public Integer getId() {
