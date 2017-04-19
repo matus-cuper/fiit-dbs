@@ -1,10 +1,12 @@
 package controller;
 
+import controller.formatters.DatePickerFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import model.Utils;
 import model.db.*;
 
 import java.sql.ResultSet;
@@ -105,7 +107,7 @@ public class NewStudentView {
     public void handleGraduationFromSSAddButton() {
         try {
             GraduationFromSS graduation = new GraduationFromSS(graduationFromSSSubjectCombo.getValue(),
-                    graduationFromSSMarkField.getText(), graduationFromSSGraduatedAtPicker.getValue());
+                    graduationFromSSMarkField.getText(), Utils.convertDate(graduationFromSSGraduatedAtPicker.getValue()));
             graduationsFromSSData.add(graduation);
             graduationsFromSSTableView.setItems(graduationsFromSSData);
         } catch (IllegalArgumentException e) {
@@ -118,7 +120,7 @@ public class NewStudentView {
     public void handleRegistrationAddButton() {
         try {
             Registration registration = new Registration(registrationUniversityCombo.getValue(),
-                    registrationFieldOfStudyCombo.getValue(), registrationChangedAtPicker.getValue(),
+                    registrationFieldOfStudyCombo.getValue(), Utils.convertDate(registrationChangedAtPicker.getValue()),
                     registrationStatusCombo.getValue());
             registrationsData.add(registration);
             registrationsTableView.setItems(registrationsData);
@@ -132,7 +134,7 @@ public class NewStudentView {
     public void handleAwardAddButton() {
         try {
             Award award = new Award(awardNameCombo.getValue(), awardLevelCombo.getValue(),
-                    awardAwardedAtPicker.getValue());
+                    Utils.convertDate(awardAwardedAtPicker.getValue()));
             awardsData.add(award);
             awardsTableView.setItems(awardsData);
         } catch (IllegalArgumentException e) {
@@ -145,8 +147,8 @@ public class NewStudentView {
     public void handleGraduationAddButton() {
         try {
             Graduation graduation = new Graduation(graduationUniversityCombo.getValue(),
-                    graduationFieldOfStudyCombo.getValue(), graduationStartedAtPicker.getValue(),
-                    graduationFinishedAtPicker.getValue(), graduationGraduatedCheck.isSelected());
+                    graduationFieldOfStudyCombo.getValue(), Utils.convertDate(graduationStartedAtPicker.getValue()),
+                    Utils.convertDate(graduationFinishedAtPicker.getValue()), graduationGraduatedCheck.isSelected());
             graduationsData.add(graduation);
             graduationsTableView.setItems(graduationsData);
         } catch (IllegalArgumentException e) {
@@ -181,8 +183,8 @@ public class NewStudentView {
         Student student = null;
         try {
             student = new Student(secondarySchoolCombo.getValue(), nameField.getText(), surnameField.getText(),
-                    birthAtPicker.getValue(), addressField.getText(), emailField.getText(), phoneField.getText(),
-                    zipCodeField.getText());
+                    Utils.convertDate(birthAtPicker.getValue()), addressField.getText(), emailField.getText(),
+                    phoneField.getText(), zipCodeField.getText());
             if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
                 throw new IllegalArgumentException();
 
@@ -208,12 +210,12 @@ public class NewStudentView {
     }
 
     private void setFormatter() {
-        graduationFromSSGraduatedAtPicker.setConverter(new MyConverter());
-        registrationChangedAtPicker.setConverter(new MyConverter());
-        awardAwardedAtPicker.setConverter(new MyConverter());
-        graduationStartedAtPicker.setConverter(new MyConverter());
-        graduationFinishedAtPicker.setConverter(new MyConverter());
-        birthAtPicker.setConverter(new MyConverter());
+        graduationFromSSGraduatedAtPicker.setConverter(new DatePickerFormatter());
+        registrationChangedAtPicker.setConverter(new DatePickerFormatter());
+        awardAwardedAtPicker.setConverter(new DatePickerFormatter());
+        graduationStartedAtPicker.setConverter(new DatePickerFormatter());
+        graduationFinishedAtPicker.setConverter(new DatePickerFormatter());
+        birthAtPicker.setConverter(new DatePickerFormatter());
     }
 
     private void setCombos() {

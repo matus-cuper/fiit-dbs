@@ -1,11 +1,7 @@
 package model.db;
 
-import model.Utils;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -35,16 +31,16 @@ public class GraduationFromSS {
         this.mark = mark;
     }
 
-    public GraduationFromSS(Subject subject, String mark, LocalDate graduatedAt) throws IllegalArgumentException {
+    public GraduationFromSS(Subject subject, String mark, Date graduatedAt) throws IllegalArgumentException {
         if (subject == null || mark == null || graduatedAt == null)
             throw new IllegalArgumentException();
 
         try {
-            this.graduatedAt = Utils.parseDate(graduatedAt.toString());
+            this.graduatedAt = graduatedAt;
             this.mark = Integer.parseInt(mark);
             if (this.mark > 4 || this.mark < 1)
                 throw new IllegalArgumentException();
-        } catch (NumberFormatException | ParseException e) {
+        } catch (NumberFormatException e) {
             throw new IllegalArgumentException();
         }
 

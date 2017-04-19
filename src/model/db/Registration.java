@@ -1,11 +1,7 @@
 package model.db;
 
-import model.Utils;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -36,17 +32,12 @@ public class Registration {
         this.changedAt = changedAt;
     }
 
-    public Registration(University university, FieldOfStudy fieldOfStudy, LocalDate changedAt, Status status)
+    public Registration(University university, FieldOfStudy fieldOfStudy, Date changedAt, Status status)
             throws IllegalArgumentException {
         if (university == null || fieldOfStudy == null || changedAt == null || status == null)
             throw new IllegalArgumentException();
 
-        try {
-            this.changedAt = Utils.parseDate(changedAt.toString());
-        } catch (ParseException e) {
-            throw new IllegalArgumentException();
-        }
-
+        this.changedAt = changedAt;
         this.fosAtUniversity = new FosAtUniversity(university, fieldOfStudy);
         this.status = status;
         this.university = this.fosAtUniversity.getUniversity().getName();

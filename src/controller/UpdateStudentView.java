@@ -1,10 +1,12 @@
 package controller;
 
+import controller.formatters.DatePickerFormatter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import model.Utils;
 import model.db.*;
 
 import java.sql.ResultSet;
@@ -106,7 +108,7 @@ public class UpdateStudentView {
     public void handleGraduationFromSSAddButton() {
         try {
             GraduationFromSS graduation = new GraduationFromSS(graduationFromSSSubjectCombo.getValue(),
-                    graduationFromSSMarkField.getText(), graduationFromSSGraduatedAtPicker.getValue());
+                    graduationFromSSMarkField.getText(), Utils.convertDate(graduationFromSSGraduatedAtPicker.getValue()));
             graduationsFromSSData.add(graduation);
             graduationsFromSSTableView.setItems(graduationsFromSSData);
         } catch (IllegalArgumentException e) {
@@ -119,7 +121,7 @@ public class UpdateStudentView {
     public void handleRegistrationAddButton() {
         try {
             Registration registration = new Registration(registrationUniversityCombo.getValue(),
-                    registrationFieldOfStudyCombo.getValue(), registrationChangedAtPicker.getValue(),
+                    registrationFieldOfStudyCombo.getValue(), Utils.convertDate(registrationChangedAtPicker.getValue()),
                     registrationStatusCombo.getValue());
             registrationsData.add(registration);
             registrationsTableView.setItems(registrationsData);
@@ -133,7 +135,7 @@ public class UpdateStudentView {
     public void handleAwardAddButton() {
         try {
             Award award = new Award(awardNameCombo.getValue(), awardLevelCombo.getValue(),
-                    awardAwardedAtPicker.getValue());
+                    Utils.convertDate(awardAwardedAtPicker.getValue()));
             awardsData.add(award);
             awardsTableView.setItems(awardsData);
         } catch (IllegalArgumentException e) {
@@ -146,8 +148,8 @@ public class UpdateStudentView {
     public void handleGraduationAddButton() {
         try {
             Graduation graduation = new Graduation(graduationUniversityCombo.getValue(),
-                    graduationFieldOfStudyCombo.getValue(), graduationStartedAtPicker.getValue(),
-                    graduationFinishedAtPicker.getValue(), graduationGraduatedCheck.isSelected());
+                    graduationFieldOfStudyCombo.getValue(), Utils.convertDate(graduationStartedAtPicker.getValue()),
+                    Utils.convertDate(graduationFinishedAtPicker.getValue()), graduationGraduatedCheck.isSelected());
             graduationsData.add(graduation);
             graduationsTableView.setItems(graduationsData);
         } catch (IllegalArgumentException e) {
@@ -180,8 +182,8 @@ public class UpdateStudentView {
     public void handleAddStudentButton() {
         try {
             Student student = new Student(secondarySchoolCombo.getValue(), nameField.getText(), surnameField.getText(),
-                    birthAtPicker.getValue(), addressField.getText(), emailField.getText(), phoneField.getText(),
-                    zipCodeField.getText());
+                    Utils.convertDate(birthAtPicker.getValue()), addressField.getText(), emailField.getText(),
+                    phoneField.getText(), zipCodeField.getText());
             if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
                 throw new IllegalArgumentException();
 
@@ -199,12 +201,12 @@ public class UpdateStudentView {
     public UpdateStudentView() {}
 
     private void setFormatter() {
-        graduationFromSSGraduatedAtPicker.setConverter(new MyConverter());
-        registrationChangedAtPicker.setConverter(new MyConverter());
-        awardAwardedAtPicker.setConverter(new MyConverter());
-        graduationStartedAtPicker.setConverter(new MyConverter());
-        graduationFinishedAtPicker.setConverter(new MyConverter());
-        birthAtPicker.setConverter(new MyConverter());
+        graduationFromSSGraduatedAtPicker.setConverter(new DatePickerFormatter());
+        registrationChangedAtPicker.setConverter(new DatePickerFormatter());
+        awardAwardedAtPicker.setConverter(new DatePickerFormatter());
+        graduationStartedAtPicker.setConverter(new DatePickerFormatter());
+        graduationFinishedAtPicker.setConverter(new DatePickerFormatter());
+        birthAtPicker.setConverter(new DatePickerFormatter());
     }
 
     private void setCombos() {
@@ -341,37 +343,37 @@ public class UpdateStudentView {
 
     private List<GraduationFromSS> getGraduationsFromSS() {
         List<GraduationFromSS> graduations = new LinkedList<>();
-//        for (GraduationFromSS graduation : student.getGraduationsFromSS())
-//            graduations.add(new GraduationFromSS(graduation.getSubject(), graduation.getMark().toString(),
-//                    (LocalDate) graduation.getGraduatedAt()));
+        for (GraduationFromSS graduation : student.getGraduationsFromSS())
+            graduations.add(new GraduationFromSS(graduation.getSubject(), graduation.getMark().toString(),
+                    graduation.getGraduatedAt()));
 
         return graduations;
     }
 
     private List<Award> getAwards() {
         List<Award> awards = new LinkedList<>();
-//        for (Award award : student.getAwards())
-//            awards.add(new Award(award.getAwardName(), award.getAwardLevel(), award.getAwardedAt());
+        for (Award award : student.getAwards())
+            awards.add(new Award(award.getAwardName(), award.getAwardLevel(), award.getAwardedAt()));
 
         return awards;
     }
 
     private List<Graduation> getGraduations() {
         List<Graduation> graduations = new LinkedList<>();
-//        for (Graduation graduation : student.getGraduations())
-//            graduations.add(new Graduation(graduation.getFosAtUniversity().getUniversity(),
-//                            graduation.getFosAtUniversity().getFieldOfStudy(), graduation.getStartedAt(),
-//                    graduation.getFinishedAt(), graduation.isGraduated());
+        for (Graduation graduation : student.getGraduations())
+            graduations.add(new Graduation(graduation.getFosAtUniversity().getUniversity(),
+                            graduation.getFosAtUniversity().getFieldOfStudy(), graduation.getStartedAt(),
+                    graduation.getFinishedAt(), graduation.isGraduated()));
 
         return graduations;
     }
 
     private List<Registration> getRegistrations() {
         List<Registration> registrations = new LinkedList<>();
-//        for (Registration registration : student.getRegistrations())
-//            registrations.add(new Registration(registration.getFosAtUniversity().getUniversity(),
-//                            registration.getFosAtUniversity().getFieldOfStudy(), registration.getChangedAt(),
-//                    registration.getStatus());
+        for (Registration registration : student.getRegistrations())
+            registrations.add(new Registration(registration.getFosAtUniversity().getUniversity(),
+                    registration.getFosAtUniversity().getFieldOfStudy(), registration.getChangedAt(),
+                    registration.getStatus()));
 
         return registrations;
     }
@@ -399,5 +401,10 @@ public class UpdateStudentView {
         registrationsData = FXCollections.observableArrayList(getRegistrations());
         awardsData = FXCollections.observableArrayList(getAwards());
         graduationsData = FXCollections.observableArrayList(getGraduations());
+
+        graduationsFromSSTableView.setItems(graduationsFromSSData);
+        registrationsTableView.setItems(registrationsData);
+        awardsTableView.setItems(awardsData);
+        graduationsTableView.setItems(graduationsData);
     }
 }

@@ -1,7 +1,9 @@
 package model;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 /**
  * Created by Matus Cuper on 14.4.2017.
@@ -16,12 +18,16 @@ public class Utils {
     private Utils() {}
 
     @SuppressWarnings("deprecation")
-    public static java.sql.Date parseDate(String date) throws ParseException {
+    static java.sql.Date parseDate(String date) throws ParseException {
         return new java.sql.Date(parser.parse(date).getTime());
     }
 
     static java.sql.Date parseDate(java.util.Date date) {
         return new java.sql.Date(date.getTime());
+    }
+
+    public static java.sql.Date convertDate(LocalDate date) {
+        return Date.valueOf(date);
     }
 
     public static int countMatches(String string, String pattern) {

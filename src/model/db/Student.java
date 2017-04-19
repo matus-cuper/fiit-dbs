@@ -4,8 +4,6 @@ import model.Utils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -96,42 +94,38 @@ public class Student {
         this.zipCode = zipCode;
     }
 
-    public Student(SecondarySchool secondarySchool, String name, String surname, LocalDate birthAt, String address,
+    public Student(SecondarySchool secondarySchool, String name, String surname, Date birthAt, String address,
                    String email, String phone, String zipCode) throws IllegalArgumentException {
+
         if (name == null || surname == null || birthAt == null || address == null ||
                 email == null || phone == null || zipCode == null)
             throw new IllegalArgumentException();
 
-        try {
-
-            if (name.length() > 30 || surname.length() > 30 || address.length() > 80 || email.length() > 70)
-                throw new IllegalArgumentException();
-
-            if (Utils.countMatches(email, "@") != 1 ||
-                    Utils.countMatches(email.substring(email.lastIndexOf("@") + 1), ".") != 1)
-                throw new IllegalArgumentException();
-
-            phone = Utils.removeWhitespaces(phone);
-            if (!phone.startsWith("+") ||
-                    !Utils.containOnlyNumbers(phone.substring(1)) ||
-                    phone.length() > 15)
-                throw new IllegalArgumentException();
-
-            zipCode = Utils.removeWhitespaces(zipCode);
-            if (!Utils.containOnlyNumbers(zipCode) || zipCode.length() != 5)
-                throw new IllegalArgumentException();
-
-            this.name = name;
-            this.surname = surname;
-            this.birthAt = Utils.parseDate(birthAt.toString());
-            this.address = address;
-            this.email = email;
-            this.phone = phone;
-            this.zipCode = zipCode;
-
-        } catch (ParseException e) {
+        if (name.length() > 30 || surname.length() > 30 || address.length() > 80 || email.length() > 70)
             throw new IllegalArgumentException();
-        }
+
+        if (Utils.countMatches(email, "@") != 1 ||
+                Utils.countMatches(email.substring(email.lastIndexOf("@") + 1), ".") != 1)
+            throw new IllegalArgumentException();
+
+        phone = Utils.removeWhitespaces(phone);
+        if (!phone.startsWith("+") ||
+                !Utils.containOnlyNumbers(phone.substring(1)) ||
+                phone.length() > 15)
+            throw new IllegalArgumentException();
+
+        zipCode = Utils.removeWhitespaces(zipCode);
+        if (!Utils.containOnlyNumbers(zipCode) || zipCode.length() != 5)
+            throw new IllegalArgumentException();
+
+        this.name = name;
+        this.surname = surname;
+        this.birthAt = birthAt;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.zipCode = zipCode;
+
         this.secondarySchool = secondarySchool;
     }
 

@@ -1,11 +1,7 @@
 package model.db;
 
-import model.Utils;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -39,20 +35,16 @@ public class Graduation {
         this.graduated = graduated;
     }
 
-    public Graduation(University university, FieldOfStudy fieldOfStudy, LocalDate startedAt, LocalDate finishedAt,
+    public Graduation(University university, FieldOfStudy fieldOfStudy, Date startedAt, Date finishedAt,
                       boolean graduated) throws IllegalArgumentException {
         if (university == null || fieldOfStudy == null || startedAt == null || finishedAt == null)
             throw new IllegalArgumentException();
 
-        try {
-            this.startedAt = Utils.parseDate(startedAt.toString());
-            this.finishedAt = Utils.parseDate(finishedAt.toString());
-            if (this.startedAt.after(this.finishedAt))
-                throw new IllegalArgumentException();
-        } catch (ParseException e) {
+        if (startedAt.after(finishedAt))
             throw new IllegalArgumentException();
-        }
 
+        this.startedAt = startedAt;
+        this.finishedAt = finishedAt;
         this.fosAtUniversity = new FosAtUniversity(university, fieldOfStudy);
         this.graduated = graduated;
         this.university = this.fosAtUniversity.getUniversity().getName();

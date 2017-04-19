@@ -1,4 +1,4 @@
-package controller;
+package controller.formatters;
 
 import javafx.util.StringConverter;
 
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
  *
  * This class represents formatter for {@link javafx.scene.control.DatePicker}
  */
-class MyConverter extends StringConverter<LocalDate> {
+public class DatePickerFormatter extends StringConverter<LocalDate> {
 
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
