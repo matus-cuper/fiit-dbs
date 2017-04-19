@@ -211,9 +211,7 @@ public class DatabaseConnection extends Thread {
 
             int affectedRows = studentStatement.executeUpdate();
             if (affectedRows > 0)
-                studentId = getStudentId(studentStatement.getGeneratedKeys());
-
-            System.out.println(studentId);
+                studentId = getReturnedId(studentStatement.getGeneratedKeys());
 
             if (studentId > 0) {
                 for (GraduationFromSS graduation : student.getGraduationsFromSS()) {
@@ -233,8 +231,9 @@ public class DatabaseConnection extends Thread {
                     statement.setDate(4, Utils.parseDate(award.getAwardedAt()));
                     statements.add(statement);
                 }
-                // TODO set fosAtUniversityID
+
                 for (Graduation graduation : student.getGraduations()) {
+                    graduation.getFosAtUniversity().setId(getFosAtUniversityId(graduation.getFosAtUniversity()));
                     PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertGraduation);
                     statement.setInt(1, graduation.getFosAtUniversity().getId());
                     statement.setInt(2, studentId);
@@ -243,13 +242,14 @@ public class DatabaseConnection extends Thread {
                     statement.setBoolean(5, graduation.isGraduated());
                     statements.add(statement);
                 }
-                // TODO set fosAtUniversityID
+
                 for (Registration registration : student.getRegistrations()) {
+                    registration.getFosAtUniversity().setId(getFosAtUniversityId(registration.getFosAtUniversity()));
                     PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertRegistration);
                     statement.setInt(1, registration.getFosAtUniversity().getId());
                     statement.setInt(2, studentId);
-                    statement.setDate(3, Utils.parseDate(registration.getChangedAt()));
-                    statement.setInt(4, registration.getStatus().getId());
+                    statement.setInt(3, registration.getStatus().getId());
+                    statement.setDate(4, Utils.parseDate(registration.getChangedAt()));
                     statements.add(statement);
                 }
             }
@@ -258,6 +258,7 @@ public class DatabaseConnection extends Thread {
                 statement.executeUpdate();
 
             connection.commit();
+            LOG.log(Level.INFO, "Inserting student " + studentId);
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Error occurred during inserting student information", e);
         } finally {
@@ -269,7 +270,28 @@ public class DatabaseConnection extends Thread {
         }
     }
 
-    private int getStudentId(ResultSet resultSet) {
+    private Integer getFosAtUniversityId(FosAtUniversity fosAtUniversity) throws SQLException {
+
+        PreparedStatement statement = connection.prepareStatement(PreparedQuery.selectFosAtUniversityId);
+        statement.setInt(1, fosAtUniversity.getUniversity().getId());
+        statement.setInt(2, fosAtUniversity.getFieldOfStudy().getId());
+
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next())
+            return resultSet.getInt(1);
+
+        statement = connection.prepareStatement(PreparedQuery.insertFosAtUniversityId, Statement.RETURN_GENERATED_KEYS);
+        statement.setInt(1, fosAtUniversity.getUniversity().getId());
+        statement.setInt(2, fosAtUniversity.getFieldOfStudy().getId());
+
+        int affectedRows = statement.executeUpdate();
+        if (affectedRows > 0)
+            return getReturnedId(statement.getGeneratedKeys());
+
+        return null;
+    }
+
+    private int getReturnedId(ResultSet resultSet) {
         try {
             resultSet.next();
             return resultSet.getInt(1);

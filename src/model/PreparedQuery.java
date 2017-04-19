@@ -128,6 +128,12 @@ class PreparedQuery {
     static final String insertRegistration = "INSERT INTO registrations (fos_at_university_id, student_id, " +
             "status_id, changed_at) VALUES (?, ?, ?, ?);";
 
+    static final String selectFosAtUniversityId = "SELECT fos_at_university_id FROM fos_at_universities WHERE " +
+            "university_id = ? AND field_of_study_id = ?;";
+
+    static final String insertFosAtUniversityId = "INSERT INTO fos_at_universities (university_id, " +
+            "field_of_study_id) VALUES (?, ?);";
+
     private PreparedQuery() {}
 
     /**
