@@ -1,6 +1,6 @@
 package model;
 
-import model.db.Student;
+import model.db.*;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -190,6 +190,93 @@ public class DatabaseConnection extends Thread {
 
     public void insertStudent(Student student) {
 
+        int studentId = 0;
+        List<PreparedStatement> statements = new LinkedList<>();
+
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement studentStatement = connection.prepareStatement(PreparedQuery.insertStudent, Statement.RETURN_GENERATED_KEYS);
+
+            if (student.getSecondarySchool() == null)
+                studentStatement.setNull(1, Types.BIGINT);
+            else
+                studentStatement.setInt(1, student.getSecondarySchool().getId());
+            studentStatement.setString(2, student.getName());
+            studentStatement.setString(3, student.getSurname());
+            studentStatement.setDate(4, Utils.parseDate(student.getBirthAt()));
+            studentStatement.setString(5, student.getAddress());
+            studentStatement.setString(6, student.getEmail());
+            studentStatement.setString(7, student.getPhone());
+            studentStatement.setString(8, student.getZipCode());
+
+            int affectedRows = studentStatement.executeUpdate();
+            if (affectedRows > 0)
+                studentId = getStudentId(studentStatement.getGeneratedKeys());
+
+            System.out.println(studentId);
+
+            if (studentId > 0) {
+                for (GraduationFromSS graduation : student.getGraduationsFromSS()) {
+                    PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertGraduationFromSS);
+                    statement.setInt(1, studentId);
+                    statement.setInt(2, graduation.getSubject().getId());
+                    statement.setDate(3, Utils.parseDate(graduation.getGraduatedAt()));
+                    statement.setInt(4, graduation.getMark());
+                    statements.add(statement);
+                }
+
+                for (Award award : student.getAwards()) {
+                    PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertAward);
+                    statement.setInt(1, award.getAwardLevel().getId());
+                    statement.setInt(2, award.getAwardName().getId());
+                    statement.setInt(3, studentId);
+                    statement.setDate(4, Utils.parseDate(award.getAwardedAt()));
+                    statements.add(statement);
+                }
+                // TODO set fosAtUniversityID
+                for (Graduation graduation : student.getGraduations()) {
+                    PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertGraduation);
+                    statement.setInt(1, graduation.getFosAtUniversity().getId());
+                    statement.setInt(2, studentId);
+                    statement.setDate(3, Utils.parseDate(graduation.getStartedAt()));
+                    statement.setDate(4, Utils.parseDate(graduation.getFinishedAt()));
+                    statement.setBoolean(5, graduation.isGraduated());
+                    statements.add(statement);
+                }
+                // TODO set fosAtUniversityID
+                for (Registration registration : student.getRegistrations()) {
+                    PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertRegistration);
+                    statement.setInt(1, registration.getFosAtUniversity().getId());
+                    statement.setInt(2, studentId);
+                    statement.setDate(3, Utils.parseDate(registration.getChangedAt()));
+                    statement.setInt(4, registration.getStatus().getId());
+                    statements.add(statement);
+                }
+            }
+
+            for (PreparedStatement statement : statements)
+                statement.executeUpdate();
+
+            connection.commit();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during inserting student information", e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "Error occurred during setting auto commit back to true", e);
+            }
+        }
+    }
+
+    private int getStudentId(ResultSet resultSet) {
+        try {
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during generating new student key", e);
+        }
+        return 0;
     }
 
     public ResultSet getAllTableData(String tableName) {

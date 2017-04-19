@@ -47,9 +47,7 @@ public class Registration {
             throw new IllegalArgumentException();
         }
 
-        this.fosAtUniversity = new FosAtUniversity(1, university, fieldOfStudy);
-        // TODO unique constraints on university and field of study in fos_at_universities table
-//        this.fosAtUniversity = new FosAtUniversity(university, fieldOfStudy);
+        this.fosAtUniversity = new FosAtUniversity(university, fieldOfStudy);
         this.status = status;
         this.university = this.fosAtUniversity.getUniversity().getName();
     }

@@ -27,6 +27,11 @@ public class FosAtUniversity {
         this.fieldOfStudy = fieldOfStudy;
     }
 
+    FosAtUniversity(University university, FieldOfStudy fieldOfStudy) {
+        this.university = university;
+        this.fieldOfStudy = fieldOfStudy;
+    }
+
     @Override
     public String toString() {
         return fieldOfStudy.getName();

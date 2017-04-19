@@ -20,6 +20,10 @@ public class Utils {
         return new java.sql.Date(parser.parse(date).getTime());
     }
 
+    static java.sql.Date parseDate(java.util.Date date) {
+        return new java.sql.Date(date.getTime());
+    }
+
     public static int countMatches(String string, String pattern) {
         int result = string.indexOf(pattern);
         if (result < 0)

@@ -113,6 +113,20 @@ class PreparedQuery {
 
     static final String deleteRegistrationsByStudentId = "DELETE FROM registrations WHERE student_id = ?;";
 
+    static final String insertStudent = "INSERT INTO students (secondary_school_id, name, surname, birth_at, " +
+            "address, email, phone, zip_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+
+    static final String insertGraduationFromSS = "INSERT INTO graduations_from_ss (student_id, subject_id, " +
+            "graduated_at, mark) VALUES (?, ?, ?, ?);";
+
+    static final String insertAward = "INSERT INTO awards (award_level_id, award_name_id, student_id, awarded_at) " +
+            "VALUES (?, ?, ?, ?);";
+
+    static final String insertGraduation = "INSERT INTO graduations (fos_at_university_id, student_id, started_at, " +
+            "finished_at, graduated) VALUES (?, ?, ?, ?, ?);";
+
+    static final String insertRegistration = "INSERT INTO registrations (fos_at_university_id, student_id, " +
+            "status_id, changed_at) VALUES (?, ?, ?, ?);";
 
     private PreparedQuery() {}
 
