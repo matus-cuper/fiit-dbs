@@ -25,13 +25,23 @@ public class StudentFilter extends Observable {
     private Double averageLower = null;
     private Integer countGreater = null;
     private Integer countLower = null;
+    private boolean changed = false;
 
 
     public StudentFilter() {}
 
     private void change() {
-        setChanged();
-        notifyObservers();
+        if (this.changed) {
+            setChanged();
+            notifyObservers();
+        }
+    }
+
+    private void change(boolean changed) {
+        if (changed) {
+            setChanged();
+            notifyObservers();
+        }
     }
 
     @Override
@@ -46,7 +56,7 @@ public class StudentFilter extends Observable {
 
     public void setName(String name) {
         this.name = name;
-        change();
+        change(true);
     }
 
     public String getSurname() {
@@ -55,7 +65,7 @@ public class StudentFilter extends Observable {
 
     public void setSurname(String surname) {
         this.surname = surname;
-        change();
+        change(true);
     }
 
     @SuppressWarnings("deprecation")
@@ -67,6 +77,7 @@ public class StudentFilter extends Observable {
     public void setBirthAfter(String birthAfter) {
         try {
             this.birthAfter = Utils.parseDate(birthAfter);
+            changed = true;
         } catch (ParseException e) {
             LOG.log(Level.INFO, "Unparseable date " + birthAfter);
             this.birthAfter = null;
@@ -85,6 +96,7 @@ public class StudentFilter extends Observable {
     public void setBirthUntil(String birthUntil) {
         try {
             this.birthUntil = Utils.parseDate(birthUntil);
+            changed = true;
         } catch (ParseException e) {
             LOG.log(Level.INFO, "Unparseable date " + birthUntil);
             this.birthUntil = null;
@@ -94,57 +106,61 @@ public class StudentFilter extends Observable {
         change();
     }
 
-    Double getAverageGreater() {
+    public Double getAverageGreater() {
         return averageGreater != null ? averageGreater : new Double(1.0);
     }
 
     public void setAverageGreater(String averageGreater) {
+        changed = false;
         try {
             this.averageGreater = Double.parseDouble(averageGreater);
+            changed = true;
         } catch (NumberFormatException e) {
-            this.averageGreater = null;
             new ErrorDialog("Unparseable double", "Average must be double");
         }
         change();
     }
 
-    Double getAverageLower() {
+    public Double getAverageLower() {
         return averageLower != null ? averageLower : new Double(5.0);
     }
 
     public void setAverageLower(String averageLower) {
+        changed = false;
         try {
             this.averageLower = Double.parseDouble(averageLower);
+            changed = true;
         } catch (NumberFormatException e) {
-            this.averageLower = null;
             new ErrorDialog("Unparseable double", "Average must be double");
         }
         change();
     }
 
-    Integer getCountGreater() {
+    public Integer getCountGreater() {
         return countGreater != null ? countGreater : new Integer(0);
     }
 
     public void setCountGreater(String countGreater) {
+        changed = false;
         try {
             this.countGreater = Integer.parseInt(countGreater);
+            changed = true;
         } catch (NumberFormatException e) {
-            this.countGreater = null;
             new ErrorDialog("Unparseable integer", "Count must be integer");
         }
         change();
     }
 
-    Integer getCountLower() {
+    public Integer getCountLower() {
         return countLower != null ? countLower : new Integer(Integer.MAX_VALUE);
     }
 
     public void setCountLower(String countLower) {
+        changed = false;
         try {
             this.countLower = Integer.parseInt(countLower);
+            changed = true;
         } catch (NumberFormatException e) {
-            this.countLower = null;
             new ErrorDialog("Unparseable integer", "Count must be integer");
         }
         change();

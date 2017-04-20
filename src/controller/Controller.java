@@ -213,10 +213,28 @@ public class Controller implements Observer {
         surnameField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setSurname(newValue)));
         birthAtAfterField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setBirthAfter(newValue)));
         birthAtUntilField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setBirthUntil(newValue)));
-        marksGreaterField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setAverageGreater(newValue)));
-        marksLowerField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setAverageLower(newValue)));
-        registrationsGreaterField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setCountGreater(newValue)));
-        registrationsLowerField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setCountLower(newValue)));
+
+        marksGreaterField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            filter.setAverageGreater(newValue);
+            if (!String.valueOf(filter.getAverageGreater()).equals(marksGreaterField.getText()))
+                marksGreaterField.setText(oldValue);
+        });
+        marksLowerField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            filter.setAverageLower(newValue);
+            if (!String.valueOf(filter.getAverageLower()).equals(marksLowerField.getText()))
+                marksLowerField.setText(oldValue);
+        });
+
+        registrationsGreaterField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            filter.setCountGreater(newValue);
+            if (!String.valueOf(filter.getCountGreater()).equals(registrationsGreaterField.getText()))
+                registrationsGreaterField.setText(oldValue);
+        });
+        registrationsLowerField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            filter.setCountLower(newValue);
+            if (!String.valueOf(filter.getCountLower()).equals(registrationsLowerField.getText()))
+                registrationsLowerField.setText(oldValue);
+        });
     }
 
     private void initializeColumns() {
