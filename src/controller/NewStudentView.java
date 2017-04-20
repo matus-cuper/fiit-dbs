@@ -64,9 +64,7 @@ public class NewStudentView {
     @FXML
     private TableColumn<Date, GraduationFromSS> secondarySchoolGraduatedAtColumn;
     @FXML
-    private TableColumn<String, Registration> registrationUniversityColumn;
-    @FXML
-    private TableColumn<FosAtUniversity, Registration> registrationFieldOfStudyColumn;
+    private TableColumn<String, Registration> registrationUniversityColumn, registrationFieldOfStudyColumn;
     @FXML
     private TableColumn<Date, Registration> registrationChangedAtColumn;
     @FXML
@@ -78,9 +76,7 @@ public class NewStudentView {
     @FXML
     private TableColumn<Date, Award> awardAwardedAtColumn;
     @FXML
-    private TableColumn<String, Graduation> graduationUniversityColumn;
-    @FXML
-    private TableColumn<FosAtUniversity, Graduation> graduationFieldOfStudyColumn;
+    private TableColumn<String, Graduation> graduationUniversityColumn, graduationFieldOfStudyColumn;
     @FXML
     private TableColumn<Date, Graduation> graduationStartedAtColumn, graduationFinishedAtColumn;
     @FXML
@@ -252,7 +248,7 @@ public class NewStudentView {
         secondarySchoolGraduatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("graduatedAt"));
 
         registrationUniversityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
-        registrationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fosAtUniversity"));
+        registrationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
         registrationChangedAtColumn.setCellValueFactory(new PropertyValueFactory<>("changedAt"));
         registrationStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
@@ -261,7 +257,7 @@ public class NewStudentView {
         awardAwardedAtColumn.setCellValueFactory(new PropertyValueFactory<>("awardedAt"));
 
         graduationUniversityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
-        graduationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fosAtUniversity"));
+        graduationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
         graduationStartedAtColumn.setCellValueFactory(new PropertyValueFactory<>("startedAt"));
         graduationFinishedAtColumn.setCellValueFactory(new PropertyValueFactory<>("finishedAt"));
         graduationGraduatedColumn.setCellValueFactory(new PropertyValueFactory<>("graduated"));

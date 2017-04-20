@@ -17,7 +17,7 @@ public class Graduation {
     private Date finishedAt;
     private Boolean graduated;
     private String university;
-    // TODO add string fieldOfStudy
+    private String fieldOfStudy;
 
 
     Graduation(ResultSet resultSet) throws SQLException {
@@ -49,6 +49,7 @@ public class Graduation {
         this.fosAtUniversity = new FosAtUniversity(university, fieldOfStudy);
         this.graduated = graduated;
         this.university = this.fosAtUniversity.getUniversity().getName();
+        this.fieldOfStudy = this.fosAtUniversity.getFieldOfStudy().getName();
     }
 
     public Integer getId() {
@@ -93,5 +94,9 @@ public class Graduation {
 
     public String getUniversity() {
         return university;
+    }
+
+    public String getFieldOfStudy() {
+        return fieldOfStudy;
     }
 }
