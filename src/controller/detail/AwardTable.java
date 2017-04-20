@@ -5,7 +5,10 @@ import java.util.Date;
 /**
  * Created by Matus Cuper on 9.4.2017.
  *
- * This class represents {@link model.db.Award} in {@link controller.DetailedView}
+ * Represent {@link model.db.Award} in {@link controller.DetailedView}
+ * Class can be replaced after overriding toString on {@link model.db.AwardName}
+ * and {@link model.db.AwardLevel}
+ * Getters have to be listed because of {@link javafx.scene.control.cell.PropertyValueFactory}
  */
 public class AwardTable {
 

@@ -5,7 +5,8 @@ import java.util.Date;
 /**
  * Created by Matus Cuper on 9.4.2017.
  *
- * This class represents {@link model.db.Registration} in {@link controller.DetailedView}
+ * Represent {@link model.db.Registration} in {@link controller.DetailedView}
+ * Getters have to be listed because of {@link javafx.scene.control.cell.PropertyValueFactory}
  */
 public class RegistrationTable extends FieldOfStudyTable {
 

@@ -8,11 +8,14 @@ import java.time.format.DateTimeFormatter;
 /**
  * Created by Matus Cuper on 17.4.2017.
  *
- * This class represents formatter for {@link javafx.scene.control.DatePicker}
+ * Formatter for {@link javafx.scene.control.DatePicker}
+ * Date format in database and whole application is ISO 8601,
+ * DatePicker default is MM/dd/yyyy which is completely unreadable
  */
 public class DatePickerFormatter extends StringConverter<LocalDate> {
 
     private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 
     @Override
     public String toString(LocalDate localDate) {
