@@ -40,6 +40,18 @@ public class Utils {
         return new java.sql.Date(date.getTime());
     }
 
+    public static Double parseDouble(String number) throws NumberFormatException {
+        if (number.equals(""))
+            return null;
+        return Double.parseDouble(number);
+    }
+
+    public static Integer parseInteger(String number) throws NumberFormatException {
+        if (number.equals(""))
+            return null;
+        return Integer.parseInt(number);
+    }
+
     public static java.sql.Date convertDate(LocalDate date) {
         if (date == null)
             throw new IllegalArgumentException();

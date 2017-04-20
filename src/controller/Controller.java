@@ -235,24 +235,40 @@ public class Controller implements Observer {
 
         marksGreaterField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setAverageGreater(newValue);
-            if (!String.valueOf(filter.getAverageGreater()).equals(marksGreaterField.getText()))
-                marksGreaterField.setText(oldValue);
+            try {
+                Utils.parseDouble(newValue);
+            } catch (NumberFormatException e) {
+                if (!newValue.equals(""))
+                    marksGreaterField.setText(oldValue);
+            }
         });
         marksLowerField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setAverageLower(newValue);
-            if (!String.valueOf(filter.getAverageLower()).equals(marksLowerField.getText()))
-                marksLowerField.setText(oldValue);
+            try {
+                Utils.parseDouble(newValue);
+            } catch (NumberFormatException e) {
+                if (!newValue.equals(""))
+                    marksLowerField.setText(oldValue);
+            }
         });
 
         registrationsGreaterField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setCountGreater(newValue);
-            if (!String.valueOf(filter.getCountGreater()).equals(registrationsGreaterField.getText()))
-                registrationsGreaterField.setText(oldValue);
+            try {
+                Utils.parseInteger(newValue);
+            } catch (NumberFormatException e) {
+                if (!newValue.equals(""))
+                    registrationsGreaterField.setText(oldValue);
+            }
         });
         registrationsLowerField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setCountLower(newValue);
-            if (!String.valueOf(filter.getCountLower()).equals(registrationsLowerField.getText()))
-                registrationsLowerField.setText(oldValue);
+            try {
+                Utils.parseInteger(newValue);
+            } catch (NumberFormatException e) {
+                if (!newValue.equals(""))
+                    registrationsLowerField.setText(oldValue);
+            }
         });
     }
 

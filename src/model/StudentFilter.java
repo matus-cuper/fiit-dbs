@@ -101,48 +101,44 @@ public class StudentFilter extends Observable {
         change();
     }
 
-    public Double getAverageGreater() {
+    Double getAverageGreater() {
         return averageGreater != null ? averageGreater : new Double(1.0);
     }
 
     public void setAverageGreater(String averageGreater) {
         changed = false;
         try {
-            if (Double.parseDouble(averageGreater) < 1 || Double.parseDouble(averageGreater) > 5)
-                throw new IllegalArgumentException();
-            this.averageGreater = Double.parseDouble(averageGreater);
+            this.averageGreater = Utils.parseDouble(averageGreater);
             changed = true;
-        } catch (IllegalArgumentException e) {
+        } catch (NumberFormatException e) {
             new ErrorDialog("Unparseable double", "Average must be double between 1 and 5");
         }
         change();
     }
 
-    public Double getAverageLower() {
+    Double getAverageLower() {
         return averageLower != null ? averageLower : new Double(5.0);
     }
 
     public void setAverageLower(String averageLower) {
         changed = false;
         try {
-            if (Double.parseDouble(averageLower) < 1 || Double.parseDouble(averageLower) > 5)
-                throw new IllegalArgumentException();
-            this.averageLower = Double.parseDouble(averageLower);
+            this.averageLower = Utils.parseDouble(averageLower);
             changed = true;
-        } catch (IllegalArgumentException e) {
+        } catch (NumberFormatException e) {
             new ErrorDialog("Unparseable double", "Average must be double between 1 and 5");
         }
         change();
     }
 
-    public Integer getCountGreater() {
+    Integer getCountGreater() {
         return countGreater != null ? countGreater : new Integer(0);
     }
 
     public void setCountGreater(String countGreater) {
         changed = false;
         try {
-            this.countGreater = Integer.parseInt(countGreater);
+            this.countGreater = Utils.parseInteger(countGreater);
             changed = true;
         } catch (NumberFormatException e) {
             new ErrorDialog("Unparseable integer", "Count must be integer");
@@ -150,14 +146,14 @@ public class StudentFilter extends Observable {
         change();
     }
 
-    public Integer getCountLower() {
+    Integer getCountLower() {
         return countLower != null ? countLower : new Integer(Integer.MAX_VALUE);
     }
 
     public void setCountLower(String countLower) {
         changed = false;
         try {
-            this.countLower = Integer.parseInt(countLower);
+            this.countLower = Utils.parseInteger(countLower);
             changed = true;
         } catch (NumberFormatException e) {
             new ErrorDialog("Unparseable integer", "Count must be integer");
