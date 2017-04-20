@@ -18,7 +18,21 @@ public class Utils {
     private Utils() {}
 
     @SuppressWarnings("deprecation")
-    static java.sql.Date parseDate(String date) throws ParseException {
+    public static java.sql.Date parseDate(String date) throws ParseException {
+        if (date.equals(""))
+            return null;
+        try {
+            return new java.sql.Date(parser.parse(date).getTime());
+        } catch (ParseException e) {
+            if (date.matches("[0-9]+-[0-9]+-"))
+                return new java.sql.Date(parser.parse(date + "01").getTime());
+            if (date.matches("[0-9]+-[0-9]+"))
+                return new java.sql.Date(parser.parse(date + "-01").getTime());
+            if (date.matches("[0-9]+-"))
+                return new java.sql.Date(parser.parse(date + "01-01").getTime());
+            if (date.matches("[0-9]+"))
+                return new java.sql.Date(parser.parse(date + "-01-01").getTime());
+        }
         return new java.sql.Date(parser.parse(date).getTime());
     }
 

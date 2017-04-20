@@ -5,7 +5,6 @@ import view.ErrorDialog;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.Observable;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -75,14 +74,12 @@ public class StudentFilter extends Observable {
     }
 
     public void setBirthAfter(String birthAfter) {
+        changed = false;
         try {
             this.birthAfter = Utils.parseDate(birthAfter);
             changed = true;
         } catch (ParseException e) {
-            LOG.log(Level.INFO, "Unparseable date " + birthAfter);
-            this.birthAfter = null;
-            // TODO show warning
-            // TODO add date completion
+            new ErrorDialog("Unparseable date", "Date must be in yyyy-MM-dd format");
         }
         change();
     }
@@ -94,14 +91,12 @@ public class StudentFilter extends Observable {
     }
 
     public void setBirthUntil(String birthUntil) {
+        changed = false;
         try {
             this.birthUntil = Utils.parseDate(birthUntil);
             changed = true;
         } catch (ParseException e) {
-            LOG.log(Level.INFO, "Unparseable date " + birthUntil);
-            this.birthUntil = null;
-            // TODO show warning
-            // TODO add date completion
+            new ErrorDialog("Unparseable date", "Date must be in yyyy-MM-dd format");
         }
         change();
     }
@@ -113,10 +108,12 @@ public class StudentFilter extends Observable {
     public void setAverageGreater(String averageGreater) {
         changed = false;
         try {
+            if (Double.parseDouble(averageGreater) < 1 || Double.parseDouble(averageGreater) > 5)
+                throw new IllegalArgumentException();
             this.averageGreater = Double.parseDouble(averageGreater);
             changed = true;
-        } catch (NumberFormatException e) {
-            new ErrorDialog("Unparseable double", "Average must be double");
+        } catch (IllegalArgumentException e) {
+            new ErrorDialog("Unparseable double", "Average must be double between 1 and 5");
         }
         change();
     }
@@ -128,10 +125,12 @@ public class StudentFilter extends Observable {
     public void setAverageLower(String averageLower) {
         changed = false;
         try {
+            if (Double.parseDouble(averageLower) < 1 || Double.parseDouble(averageLower) > 5)
+                throw new IllegalArgumentException();
             this.averageLower = Double.parseDouble(averageLower);
             changed = true;
-        } catch (NumberFormatException e) {
-            new ErrorDialog("Unparseable double", "Average must be double");
+        } catch (IllegalArgumentException e) {
+            new ErrorDialog("Unparseable double", "Average must be double between 1 and 5");
         }
         change();
     }

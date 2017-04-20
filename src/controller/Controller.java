@@ -13,10 +13,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.DatabaseConnection;
 import model.StudentFilter;
+import model.Utils;
 import model.db.Student;
 import view.InformationDialog;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -211,8 +213,25 @@ public class Controller implements Observer {
     private void initializeListeners() {
         nameField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setName(newValue)));
         surnameField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setSurname(newValue)));
-        birthAtAfterField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setBirthAfter(newValue)));
-        birthAtUntilField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setBirthUntil(newValue)));
+
+        birthAtAfterField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            filter.setBirthAfter(newValue);
+            try {
+                Utils.parseDate(newValue);
+            } catch (ParseException e) {
+                if (!newValue.equals(""))
+                    birthAtAfterField.setText(oldValue);
+            }
+        });
+        birthAtUntilField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            filter.setBirthUntil(newValue);
+            try {
+                Utils.parseDate(newValue);
+            } catch (ParseException e) {
+                if (!newValue.equals(""))
+                    birthAtUntilField.setText(oldValue);
+            }
+        });
 
         marksGreaterField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setAverageGreater(newValue);
