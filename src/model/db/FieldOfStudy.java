@@ -19,7 +19,7 @@ public class FieldOfStudy {
         this.name = resultSet.getString("name");
     }
 
-    public FieldOfStudy(Integer id, String name) {
+    FieldOfStudy(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

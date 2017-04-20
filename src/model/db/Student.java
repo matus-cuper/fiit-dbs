@@ -147,10 +147,6 @@ public class Student {
         return secondarySchool;
     }
 
-    public void setSecondarySchool(SecondarySchool secondarySchool) {
-        this.secondarySchool = secondarySchool;
-    }
-
     public String getName() {
         return name;
     }
@@ -169,10 +165,6 @@ public class Student {
 
     public Date getBirthAt() {
         return birthAt;
-    }
-
-    public void setBirthAt(Date birthAt) {
-        this.birthAt = birthAt;
     }
 
     public String getAddress() {
@@ -195,56 +187,28 @@ public class Student {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getZipCode() {
         return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
     }
 
     public Double getMarksAverage() {
         return marksAverage;
     }
 
-    public void setMarksAverage(Double marksAverage) {
-        this.marksAverage = marksAverage;
-    }
-
     public Integer getAwardsCount() {
         return awardsCount;
-    }
-
-    public void setAwardsCount(Integer awardsCount) {
-        this.awardsCount = awardsCount;
     }
 
     public Integer getRegistrationsCount() {
         return registrationsCount;
     }
 
-    public void setRegistrationsCount(Integer registrationsCount) {
-        this.registrationsCount = registrationsCount;
-    }
-
     public Integer getGraduationsCountAll() {
         return graduationsCountAll;
     }
 
-    public void setGraduationsCountAll(Integer graduationsCountAll) {
-        this.graduationsCountAll = graduationsCountAll;
-    }
-
     public Integer getGraduationsCountSuccess() {
         return graduationsCountSuccess;
-    }
-
-    public void setGraduationsCountSuccess(Integer graduationsCountSuccess) {
-        this.graduationsCountSuccess = graduationsCountSuccess;
     }
 
     public List<Award> getAwards() {

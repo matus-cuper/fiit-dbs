@@ -47,9 +47,6 @@ public class NewStudentView {
     private DatePicker graduationFromSSGraduatedAtPicker, registrationChangedAtPicker, awardAwardedAtPicker,
             graduationStartedAtPicker, graduationFinishedAtPicker, birthAtPicker;
     @FXML
-    private Button addStudentButton, graduationFromSSAddButton, graduationFromSSRemoveButton, registrationAddButton,
-            registrationRemoveButton, awardAddButton, awardRemoveButton, graduationAddButton, graduationRemoveButton;
-    @FXML
     private TableView<GraduationFromSS> graduationsFromSSTableView;
     @FXML
     private TableView<Registration> registrationsTableView;
@@ -87,13 +84,6 @@ public class NewStudentView {
     @FXML
     private CheckBox graduationGraduatedCheck;
 
-    private ObservableList<SecondarySchool> secondarySchoolsData;
-    private ObservableList<Subject> subjectsData;
-    private ObservableList<Status> statusesData;
-    private ObservableList<University> universitiesData;
-    private ObservableList<FieldOfStudy> fieldsOfStudyData;
-    private ObservableList<AwardName> awardNamesData;
-    private ObservableList<AwardLevel> awardLevelsData;
     private ObservableList<GraduationFromSS> graduationsFromSSData;
     private ObservableList<Registration> registrationsData;
     private ObservableList<Award> awardsData;
@@ -220,13 +210,13 @@ public class NewStudentView {
     }
 
     private void setCombos() {
-        secondarySchoolsData = FXCollections.observableArrayList(getSecondarySchools());
-        subjectsData = FXCollections.observableArrayList(getSubjects());
-        statusesData = FXCollections.observableArrayList(getStatuses());
-        universitiesData = FXCollections.observableArrayList(getUniversities());
-        fieldsOfStudyData = FXCollections.observableArrayList(getFieldOfStudies());
-        awardNamesData = FXCollections.observableArrayList(getAwardNames());
-        awardLevelsData = FXCollections.observableArrayList(getAwardLevels());
+        ObservableList<SecondarySchool> secondarySchoolsData = FXCollections.observableArrayList(getSecondarySchools());
+        ObservableList<Subject> subjectsData = FXCollections.observableArrayList(getSubjects());
+        ObservableList<Status> statusesData = FXCollections.observableArrayList(getStatuses());
+        ObservableList<University> universitiesData = FXCollections.observableArrayList(getUniversities());
+        ObservableList<FieldOfStudy> fieldsOfStudyData = FXCollections.observableArrayList(getFieldOfStudies());
+        ObservableList<AwardName> awardNamesData = FXCollections.observableArrayList(getAwardNames());
+        ObservableList<AwardLevel> awardLevelsData = FXCollections.observableArrayList(getAwardLevels());
 
         secondarySchoolCombo.setItems(secondarySchoolsData);
         graduationFromSSSubjectCombo.setItems(subjectsData);

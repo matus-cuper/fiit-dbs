@@ -24,13 +24,6 @@ public class GraduationFromSS {
         this.mark = resultSet.getInt("mark");
     }
 
-    public GraduationFromSS(Integer id, Subject subject, Date graduatedAt, Integer mark) {
-        this.id = id;
-        this.subject = subject;
-        this.graduatedAt = graduatedAt;
-        this.mark = mark;
-    }
-
     public GraduationFromSS(Subject subject, String mark, Date graduatedAt) throws IllegalArgumentException {
         if (subject == null || mark == null || graduatedAt == null)
             throw new IllegalArgumentException();
@@ -59,16 +52,8 @@ public class GraduationFromSS {
         return subject;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-
     public Date getGraduatedAt() {
         return graduatedAt;
-    }
-
-    public void setGraduatedAt(Date graduatedAt) {
-        this.graduatedAt = graduatedAt;
     }
 
     public Integer getMark() {

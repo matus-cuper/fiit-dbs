@@ -7,13 +7,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.db.*;
+import model.db.Student;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Created by Matus Cuper on 8.4.2017.
@@ -103,42 +104,28 @@ public class DetailedView {
     }
 
     private List<SecondarySchoolTable> getGraduationsFromSS() {
-        List<SecondarySchoolTable> secondarySchools = new LinkedList<>();
-        for (GraduationFromSS graduation : student.getGraduationsFromSS())
-            secondarySchools.add(new SecondarySchoolTable(student.getSecondarySchool().getName(),
-                    student.getSecondarySchool().getAddress(), graduation.getSubject().getName(), graduation.getMark(), graduation.getGraduatedAt()));
-
-        return secondarySchools;
+        return student.getGraduationsFromSS().stream().map(graduation -> new SecondarySchoolTable(student.getSecondarySchool().getName(),
+                student.getSecondarySchool().getAddress(), graduation.getSubject().getName(), graduation.getMark(),
+                graduation.getGraduatedAt())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private List<AwardTable> getAwards() {
-        List<AwardTable> awards = new LinkedList<>();
-        for (Award award : student.getAwards())
-            awards.add(new AwardTable(award.getAwardName().getName(), award.getAwardLevel().getName(), award.getAwardedAt()));
-
-        return awards;
+        return student.getAwards().stream().map(award -> new AwardTable(award.getAwardName().getName(),
+                award.getAwardLevel().getName(), award.getAwardedAt())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private List<GraduationTable> getGraduations() {
-        List<GraduationTable> graduations = new LinkedList<>();
-        for (Graduation graduation : student.getGraduations())
-            graduations.add(new GraduationTable(graduation.getFosAtUniversity().getUniversity().getName(),
-                    graduation.getFosAtUniversity().getUniversity().getAddress(),
-                    graduation.getFosAtUniversity().getFieldOfStudy().getName(),
-                    graduation.getStartedAt(), graduation.getFinishedAt(), graduation.isGraduated()));
-
-        return graduations;
+        return student.getGraduations().stream().map(graduation -> new GraduationTable(graduation.getFosAtUniversity().getUniversity().getName(),
+                graduation.getFosAtUniversity().getUniversity().getAddress(),
+                graduation.getFosAtUniversity().getFieldOfStudy().getName(), graduation.getStartedAt(),
+                graduation.getFinishedAt(), graduation.isGraduated())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private List<RegistrationTable> getRegistrations() {
-        List<RegistrationTable> registrations = new LinkedList<>();
-        for (Registration registration : student.getRegistrations())
-            registrations.add(new RegistrationTable(registration.getFosAtUniversity().getUniversity().getName(),
-                    registration.getFosAtUniversity().getUniversity().getAddress(),
-                    registration.getFosAtUniversity().getFieldOfStudy().getName(), registration.getChangedAt(),
-                    registration.getStatus().getName()));
-
-        return registrations;
+        return student.getRegistrations().stream().map(registration -> new RegistrationTable(registration.getFosAtUniversity().getUniversity().getName(),
+                registration.getFosAtUniversity().getUniversity().getAddress(),
+                registration.getFosAtUniversity().getFieldOfStudy().getName(), registration.getChangedAt(),
+                registration.getStatus().getName())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private void initializeColumns() {

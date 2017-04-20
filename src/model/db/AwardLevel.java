@@ -19,7 +19,7 @@ public class AwardLevel {
         this.name = resultSet.getString("name");
     }
 
-    public AwardLevel(Integer id, String name) {
+    AwardLevel(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

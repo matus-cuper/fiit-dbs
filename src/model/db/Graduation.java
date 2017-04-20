@@ -28,14 +28,6 @@ public class Graduation {
         this.graduated = resultSet.getBoolean("graduated");
     }
 
-    public Graduation(Integer id, FosAtUniversity fosAtUniversity, Date startedAt, Date finishedAt, Boolean graduated) {
-        this.id = id;
-        this.fosAtUniversity = fosAtUniversity;
-        this.startedAt = startedAt;
-        this.finishedAt = finishedAt;
-        this.graduated = graduated;
-    }
-
     public Graduation(University university, FieldOfStudy fieldOfStudy, Date startedAt, Date finishedAt,
                       boolean graduated) throws IllegalArgumentException {
         if (university == null || fieldOfStudy == null || startedAt == null || finishedAt == null)
@@ -64,24 +56,12 @@ public class Graduation {
         return fosAtUniversity;
     }
 
-    public void setFosAtUniversity(FosAtUniversity fosAtUniversity) {
-        this.fosAtUniversity = fosAtUniversity;
-    }
-
     public Date getStartedAt() {
         return startedAt;
     }
 
-    public void setStartedAt(Date startedAt) {
-        this.startedAt = startedAt;
-    }
-
     public Date getFinishedAt() {
         return finishedAt;
-    }
-
-    public void setFinishedAt(Date finishedAt) {
-        this.finishedAt = finishedAt;
     }
 
     public Boolean isGraduated() {

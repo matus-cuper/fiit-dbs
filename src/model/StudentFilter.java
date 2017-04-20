@@ -5,7 +5,6 @@ import view.ErrorDialog;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.Observable;
-import java.util.logging.Logger;
 
 /**
  * Created by Matus Cuper on 12.4.2017.
@@ -13,8 +12,6 @@ import java.util.logging.Logger;
  * This class represents filters applied on query
  */
 public class StudentFilter extends Observable {
-
-    private static final Logger LOG = Logger.getLogger(StudentFilter.class.getName());
 
     private String name = null;
     private String surname = null;

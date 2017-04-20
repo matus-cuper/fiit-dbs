@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Created by Matus Cuper on 17.4.2017.
@@ -48,9 +49,6 @@ public class UpdateStudentView {
     @FXML
     private DatePicker graduationFromSSGraduatedAtPicker, registrationChangedAtPicker, awardAwardedAtPicker,
             graduationStartedAtPicker, graduationFinishedAtPicker, birthAtPicker;
-    @FXML
-    private Button updateStudentButton, graduationFromSSAddButton, graduationFromSSRemoveButton, registrationAddButton,
-            registrationRemoveButton, awardAddButton, awardRemoveButton, graduationAddButton, graduationRemoveButton;
     @FXML
     private TableView<GraduationFromSS> graduationsFromSSTableView;
     @FXML
@@ -89,13 +87,6 @@ public class UpdateStudentView {
     @FXML
     private CheckBox graduationGraduatedCheck;
 
-    private ObservableList<SecondarySchool> secondarySchoolsData;
-    private ObservableList<Subject> subjectsData;
-    private ObservableList<Status> statusesData;
-    private ObservableList<University> universitiesData;
-    private ObservableList<FieldOfStudy> fieldsOfStudyData;
-    private ObservableList<AwardName> awardNamesData;
-    private ObservableList<AwardLevel> awardLevelsData;
     private ObservableList<GraduationFromSS> graduationsFromSSData;
     private ObservableList<Registration> registrationsData;
     private ObservableList<Award> awardsData;
@@ -222,13 +213,13 @@ public class UpdateStudentView {
     }
 
     private void setCombos() {
-        secondarySchoolsData = FXCollections.observableArrayList(getSecondarySchools());
-        subjectsData = FXCollections.observableArrayList(getSubjects());
-        statusesData = FXCollections.observableArrayList(getStatuses());
-        universitiesData = FXCollections.observableArrayList(getUniversities());
-        fieldsOfStudyData = FXCollections.observableArrayList(getFieldOfStudies());
-        awardNamesData = FXCollections.observableArrayList(getAwardNames());
-        awardLevelsData = FXCollections.observableArrayList(getAwardLevels());
+        ObservableList<SecondarySchool> secondarySchoolsData = FXCollections.observableArrayList(getSecondarySchools());
+        ObservableList<Subject> subjectsData = FXCollections.observableArrayList(getSubjects());
+        ObservableList<Status> statusesData = FXCollections.observableArrayList(getStatuses());
+        ObservableList<University> universitiesData = FXCollections.observableArrayList(getUniversities());
+        ObservableList<FieldOfStudy> fieldsOfStudyData = FXCollections.observableArrayList(getFieldOfStudies());
+        ObservableList<AwardName> awardNamesData = FXCollections.observableArrayList(getAwardNames());
+        ObservableList<AwardLevel> awardLevelsData = FXCollections.observableArrayList(getAwardLevels());
 
         secondarySchoolCombo.setItems(secondarySchoolsData);
         graduationFromSSSubjectCombo.setItems(subjectsData);
@@ -354,40 +345,25 @@ public class UpdateStudentView {
     }
 
     private List<GraduationFromSS> getGraduationsFromSS() {
-        List<GraduationFromSS> graduations = new LinkedList<>();
-        for (GraduationFromSS graduation : student.getGraduationsFromSS())
-            graduations.add(new GraduationFromSS(graduation.getSubject(), graduation.getMark().toString(),
-                    graduation.getGraduatedAt()));
-
-        return graduations;
+        return student.getGraduationsFromSS().stream().map(graduation -> new GraduationFromSS(graduation.getSubject(),
+                graduation.getMark().toString(), graduation.getGraduatedAt())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private List<Award> getAwards() {
-        List<Award> awards = new LinkedList<>();
-        for (Award award : student.getAwards())
-            awards.add(new Award(award.getAwardName(), award.getAwardLevel(), award.getAwardedAt()));
-
-        return awards;
+        return student.getAwards().stream().map(award -> new Award(award.getAwardName(), award.getAwardLevel(),
+                award.getAwardedAt())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private List<Graduation> getGraduations() {
-        List<Graduation> graduations = new LinkedList<>();
-        for (Graduation graduation : student.getGraduations())
-            graduations.add(new Graduation(graduation.getFosAtUniversity().getUniversity(),
-                            graduation.getFosAtUniversity().getFieldOfStudy(), graduation.getStartedAt(),
-                    graduation.getFinishedAt(), graduation.isGraduated()));
-
-        return graduations;
+        return student.getGraduations().stream().map(graduation -> new Graduation(graduation.getFosAtUniversity().getUniversity(),
+                graduation.getFosAtUniversity().getFieldOfStudy(), graduation.getStartedAt(),
+                graduation.getFinishedAt(), graduation.isGraduated())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private List<Registration> getRegistrations() {
-        List<Registration> registrations = new LinkedList<>();
-        for (Registration registration : student.getRegistrations())
-            registrations.add(new Registration(registration.getFosAtUniversity().getUniversity(),
-                    registration.getFosAtUniversity().getFieldOfStudy(), registration.getChangedAt(),
-                    registration.getStatus()));
-
-        return registrations;
+        return student.getRegistrations().stream().map(registration -> new Registration(registration.getFosAtUniversity().getUniversity(),
+                registration.getFosAtUniversity().getFieldOfStudy(), registration.getChangedAt(),
+                registration.getStatus())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     void setAncestor(Controller ancestor) {

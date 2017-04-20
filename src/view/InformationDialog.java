@@ -14,7 +14,6 @@ public class InformationDialog {
         JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.INFORMATION_MESSAGE);
     }
 
-
     public InformationDialog(List<String> messages) {
         StringBuilder message = new StringBuilder();
         for (String m : messages) {

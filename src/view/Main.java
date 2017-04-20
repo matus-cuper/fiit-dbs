@@ -9,11 +9,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 public class Main extends Application {
-
-    private static final Logger LOG = Logger.getLogger(Main.class.getName());
 
     private Controller controller;
 

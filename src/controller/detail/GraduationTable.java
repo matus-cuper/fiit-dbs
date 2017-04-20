@@ -26,16 +26,8 @@ public class GraduationTable extends FieldOfStudyTable {
         return startedAt;
     }
 
-    public void setStartedAt(Date startedAt) {
-        this.startedAt = startedAt;
-    }
-
     public Date getFinishedAt() {
         return finishedAt;
-    }
-
-    public void setFinishedAt(Date finishedAt) {
-        this.finishedAt = finishedAt;
     }
 
     public Boolean getGraduated() {

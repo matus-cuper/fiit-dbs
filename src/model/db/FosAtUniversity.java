@@ -21,12 +21,6 @@ public class FosAtUniversity {
         this.fieldOfStudy = new FieldOfStudy(resultSet.getInt("field_of_study_id"), resultSet.getString("field_of_study_name"));
     }
 
-    FosAtUniversity(Integer id, University university, FieldOfStudy fieldOfStudy) {
-        this.id = id;
-        this.university = university;
-        this.fieldOfStudy = fieldOfStudy;
-    }
-
     FosAtUniversity(University university, FieldOfStudy fieldOfStudy) {
         this.university = university;
         this.fieldOfStudy = fieldOfStudy;
@@ -50,9 +44,5 @@ public class FosAtUniversity {
 
     public FieldOfStudy getFieldOfStudy() {
         return fieldOfStudy;
-    }
-
-    public void setFieldOfStudy(FieldOfStudy fieldOfStudy) {
-        this.fieldOfStudy = fieldOfStudy;
     }
 }

@@ -23,15 +23,7 @@ public class RegistrationTable extends FieldOfStudyTable {
         return changedAt;
     }
 
-    public void setChangedAt(Date changedAt) {
-        this.changedAt = changedAt;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

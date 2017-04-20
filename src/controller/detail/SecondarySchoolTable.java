@@ -45,10 +45,6 @@ public class SecondarySchoolTable {
         return subject;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
     public Integer getMark() {
         return mark;
     }
@@ -59,9 +55,5 @@ public class SecondarySchoolTable {
 
     public Date getGraduatedAt() {
         return graduatedAt;
-    }
-
-    public void setGraduatedAt(Date graduatedAt) {
-        this.graduatedAt = graduatedAt;
     }
 }

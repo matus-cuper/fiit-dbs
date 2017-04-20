@@ -25,13 +25,6 @@ public class Registration {
         this.changedAt = resultSet.getDate("changed_at");
     }
 
-    public Registration(Integer id, FosAtUniversity fosAtUniversity, Status status, Date changedAt) {
-        this.id = id;
-        this.fosAtUniversity = fosAtUniversity;
-        this.status = status;
-        this.changedAt = changedAt;
-    }
-
     public Registration(University university, FieldOfStudy fieldOfStudy, Date changedAt, Status status)
             throws IllegalArgumentException {
         if (university == null || fieldOfStudy == null || changedAt == null || status == null)
@@ -55,24 +48,12 @@ public class Registration {
         return fosAtUniversity;
     }
 
-    public void setFosAtUniversity(FosAtUniversity fosAtUniversity) {
-        this.fosAtUniversity = fosAtUniversity;
-    }
-
     public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public Date getChangedAt() {
         return changedAt;
-    }
-
-    public void setChangedAt(Date changedAt) {
-        this.changedAt = changedAt;
     }
 
     public String getUniversity() {

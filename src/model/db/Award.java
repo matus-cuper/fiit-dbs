@@ -52,23 +52,11 @@ public class Award {
         return awardLevel;
     }
 
-    public void setAwardLevel(AwardLevel awardLevel) {
-        this.awardLevel = awardLevel;
-    }
-
     public AwardName getAwardName() {
         return awardName;
     }
 
-    public void setAwardName(AwardName awardName) {
-        this.awardName = awardName;
-    }
-
     public Date getAwardedAt() {
         return awardedAt;
-    }
-
-    public void setAwardedAt(Date awardedAt) {
-        this.awardedAt = awardedAt;
     }
 }

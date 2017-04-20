@@ -31,13 +31,13 @@ public class DatabaseConnection extends Thread {
     private int actualOffset = 0;
     private final int windowSize = 100;
 
+
     public void run() {
         initialize();
         tableSize = countRows("students");
         filter = new StudentFilter();
         connectionReady = true;
     }
-    // TODO unify table classes setters
 
     /**
      * Created connection to database given by connect String
@@ -411,22 +411,6 @@ public class DatabaseConnection extends Thread {
 
     public boolean isConnectionReady() {
         return connectionReady;
-    }
-
-    public int getTableSize() {
-        return tableSize;
-    }
-
-    public int getActualOffset() {
-        return actualOffset;
-    }
-
-    public int getWindowSize() {
-        return windowSize;
-    }
-
-    public StudentFilter getFilter() {
-        return filter;
     }
 
     public void setFilter(StudentFilter filter) {

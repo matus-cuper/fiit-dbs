@@ -19,7 +19,7 @@ public class AwardName {
         this.name = resultSet.getString("name");
     }
 
-    public AwardName(Integer id, String name) {
+    AwardName(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

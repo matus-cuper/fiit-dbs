@@ -32,15 +32,7 @@ public class AwardTable {
         return level;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
     public Date getAwardedAt() {
         return awardedAt;
-    }
-
-    public void setAwardedAt(Date awardedAt) {
-        this.awardedAt = awardedAt;
     }
 }
