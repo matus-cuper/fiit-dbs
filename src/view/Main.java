@@ -10,6 +10,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Execute JavaFX application and handle
+ * releasing resource after finished work
+ */
 public class Main extends Application {
 
     private Controller controller;
