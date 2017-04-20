@@ -182,8 +182,10 @@ public class UpdateStudentView {
 
     @FXML
     public void handleUpdateStudentButton() {
+
+        Student student = null;
         try {
-            Student student = new Student(this.student.getId(), secondarySchoolCombo.getValue(), nameField.getText(),
+            student = new Student(this.student.getId(), secondarySchoolCombo.getValue(), nameField.getText(),
                     surnameField.getText(), Utils.convertDate(birthAtPicker.getValue()), addressField.getText(),
                     emailField.getText(), phoneField.getText(), zipCodeField.getText());
             if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
@@ -193,10 +195,6 @@ public class UpdateStudentView {
             student.setRegistrations(registrationsData);
             student.setAwards(awardsData);
             student.setGraduations(graduationsData);
-
-            ancestor.getDatabaseConnection().updateStudent(student);
-            new InformationDialog("Added student " + student.getName() + " " + student.getSurname() + " with ID " +
-                    student.getId());
         } catch (IllegalArgumentException e) {
             new ErrorDialog("Cannot add student", "Null values are forbidden (except secondary school)\n" +
                     "Email address must contain . after @\n" +
@@ -205,6 +203,13 @@ public class UpdateStudentView {
                     "Date of birth must be before any other date\n" +
                     "Maximum length is name(30), surname(30), address(80),\n" +
                     "email(70), phone(15) and zipCode(5)");
+        }
+
+        if (student != null) {
+            ancestor.getDatabaseConnection().updateStudent(student);
+            new InformationDialog("Added student " + student.getName() + " " + student.getSurname() + " with ID " +
+                    student.getId());
+            ancestor.updateTableData();
         }
     }
 

@@ -202,6 +202,7 @@ public class NewStudentView {
             ancestor.getDatabaseConnection().insertStudent(student);
             new InformationDialog("Added student " + student.getName() + " " +
                     student.getSurname() + " with ID " + student.getId());
+            ancestor.updateTableData();
         }
     }
 

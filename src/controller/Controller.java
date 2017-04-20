@@ -198,7 +198,7 @@ public class Controller implements Observer {
         }
     }
 
-    private void updateTableData() {
+    void updateTableData() {
         tableData = FXCollections.observableArrayList(databaseConnection.getStudents());
         mainTableView.setItems(tableData);
     }
