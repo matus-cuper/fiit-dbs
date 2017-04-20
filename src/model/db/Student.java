@@ -97,8 +97,17 @@ public class Student {
     public Student(SecondarySchool secondarySchool, String name, String surname, Date birthAt, String address,
                    String email, String phone, String zipCode) throws IllegalArgumentException {
 
+        name = Utils.removeWhitespaces(name);
+        surname = Utils.removeWhitespaces(surname);
+        email = Utils.removeWhitespaces(email);
+        phone = Utils.removeWhitespaces(phone);
+        zipCode = Utils.removeWhitespaces(zipCode);
+
         if (name == null || surname == null || birthAt == null || address == null ||
                 email == null || phone == null || zipCode == null)
+            throw new IllegalArgumentException();
+
+        if (!Utils.containOnlyLetters(name) || !Utils.containOnlyLetters(surname))
             throw new IllegalArgumentException();
 
         if (name.length() > 30 || surname.length() > 30 || address.length() > 80 || email.length() > 70)
@@ -108,13 +117,11 @@ public class Student {
                 Utils.countMatches(email.substring(email.lastIndexOf("@") + 1), ".") != 1)
             throw new IllegalArgumentException();
 
-        phone = Utils.removeWhitespaces(phone);
         if (!phone.startsWith("+") ||
                 !Utils.containOnlyNumbers(phone.substring(1)) ||
                 phone.length() > 15)
             throw new IllegalArgumentException();
 
-        zipCode = Utils.removeWhitespaces(zipCode);
         if (!Utils.containOnlyNumbers(zipCode) || zipCode.length() != 5)
             throw new IllegalArgumentException();
 

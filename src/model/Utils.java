@@ -27,6 +27,8 @@ public class Utils {
     }
 
     public static java.sql.Date convertDate(LocalDate date) {
+        if (date == null)
+            throw new IllegalArgumentException();
         return Date.valueOf(date);
     }
 
@@ -40,6 +42,10 @@ public class Utils {
 
     public static boolean containOnlyNumbers(String string) {
         return string.matches("[0-9]+");
+    }
+
+    public static boolean containOnlyLetters(String string) {
+        return string.matches("[a-zA-Z]+");
     }
 
     public static String removeWhitespaces(String string) {

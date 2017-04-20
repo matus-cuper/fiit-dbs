@@ -214,9 +214,10 @@ public class DatabaseConnection extends Thread {
                 studentId = getReturnedId(studentStatement.getGeneratedKeys());
 
             if (studentId > 0) {
+                student.setId(studentId);
                 for (GraduationFromSS graduation : student.getGraduationsFromSS()) {
                     PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertGraduationFromSS);
-                    statement.setInt(1, studentId);
+                    statement.setInt(1, student.getId());
                     statement.setInt(2, graduation.getSubject().getId());
                     statement.setDate(3, Utils.parseDate(graduation.getGraduatedAt()));
                     statement.setInt(4, graduation.getMark());
@@ -227,7 +228,7 @@ public class DatabaseConnection extends Thread {
                     PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertAward);
                     statement.setInt(1, award.getAwardLevel().getId());
                     statement.setInt(2, award.getAwardName().getId());
-                    statement.setInt(3, studentId);
+                    statement.setInt(3, student.getId());
                     statement.setDate(4, Utils.parseDate(award.getAwardedAt()));
                     statements.add(statement);
                 }
@@ -236,7 +237,7 @@ public class DatabaseConnection extends Thread {
                     graduation.getFosAtUniversity().setId(getFosAtUniversityId(graduation.getFosAtUniversity()));
                     PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertGraduation);
                     statement.setInt(1, graduation.getFosAtUniversity().getId());
-                    statement.setInt(2, studentId);
+                    statement.setInt(2, student.getId());
                     statement.setDate(3, Utils.parseDate(graduation.getStartedAt()));
                     statement.setDate(4, Utils.parseDate(graduation.getFinishedAt()));
                     statement.setBoolean(5, graduation.isGraduated());
@@ -247,7 +248,7 @@ public class DatabaseConnection extends Thread {
                     registration.getFosAtUniversity().setId(getFosAtUniversityId(registration.getFosAtUniversity()));
                     PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertRegistration);
                     statement.setInt(1, registration.getFosAtUniversity().getId());
-                    statement.setInt(2, studentId);
+                    statement.setInt(2, student.getId());
                     statement.setInt(3, registration.getStatus().getId());
                     statement.setDate(4, Utils.parseDate(registration.getChangedAt()));
                     statements.add(statement);
@@ -258,7 +259,7 @@ public class DatabaseConnection extends Thread {
                 statement.executeUpdate();
 
             connection.commit();
-            LOG.log(Level.INFO, "Inserting student " + studentId);
+            LOG.log(Level.INFO, "Inserting student " + student.getId());
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Error occurred during inserting student information", e);
         } finally {
