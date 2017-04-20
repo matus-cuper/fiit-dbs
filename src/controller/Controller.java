@@ -59,18 +59,18 @@ public class Controller implements Observer {
     public void handlePreviousButton() {
         nextButton.setDisable(false);
         databaseConnection.previousWindow();
+        updateTableData();
         if (databaseConnection.firstWindow())
             previousButton.setDisable(true);
-        updateTableData();
     }
 
     @FXML
     public void handleNextButton() {
         previousButton.setDisable(false);
         databaseConnection.nextWindow();
+        updateTableData();
         if (databaseConnection.lastWindow())
             nextButton.setDisable(true);
-        updateTableData();
     }
 
     @FXML
