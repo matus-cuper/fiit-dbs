@@ -64,8 +64,8 @@ class PreparedQuery {
 
     static final String studentById = "SELECT s.*, ss.name AS secondary_school_name, ss.address AS secondary_school_address\n" +
                 "FROM students s \n" +
-                "JOIN secondary_schools ss ON s.secondary_school_id = ss.secondary_school_id\n" +
-                "WHERE student_id = ?;";
+                "LEFT JOIN secondary_schools ss ON s.secondary_school_id = ss.secondary_school_id\n" +
+                "WHERE s.student_id = ?;";
 
     static final String graduationsFromSSByStudent = "SELECT gss.*, s.name\n" +
                 "FROM graduations_from_ss gss\n" +

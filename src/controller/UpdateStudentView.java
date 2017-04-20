@@ -182,10 +182,8 @@ public class UpdateStudentView {
 
     @FXML
     public void handleUpdateStudentButton() {
-
-        Student student = null;
         try {
-            student = new Student(this.student.getId(), secondarySchoolCombo.getValue(), nameField.getText(),
+            Student student = new Student(this.student.getId(), secondarySchoolCombo.getValue(), nameField.getText(),
                     surnameField.getText(), Utils.convertDate(birthAtPicker.getValue()), addressField.getText(),
                     emailField.getText(), phoneField.getText(), zipCodeField.getText());
             if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
@@ -195,6 +193,11 @@ public class UpdateStudentView {
             student.setRegistrations(registrationsData);
             student.setAwards(awardsData);
             student.setGraduations(graduationsData);
+
+            ancestor.getDatabaseConnection().updateStudent(student);
+            new InformationDialog("Added student " + student.getName() + " " + student.getSurname() + " with ID " +
+                    student.getId());
+            ancestor.updateTableData();
         } catch (IllegalArgumentException e) {
             new ErrorDialog("Cannot add student", "Null values are forbidden (except secondary school)\n" +
                     "Email address must contain . after @\n" +
@@ -203,13 +206,6 @@ public class UpdateStudentView {
                     "Date of birth must be before any other date\n" +
                     "Maximum length is name(30), surname(30), address(80),\n" +
                     "email(70), phone(15) and zipCode(5)");
-        }
-
-        if (student != null) {
-            ancestor.getDatabaseConnection().updateStudent(student);
-            new InformationDialog("Added student " + student.getName() + " " + student.getSurname() + " with ID " +
-                    student.getId());
-            ancestor.updateTableData();
         }
     }
 
@@ -411,7 +407,8 @@ public class UpdateStudentView {
         emailField.setText(student.getEmail());
         addressField.setText(student.getAddress());
         zipCodeField.setText(student.getZipCode());
-        secondarySchoolCombo.setValue(student.getSecondarySchool());
+        if (student.getSecondarySchool().getName() != null)
+            secondarySchoolCombo.setValue(student.getSecondarySchool());
 
         graduationsFromSSData = FXCollections.observableArrayList(getGraduationsFromSS());
         registrationsData = FXCollections.observableArrayList(getRegistrations());

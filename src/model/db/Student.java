@@ -40,7 +40,6 @@ public class Student {
     public Student(List<ResultSet> resultSets) throws SQLException {
         ResultSet studentRS = resultSets.get(0);
         studentRS.next();
-        // TODO parse null secondary school
         this.id = studentRS.getInt("student_id");
         this.secondarySchool = new SecondarySchool(studentRS.getInt("secondary_school_id"),
                 studentRS.getString("secondary_school_name"), studentRS.getString("secondary_school_address"));
