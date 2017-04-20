@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents universities table
+ * Representation of universities table in database
  */
 public class University {
 
@@ -27,6 +27,7 @@ public class University {
         this.address = address;
     }
 
+    // TODO remove and replace by duplicity in Graduation and Registration
     @Override
     public String toString() {
         return name;

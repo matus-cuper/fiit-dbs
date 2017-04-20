@@ -11,7 +11,10 @@ import java.util.List;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * Class represents students table
+ * Representation of students table in database
+ * Some aggregated attributes are used only for
+ * main view, getters are necessary because of
+ * {@link javafx.scene.control.cell.PropertyValueFactory}
  */
 public class Student {
 

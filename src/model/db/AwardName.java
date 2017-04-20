@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents award_names table
+ * Representation of award_names table in database
  */
 public class AwardName {
 

@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents graduations_from_ss table
+ * Representation of graduations_from_ss table in database
  */
 public class GraduationFromSS {
 

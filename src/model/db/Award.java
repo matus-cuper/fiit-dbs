@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents awards table
+ * Representation of awards table in database
  */
 public class Award {
 

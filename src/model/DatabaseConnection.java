@@ -11,7 +11,12 @@ import java.util.logging.Logger;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * Class represent connection to database
+ * Represent database connection and handle all
+ * interaction between controller and database
+ *
+ * Firstly create connection and notify controller
+ * that everything is ready, then do action only
+ * method calls
  */
 public class DatabaseConnection extends Thread {
 
@@ -41,40 +46,29 @@ public class DatabaseConnection extends Thread {
     }
 
     /**
-     * Created connection to database given by connect String
+     * Thread will update mainView in database independently
+     * of main connection used for everything else
      */
-    private void initialize() {
-        try {
-            if (connection == null)
+    private class Refresher extends Thread {
+        public void run() {
+            Connection connection = null;
+            Statement statement = null;
+            try {
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during getting connection", e);
-        }
-
-        try {
-            if (statement == null)
                 statement = connection.createStatement();
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during creating statement", e);
-        }
-    }
-
-    /**
-     * Close connection to database after all work
-     */
-    public void close() {
-        try {
-            if (statement != null)
-                statement.close();
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during closing statement", e);
-        }
-
-        try {
-            if (connection != null)
-                connection.close();
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during closing connection", e);
+                statement.execute(PreparedQuery.refreshView);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "Error occurred during refreshing view", e);
+            } finally {
+                try {
+                    if (statement != null)
+                        statement.close();
+                    if (connection != null)
+                        connection.close();
+                } catch (SQLException e) {
+                    LOG.log(Level.SEVERE, "Error occurred during refreshing view and releasing resources", e);
+                }
+            }
         }
     }
 
@@ -91,6 +85,11 @@ public class DatabaseConnection extends Thread {
         return (result != null) ? result : 0;
     }
 
+    /**
+     * Apply given {@link StudentFilter}, run query
+     * and return list of students
+     * @return list of students returned by database
+     */
     public List<Student> getStudents() {
 
         List<Student> students = new LinkedList<>();
@@ -126,6 +125,11 @@ public class DatabaseConnection extends Thread {
         return students;
     }
 
+    /**
+     * Get all information about student with given IF
+     * @param id to find student
+     * @return all student's information
+     */
     public Student getStudent(int id) {
         Student student = null;
         List<PreparedStatement> preparedStatements = new LinkedList<>();
@@ -194,6 +198,13 @@ public class DatabaseConnection extends Thread {
         }
     }
 
+    /**
+     * Insert given student into database, firstly student's information
+     * because new student id is needed, then insert {@link GraduationFromSS},
+     * {@link Registration}, {@link Award} and {@link Graduation}, if
+     * something failed, nothing will happen
+     * @param student to insert into database
+     */
     public void insertStudent(Student student) {
 
         int studentId = 0;
@@ -277,6 +288,13 @@ public class DatabaseConnection extends Thread {
         }
     }
 
+    /**
+     * Update given student in database, firstly update student's information,
+     * then delete all other information and add then newly, because it is hard
+     * to detect, what was changed, what removed and what added, if something
+     * failed, nothing will happen
+     * @param student to update in database
+     */
     public void updateStudent(Student student) {
         List<PreparedStatement> statements = new LinkedList<>();
 
@@ -304,6 +322,7 @@ public class DatabaseConnection extends Thread {
             for (PreparedStatement statement : statements)
                 statement.setInt(1, student.getId());
 
+            // TODO get rid of redundancy
             for (GraduationFromSS graduation : student.getGraduationsFromSS()) {
                 PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertGraduationFromSS);
                 statement.setInt(1, student.getId());
@@ -313,6 +332,7 @@ public class DatabaseConnection extends Thread {
                 statements.add(statement);
             }
 
+            // TODO get rid of redundancy
             for (Award award : student.getAwards()) {
                 PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertAward);
                 statement.setInt(1, award.getAwardLevel().getId());
@@ -322,6 +342,7 @@ public class DatabaseConnection extends Thread {
                 statements.add(statement);
             }
 
+            // TODO get rid of redundancy
             for (Graduation graduation : student.getGraduations()) {
                 graduation.getFosAtUniversity().setId(getFosAtUniversityId(graduation.getFosAtUniversity()));
                 PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertGraduation);
@@ -333,6 +354,7 @@ public class DatabaseConnection extends Thread {
                 statements.add(statement);
             }
 
+            // TODO get rid of redundancy
             for (Registration registration : student.getRegistrations()) {
                 registration.getFosAtUniversity().setId(getFosAtUniversityId(registration.getFosAtUniversity()));
                 PreparedStatement statement = connection.prepareStatement(PreparedQuery.insertRegistration);
@@ -399,6 +421,52 @@ public class DatabaseConnection extends Thread {
         return null;
     }
 
+    public void setFilter(StudentFilter filter) {
+        actualOffset = 0;
+        this.filter = filter;
+        LOG.log(Level.INFO, "Filter " + filter);
+    }
+
+    public void setUseView(boolean useView) {
+        this.useView = useView;
+        if (!useView) {
+            Refresher refresher = new Refresher();
+            refresher.start();
+        }
+    }
+
+    private void initialize() {
+        try {
+            if (connection == null)
+                connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during getting connection", e);
+        }
+
+        try {
+            if (statement == null)
+                statement = connection.createStatement();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during creating statement", e);
+        }
+    }
+
+    public void close() {
+        try {
+            if (statement != null)
+                statement.close();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during closing statement", e);
+        }
+
+        try {
+            if (connection != null)
+                connection.close();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during closing connection", e);
+        }
+    }
+
     public void previousWindow() {
         actualOffset = actualOffset - windowSize;
     }
@@ -417,42 +485,5 @@ public class DatabaseConnection extends Thread {
 
     public boolean isConnectionReady() {
         return connectionReady;
-    }
-
-    public void setFilter(StudentFilter filter) {
-        actualOffset = 0;
-        this.filter = filter;
-        LOG.log(Level.INFO, "Filter " + filter);
-    }
-
-    public void setUseView(boolean useView) {
-        this.useView = useView;
-        if (!useView) {
-            Refresher refresher = new Refresher();
-            refresher.start();
-        }
-    }
-
-    private class Refresher extends Thread {
-        public void run() {
-            Connection connection = null;
-            Statement statement = null;
-            try {
-                connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-                statement = connection.createStatement();
-                statement.execute(PreparedQuery.refreshView);
-            } catch (SQLException e) {
-                LOG.log(Level.SEVERE, "Error occurred during refreshing view", e);
-            } finally {
-                try {
-                    if (statement != null)
-                        statement.close();
-                    if (connection != null)
-                        connection.close();
-                } catch (SQLException e) {
-                    LOG.log(Level.SEVERE, "Error occurred during refreshing view and releasing resources", e);
-                }
-            }
-        }
     }
 }

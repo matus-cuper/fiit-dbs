@@ -7,7 +7,9 @@ import java.util.Date;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents registrations table
+ * Representation of registration table in database
+ * Added university string because of {@link controller.NewStudentView}
+ * and {@link controller.UpdateStudentView}
  */
 public class Registration {
 

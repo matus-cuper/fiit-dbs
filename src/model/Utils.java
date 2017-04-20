@@ -8,7 +8,8 @@ import java.time.LocalDate;
 /**
  * Created by Matus Cuper on 14.4.2017.
  *
- * Class represents utility functions
+ * Group utility functions used across whole application
+ * Converters, parsers and regular expressions
  */
 public class Utils {
 
@@ -17,6 +18,12 @@ public class Utils {
 
     private Utils() {}
 
+    /**
+     * If input date is substring of valid date complete it to normal date
+     * @param date string to parse
+     * @return java.sql.Date used into query to filter result
+     * @throws ParseException if there is no way to create date from given string
+     */
     @SuppressWarnings("deprecation")
     public static java.sql.Date parseDate(String date) throws ParseException {
         if (date.equals(""))

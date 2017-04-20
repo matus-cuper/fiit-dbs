@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents subjects table
+ * Representation of subjects table in database
  */
 public class Subject {
 

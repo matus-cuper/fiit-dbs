@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents fos_at_universities table
+ * Representation of fos_at_universities table in database
  */
 public class FosAtUniversity {
 
@@ -17,7 +17,8 @@ public class FosAtUniversity {
 
     FosAtUniversity(ResultSet resultSet) throws SQLException {
         this.id = resultSet.getInt("field_of_study_id");
-        this.university = new University(resultSet.getInt("university_id"), resultSet.getString("university_name"), resultSet.getString("university_address"));
+        this.university = new University(resultSet.getInt("university_id"), resultSet.getString("university_name"),
+                resultSet.getString("university_address"));
         this.fieldOfStudy = new FieldOfStudy(resultSet.getInt("field_of_study_id"), resultSet.getString("field_of_study_name"));
     }
 

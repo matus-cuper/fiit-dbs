@@ -9,7 +9,10 @@ import java.util.Observable;
 /**
  * Created by Matus Cuper on 12.4.2017.
  *
- * This class represents filters applied on query
+ * Represent filters applied on main query
+ * Also notify {@link controller.Controller} if something
+ * changed, if input is not valid, return defaults
+ * or last valid value
  */
 public class StudentFilter extends Observable {
 

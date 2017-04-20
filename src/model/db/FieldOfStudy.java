@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents fields_of_study table
+ * Representation of fields_of_study table in database
  */
 public class FieldOfStudy {
 
@@ -24,6 +24,7 @@ public class FieldOfStudy {
         this.name = name;
     }
 
+    // TODO remove and replace by duplicity in Graduation and Registration
     @Override
     public String toString() {
         return name;

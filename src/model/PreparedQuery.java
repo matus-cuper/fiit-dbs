@@ -3,20 +3,23 @@ package model;
 /**
  * Created by Matus Cuper on 8.4.2017.
  *
- * This class grouping used queries in application
+ * Group queries used across whole application
+ * Updates, selects, deletes and count are present
+ *
+ * mainView and mainTable structure is as follows:
+ * 1    String  search for student's name
+ * 2    String  search for student's surname
+ * 3    Date    search for student's date of birth after particular date
+ * 4    Date    search for student's date of birth before particular date
+ * 5    Double  search for students with average marks greater than particular value
+ * 6    Double  search for students with average marks lower than particular value
+ * 7    Integer search for students with registrations counts greater than particular values
+ * 8    Integer search for students with registrations counts lower than particular values
+ * 9    Integer skip first offset-nth records
+ * 10   Integer maximum selected records
  */
 class PreparedQuery {
 
-    // 1 - String: students name
-    // 2 - String: students surname
-    // 3 - Date: students born after
-    // 4 - Date: students born before
-    // 5 - Double: students marks average greater than
-    // 6 - Double: students marks average lower than
-    // 7 - Integer: students registrations count greater than
-    // 8 - Integer: students registrations count lower than
-    // 9 - Integer: offset
-    // 10- Integer: limit
     static final String mainView = "" +
             "SELECT *\n" +
             "FROM main_table_1 m\n" +
@@ -148,8 +151,9 @@ class PreparedQuery {
     static final String updateStudent = "UPDATE students SET (secondary_school_id, name, surname, birth_at, address, " +
             "email, phone, zip_code) = (?, ?, ?, ?, ?, ?, ?, ?) WHERE student_id = ?;";
 
-    static String refreshView = "REFRESH MATERIALIZED VIEW main_table_1;";
+    static final String refreshView = "REFRESH MATERIALIZED VIEW main_table_1;";
 
+    // TODO create class for each query category
     private PreparedQuery() {}
 
     /**
@@ -163,6 +167,7 @@ class PreparedQuery {
         return "SELECT COUNT(*) FROM " + tableName + ";";
     }
 
+    // TODO remove and replace by particular queries, used for catalogues
     static String allRecords(String tableName) {
         return "SELECT * FROM " + tableName + ";";
     }

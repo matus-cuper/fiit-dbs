@@ -7,7 +7,9 @@ import java.util.Date;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents graduations table
+ * Representation of graduations table in database
+ * Added university and fieldOfStudy strings because
+ * of {@link controller.NewStudentView} and {@link controller.UpdateStudentView}
  */
 public class Graduation {
 
