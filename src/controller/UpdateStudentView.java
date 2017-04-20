@@ -25,8 +25,17 @@ import java.util.stream.Collectors;
 /**
  * Created by Matus Cuper on 17.4.2017.
  *
- * This class represents view for updating
- * student in database
+ * Handle interaction with user on student updating view
+ * Add handlers for updating student's {@link Award},
+ * {@link GraduationFromSS}, {@link Registration} and
+ * {@link Graduation}, this data will be completely removed
+ * and added each time a student is updated, personal
+ * information about student are updated by update statement
+ *
+ * Firstly empty tables are created, then {@link ComboBox} are
+ * filled, {@link DatePicker} formats are set and tables
+ * columns are initialized, then student is set and
+ * tables and field are filled by its values
  */
 public class UpdateStudentView {
 
@@ -94,6 +103,39 @@ public class UpdateStudentView {
 
     private Controller ancestor;
     private Student student;
+
+    /**
+     * Handler validates input data and pop up
+     * {@link ErrorDialog} if some inconsistency exists
+     */
+    @FXML
+    public void handleUpdateStudentButton() {
+        try {
+            Student student = new Student(this.student.getId(), secondarySchoolCombo.getValue(), nameField.getText(),
+                    surnameField.getText(), Utils.convertDate(birthAtPicker.getValue()), addressField.getText(),
+                    emailField.getText(), phoneField.getText(), zipCodeField.getText());
+            if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
+                throw new IllegalArgumentException();
+
+            student.setGraduationsFromSS(graduationsFromSSData);
+            student.setRegistrations(registrationsData);
+            student.setAwards(awardsData);
+            student.setGraduations(graduationsData);
+
+            ancestor.getDatabaseConnection().updateStudent(student);
+            new InformationDialog("Added student " + student.getName() + " " + student.getSurname() + " with ID " +
+                    student.getId());
+            ancestor.updateTableData();
+        } catch (IllegalArgumentException e) {
+            new ErrorDialog("Cannot add student", "Null values are forbidden (except secondary school)\n" +
+                    "Email address must contain . after @\n" +
+                    "Phone number must start with +\n" +
+                    "Phone number and zip code must contain only numbers\n" +
+                    "Date of birth must be before any other date\n" +
+                    "Maximum length is name(30), surname(30), address(80),\n" +
+                    "email(70), phone(15) and zipCode(5)");
+        }
+    }
 
     // TODO remove this duplicate of NewStudentView
     @FXML
@@ -171,86 +213,38 @@ public class UpdateStudentView {
         graduationsData.remove(graduationsTableView.getSelectionModel().getSelectedItem());
     }
 
-    @FXML
-    public void handleUpdateStudentButton() {
-        try {
-            Student student = new Student(this.student.getId(), secondarySchoolCombo.getValue(), nameField.getText(),
-                    surnameField.getText(), Utils.convertDate(birthAtPicker.getValue()), addressField.getText(),
-                    emailField.getText(), phoneField.getText(), zipCodeField.getText());
-            if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
-                throw new IllegalArgumentException();
-
-            student.setGraduationsFromSS(graduationsFromSSData);
-            student.setRegistrations(registrationsData);
-            student.setAwards(awardsData);
-            student.setGraduations(graduationsData);
-
-            ancestor.getDatabaseConnection().updateStudent(student);
-            new InformationDialog("Added student " + student.getName() + " " + student.getSurname() + " with ID " +
-                    student.getId());
-            ancestor.updateTableData();
-        } catch (IllegalArgumentException e) {
-            new ErrorDialog("Cannot add student", "Null values are forbidden (except secondary school)\n" +
-                    "Email address must contain . after @\n" +
-                    "Phone number must start with +\n" +
-                    "Phone number and zip code must contain only numbers\n" +
-                    "Date of birth must be before any other date\n" +
-                    "Maximum length is name(30), surname(30), address(80),\n" +
-                    "email(70), phone(15) and zipCode(5)");
-        }
-    }
-
 
     public UpdateStudentView() {}
 
-    private void setFormatter() {
-        graduationFromSSGraduatedAtPicker.setConverter(new DatePickerFormatter());
-        registrationChangedAtPicker.setConverter(new DatePickerFormatter());
-        awardAwardedAtPicker.setConverter(new DatePickerFormatter());
-        graduationStartedAtPicker.setConverter(new DatePickerFormatter());
-        graduationFinishedAtPicker.setConverter(new DatePickerFormatter());
-        birthAtPicker.setConverter(new DatePickerFormatter());
+    void setAncestor(Controller ancestor) {
+        this.ancestor = ancestor;
+        setCombos();
+        setFormatter();
+        initializeColumns();
     }
 
-    private void setCombos() {
-        ObservableList<SecondarySchool> secondarySchoolsData = FXCollections.observableArrayList(getSecondarySchools());
-        ObservableList<Subject> subjectsData = FXCollections.observableArrayList(getSubjects());
-        ObservableList<Status> statusesData = FXCollections.observableArrayList(getStatuses());
-        ObservableList<University> universitiesData = FXCollections.observableArrayList(getUniversities());
-        ObservableList<FieldOfStudy> fieldsOfStudyData = FXCollections.observableArrayList(getFieldOfStudies());
-        ObservableList<AwardName> awardNamesData = FXCollections.observableArrayList(getAwardNames());
-        ObservableList<AwardLevel> awardLevelsData = FXCollections.observableArrayList(getAwardLevels());
+    void setStudent(Student student) {
+        this.student = student;
 
-        secondarySchoolCombo.setItems(secondarySchoolsData);
-        graduationFromSSSubjectCombo.setItems(subjectsData);
-        registrationUniversityCombo.setItems(universitiesData);
-        graduationUniversityCombo.setItems(universitiesData);
-        registrationFieldOfStudyCombo.setItems(fieldsOfStudyData);
-        graduationFieldOfStudyCombo.setItems(fieldsOfStudyData);
-        registrationStatusCombo.setItems(statusesData);
-        awardNameCombo.setItems(awardNamesData);
-        awardLevelCombo.setItems(awardLevelsData);
-    }
+        nameField.setText(student.getName());
+        surnameField.setText(student.getSurname());
+        birthAtPicker.setValue(Instant.ofEpochMilli(student.getBirthAt().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
+        phoneField.setText(student.getPhone());
+        emailField.setText(student.getEmail());
+        addressField.setText(student.getAddress());
+        zipCodeField.setText(student.getZipCode());
+        if (student.getSecondarySchool().getName() != null)
+            secondarySchoolCombo.setValue(student.getSecondarySchool());
 
-    private void initializeColumns() {
-        secondarySchoolSubjectColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
-        secondarySchoolMarkColumn.setCellValueFactory(new PropertyValueFactory<>("mark"));
-        secondarySchoolGraduatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("graduatedAt"));
+        graduationsFromSSData = FXCollections.observableArrayList(getGraduationsFromSS());
+        registrationsData = FXCollections.observableArrayList(getRegistrations());
+        awardsData = FXCollections.observableArrayList(getAwards());
+        graduationsData = FXCollections.observableArrayList(getGraduations());
 
-        registrationUniversityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
-        registrationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
-        registrationChangedAtColumn.setCellValueFactory(new PropertyValueFactory<>("changedAt"));
-        registrationStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-        awardNameColumn.setCellValueFactory(new PropertyValueFactory<>("awardName"));
-        awardLevelColumn.setCellValueFactory(new PropertyValueFactory<>("awardLevel"));
-        awardAwardedAtColumn.setCellValueFactory(new PropertyValueFactory<>("awardedAt"));
-
-        graduationUniversityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
-        graduationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
-        graduationStartedAtColumn.setCellValueFactory(new PropertyValueFactory<>("startedAt"));
-        graduationFinishedAtColumn.setCellValueFactory(new PropertyValueFactory<>("finishedAt"));
-        graduationGraduatedColumn.setCellValueFactory(new PropertyValueFactory<>("graduated"));
+        graduationsFromSSTableView.setItems(graduationsFromSSData);
+        registrationsTableView.setItems(registrationsData);
+        awardsTableView.setItems(awardsData);
+        graduationsTableView.setItems(graduationsData);
     }
 
     private List<SecondarySchool> getSecondarySchools() {
@@ -366,34 +360,53 @@ public class UpdateStudentView {
                 registration.getStatus())).collect(Collectors.toCollection(LinkedList::new));
     }
 
-    void setAncestor(Controller ancestor) {
-        this.ancestor = ancestor;
-        setCombos();
-        setFormatter();
-        initializeColumns();
+    private void setFormatter() {
+        graduationFromSSGraduatedAtPicker.setConverter(new DatePickerFormatter());
+        registrationChangedAtPicker.setConverter(new DatePickerFormatter());
+        awardAwardedAtPicker.setConverter(new DatePickerFormatter());
+        graduationStartedAtPicker.setConverter(new DatePickerFormatter());
+        graduationFinishedAtPicker.setConverter(new DatePickerFormatter());
+        birthAtPicker.setConverter(new DatePickerFormatter());
     }
 
-    void setStudent(Student student) {
-        this.student = student;
+    private void setCombos() {
+        ObservableList<SecondarySchool> secondarySchoolsData = FXCollections.observableArrayList(getSecondarySchools());
+        ObservableList<Subject> subjectsData = FXCollections.observableArrayList(getSubjects());
+        ObservableList<Status> statusesData = FXCollections.observableArrayList(getStatuses());
+        ObservableList<University> universitiesData = FXCollections.observableArrayList(getUniversities());
+        ObservableList<FieldOfStudy> fieldsOfStudyData = FXCollections.observableArrayList(getFieldOfStudies());
+        ObservableList<AwardName> awardNamesData = FXCollections.observableArrayList(getAwardNames());
+        ObservableList<AwardLevel> awardLevelsData = FXCollections.observableArrayList(getAwardLevels());
 
-        nameField.setText(student.getName());
-        surnameField.setText(student.getSurname());
-        birthAtPicker.setValue(Instant.ofEpochMilli(student.getBirthAt().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
-        phoneField.setText(student.getPhone());
-        emailField.setText(student.getEmail());
-        addressField.setText(student.getAddress());
-        zipCodeField.setText(student.getZipCode());
-        if (student.getSecondarySchool().getName() != null)
-            secondarySchoolCombo.setValue(student.getSecondarySchool());
+        secondarySchoolCombo.setItems(secondarySchoolsData);
+        graduationFromSSSubjectCombo.setItems(subjectsData);
+        registrationUniversityCombo.setItems(universitiesData);
+        graduationUniversityCombo.setItems(universitiesData);
+        registrationFieldOfStudyCombo.setItems(fieldsOfStudyData);
+        graduationFieldOfStudyCombo.setItems(fieldsOfStudyData);
+        registrationStatusCombo.setItems(statusesData);
+        awardNameCombo.setItems(awardNamesData);
+        awardLevelCombo.setItems(awardLevelsData);
+    }
 
-        graduationsFromSSData = FXCollections.observableArrayList(getGraduationsFromSS());
-        registrationsData = FXCollections.observableArrayList(getRegistrations());
-        awardsData = FXCollections.observableArrayList(getAwards());
-        graduationsData = FXCollections.observableArrayList(getGraduations());
+    private void initializeColumns() {
+        secondarySchoolSubjectColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
+        secondarySchoolMarkColumn.setCellValueFactory(new PropertyValueFactory<>("mark"));
+        secondarySchoolGraduatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("graduatedAt"));
 
-        graduationsFromSSTableView.setItems(graduationsFromSSData);
-        registrationsTableView.setItems(registrationsData);
-        awardsTableView.setItems(awardsData);
-        graduationsTableView.setItems(graduationsData);
+        registrationUniversityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
+        registrationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
+        registrationChangedAtColumn.setCellValueFactory(new PropertyValueFactory<>("changedAt"));
+        registrationStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        awardNameColumn.setCellValueFactory(new PropertyValueFactory<>("awardName"));
+        awardLevelColumn.setCellValueFactory(new PropertyValueFactory<>("awardLevel"));
+        awardAwardedAtColumn.setCellValueFactory(new PropertyValueFactory<>("awardedAt"));
+
+        graduationUniversityColumn.setCellValueFactory(new PropertyValueFactory<>("university"));
+        graduationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
+        graduationStartedAtColumn.setCellValueFactory(new PropertyValueFactory<>("startedAt"));
+        graduationFinishedAtColumn.setCellValueFactory(new PropertyValueFactory<>("finishedAt"));
+        graduationGraduatedColumn.setCellValueFactory(new PropertyValueFactory<>("graduated"));
     }
 }

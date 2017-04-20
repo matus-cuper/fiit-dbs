@@ -19,8 +19,13 @@ import java.util.stream.Collectors;
 /**
  * Created by Matus Cuper on 8.4.2017.
  *
- * This class represents detailed view of students,
- * window pop up after double click on record
+ * Handle interaction with user on detailed view of student,
+ * will pop up after double click on record in main table,
+ * user will be able to review all information about given student
+ *
+ * After calling setter for student, Initializer Thread will be
+ * created and tables with student information are filled,
+ * other methods are only getters and initializer for these tables
  */
 public class DetailedView {
 
@@ -65,6 +70,18 @@ public class DetailedView {
 
     public DetailedView() {}
 
+    void setStudent(Student student) {
+        this.student = student;
+        LOG.log(Level.INFO, "Detailed view of student " + student.getId());
+        Initializer initializer = new Initializer();
+        initializer.start();
+    }
+
+    /**
+     * Thread will wait for rendering detailed view and after that
+     * will obtain data for given student, initialize columns for
+     * tables and fill them with data
+     */
     private class Initializer extends Thread {
         public void run() {
             try {
@@ -154,12 +171,5 @@ public class DetailedView {
         registrationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
         registrationChangedAtColumn.setCellValueFactory(new PropertyValueFactory<>("changedAt"));
         registrationStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-    }
-
-    void setStudent(Student student) {
-        this.student = student;
-        LOG.log(Level.INFO, "Detailed view of student " + student.getId());
-        Initializer initializer = new Initializer();
-        initializer.start();
     }
 }

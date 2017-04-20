@@ -23,6 +23,18 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Handle interaction with user on main application window
+ * Add handler for double click in main table, windowing buttons,
+ * creating, updating and deleting students, checkBox for using
+ * materialized view and searching filters
+ *
+ * Firstly, {@link DatabaseConnection} is created, then default
+ * filter for main table and data for it are loaded, other
+ * method are only initializers for table and constructors
+ * for other views like {@link DetailedView}, {@link NewStudentView}
+ * and {@link UpdateStudentView}
+ */
 public class Controller implements Observer {
 
     private static final Logger LOG = Logger.getLogger(Controller.class.getName());
@@ -75,6 +87,10 @@ public class Controller implements Observer {
             nextButton.setDisable(true);
     }
 
+    /**
+     * If multiple students are selected for deletion,
+     * delete them all and create message for {@link InformationDialog}
+     */
     @FXML
     public void handleDeleteButton() {
         List<Integer> studentIds = new LinkedList<>();
@@ -125,6 +141,11 @@ public class Controller implements Observer {
         initializer.start();
     }
 
+    /**
+     * Thread will initialize data for main table after
+     * table is showed up, also table columns are set
+     * and filter listeners are added
+     */
     private class Initializer extends Thread {
         public void run() {
             while (mainTableView == null) {
@@ -145,6 +166,12 @@ public class Controller implements Observer {
         }
     }
 
+    /**
+     * If {@link StudentFilter} will changed, data in main table are updated
+     * also windowing buttons are disabled in case of reaching bounds
+     * @param observable object
+     * @param o unused argument, passed to notifyObservers object from {@link StudentFilter}
+     */
     @Override
     public void update(Observable observable, Object o) {
         databaseConnection.setFilter(filter);
@@ -207,22 +234,18 @@ public class Controller implements Observer {
         }
     }
 
-    void updateTableData() {
-        tableData = FXCollections.observableArrayList(databaseConnection.getStudents());
-        mainTableView.setItems(tableData);
-    }
-
-    public void handleExit() {
-        databaseConnection.close();
-        LOG.log(Level.INFO, "Connection was closed");
-    }
-
+    /**
+     * Initialize listeners for searching filters,
+     * in case of illegal input, {@link view.ErrorDialog} will pop up
+     * and last valid input are set for filter
+     */
     private void initializeListeners() {
         nameField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setName(newValue)));
         surnameField.textProperty().addListener(((observableValue, oldValue, newValue) -> filter.setSurname(newValue)));
 
         birthAtAfterField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setBirthAfter(newValue);
+            // TODO move to function
             try {
                 Utils.parseDate(newValue);
             } catch (ParseException e) {
@@ -232,6 +255,7 @@ public class Controller implements Observer {
         });
         birthAtUntilField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setBirthUntil(newValue);
+            // TODO move to function
             try {
                 Utils.parseDate(newValue);
             } catch (ParseException e) {
@@ -242,6 +266,7 @@ public class Controller implements Observer {
 
         marksGreaterField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setAverageGreater(newValue);
+            // TODO move to function
             try {
                 Utils.parseDouble(newValue);
             } catch (NumberFormatException e) {
@@ -251,6 +276,7 @@ public class Controller implements Observer {
         });
         marksLowerField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setAverageLower(newValue);
+            // TODO move to function
             try {
                 Utils.parseDouble(newValue);
             } catch (NumberFormatException e) {
@@ -261,6 +287,7 @@ public class Controller implements Observer {
 
         registrationsGreaterField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setCountGreater(newValue);
+            // TODO move to function
             try {
                 Utils.parseInteger(newValue);
             } catch (NumberFormatException e) {
@@ -270,6 +297,7 @@ public class Controller implements Observer {
         });
         registrationsLowerField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             filter.setCountLower(newValue);
+            // TODO move to function
             try {
                 Utils.parseInteger(newValue);
             } catch (NumberFormatException e) {
@@ -289,6 +317,16 @@ public class Controller implements Observer {
         registrationsColumn.setCellValueFactory(new PropertyValueFactory<>("registrationsCount"));
         graduationsAllColumn.setCellValueFactory(new PropertyValueFactory<>("graduationsCountAll"));
         graduationsSuccessColumn.setCellValueFactory(new PropertyValueFactory<>("graduationsCountSuccess"));
+    }
+
+    void updateTableData() {
+        tableData = FXCollections.observableArrayList(databaseConnection.getStudents());
+        mainTableView.setItems(tableData);
+    }
+
+    public void handleExit() {
+        databaseConnection.close();
+        LOG.log(Level.INFO, "Connection was closed");
     }
 
     DatabaseConnection getDatabaseConnection() {

@@ -22,8 +22,15 @@ import java.util.logging.Logger;
 /**
  * Created by Matus Cuper on 15.4.2017.
  *
- * This class represent view for adding
- * new student into database
+ * Handle interaction with user on student creating view
+ * Add handlers for adding student's {@link Award},
+ * {@link GraduationFromSS}, {@link Registration} and
+ * {@link Graduation} and personal information about student
+ * into database
+ *
+ * Firstly empty tables are created, then {@link ComboBox} are
+ * filled, {@link DatePicker} formats are set and tables
+ * columns are initialized
  */
 public class NewStudentView {
 
@@ -90,6 +97,39 @@ public class NewStudentView {
     private ObservableList<Graduation> graduationsData;
 
     private Controller ancestor;
+
+    /**
+     * Handler validates input data and pop up
+     * {@link ErrorDialog} if some inconsistency exists
+     */
+    @FXML
+    public void handleAddStudentButton() {
+        try {
+            Student student = new Student(secondarySchoolCombo.getValue(), nameField.getText(), surnameField.getText(),
+                    Utils.convertDate(birthAtPicker.getValue()), addressField.getText(), emailField.getText(),
+                    phoneField.getText(), zipCodeField.getText());
+            if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
+                throw new IllegalArgumentException();
+
+            student.setGraduationsFromSS(graduationsFromSSData);
+            student.setRegistrations(registrationsData);
+            student.setAwards(awardsData);
+            student.setGraduations(graduationsData);
+
+            ancestor.getDatabaseConnection().insertStudent(student);
+            new InformationDialog("Added student " + student.getName() + " " +
+                    student.getSurname() + " with ID " + student.getId());
+            ancestor.updateTableData();
+        } catch (IllegalArgumentException e) {
+            new ErrorDialog("Cannot add student", "Null values are forbidden (except secondary school)\n" +
+                    "Email address must contain . after @\n" +
+                    "Phone number must start with +\n" +
+                    "Phone number and zip code must contain only numbers\n" +
+                    "Date of birth must be before any other date\n" +
+                    "Maximum length is name(30), surname(30), address(80),\n" +
+                    "email(70), phone(15) and zipCode(5)");
+        }
+    }
 
     @FXML
     public void handleGraduationFromSSAddButton() {
@@ -163,41 +203,117 @@ public class NewStudentView {
         graduationsData.remove(graduationsTableView.getSelectionModel().getSelectedItem());
     }
 
-    @FXML
-    public void handleAddStudentButton() {
-        try {
-            Student student = new Student(secondarySchoolCombo.getValue(), nameField.getText(), surnameField.getText(),
-                    Utils.convertDate(birthAtPicker.getValue()), addressField.getText(), emailField.getText(),
-                    phoneField.getText(), zipCodeField.getText());
-            if (secondarySchoolCombo.getValue() == null && !graduationsFromSSData.isEmpty())
-                throw new IllegalArgumentException();
-
-            student.setGraduationsFromSS(graduationsFromSSData);
-            student.setRegistrations(registrationsData);
-            student.setAwards(awardsData);
-            student.setGraduations(graduationsData);
-
-            ancestor.getDatabaseConnection().insertStudent(student);
-            new InformationDialog("Added student " + student.getName() + " " +
-                    student.getSurname() + " with ID " + student.getId());
-            ancestor.updateTableData();
-        } catch (IllegalArgumentException e) {
-            new ErrorDialog("Cannot add student", "Null values are forbidden (except secondary school)\n" +
-                    "Email address must contain . after @\n" +
-                    "Phone number must start with +\n" +
-                    "Phone number and zip code must contain only numbers\n" +
-                    "Date of birth must be before any other date\n" +
-                    "Maximum length is name(30), surname(30), address(80),\n" +
-                    "email(70), phone(15) and zipCode(5)");
-        }
-    }
-
 
     public NewStudentView() {
         graduationsFromSSData = FXCollections.observableArrayList();
         registrationsData = FXCollections.observableArrayList();
         awardsData = FXCollections.observableArrayList();
         graduationsData = FXCollections.observableArrayList();
+    }
+
+    void setAncestor(Controller ancestor) {
+        this.ancestor = ancestor;
+        setCombos();
+        setFormatter();
+        initializeColumns();
+    }
+
+    // TODO move to model
+    private List<SecondarySchool> getSecondarySchools() {
+        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("secondary_schools");
+        List<SecondarySchool> secondarySchools = new LinkedList<>();
+
+        try {
+            while (resultSet.next())
+                secondarySchools.add(new SecondarySchool(resultSet));
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during reading result set of secondary schools", e);
+        }
+        return secondarySchools;
+    }
+
+    // TODO move to model
+    private List<Subject> getSubjects() {
+        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("subjects");
+        List<Subject> subjects = new LinkedList<>();
+
+        try {
+            while (resultSet.next())
+                subjects.add(new Subject(resultSet));
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during reading result set of subjects", e);
+        }
+        return subjects;
+    }
+
+    // TODO move to model
+    private List<Status> getStatuses() {
+        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("statuses");
+        List<Status> statuses = new LinkedList<>();
+
+        try {
+            while (resultSet.next())
+                statuses.add(new Status(resultSet));
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during reading result set of statuses", e);
+        }
+        return statuses;
+    }
+
+    // TODO move to model
+    private List<University> getUniversities() {
+        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("universities");
+        List<University> universities = new LinkedList<>();
+
+        try {
+            while (resultSet.next())
+                universities.add(new University(resultSet));
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during reading result set of universities", e);
+        }
+        return universities;
+    }
+
+    // TODO move to model
+    private List<FieldOfStudy> getFieldOfStudies() {
+        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("fields_of_study");
+        List<FieldOfStudy> fieldsOfStudy = new LinkedList<>();
+
+        try {
+            while (resultSet.next())
+                fieldsOfStudy.add(new FieldOfStudy(resultSet));
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during reading result set of field of studies", e);
+        }
+        return fieldsOfStudy;
+    }
+
+    // TODO move to model
+    private List<AwardName> getAwardNames() {
+        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("award_names");
+        List<AwardName> awardNames = new LinkedList<>();
+
+        try {
+            while (resultSet.next())
+                awardNames.add(new AwardName(resultSet));
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during reading result set of award names", e);
+        }
+        return awardNames;
+    }
+
+    // TODO move to model
+    private List<AwardLevel> getAwardLevels() {
+        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("award_levels");
+        List<AwardLevel> awardLevels = new LinkedList<>();
+
+        try {
+            while (resultSet.next())
+                awardLevels.add(new AwardLevel(resultSet));
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Error occurred during reading result set of award levels", e);
+        }
+        return awardLevels;
     }
 
     private void setFormatter() {
@@ -248,103 +364,5 @@ public class NewStudentView {
         graduationStartedAtColumn.setCellValueFactory(new PropertyValueFactory<>("startedAt"));
         graduationFinishedAtColumn.setCellValueFactory(new PropertyValueFactory<>("finishedAt"));
         graduationGraduatedColumn.setCellValueFactory(new PropertyValueFactory<>("graduated"));
-    }
-
-    private List<SecondarySchool> getSecondarySchools() {
-        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("secondary_schools");
-        List<SecondarySchool> secondarySchools = new LinkedList<>();
-
-        try {
-            while (resultSet.next())
-                secondarySchools.add(new SecondarySchool(resultSet));
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during reading result set of secondary schools", e);
-        }
-        return secondarySchools;
-    }
-
-    private List<Subject> getSubjects() {
-        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("subjects");
-        List<Subject> subjects = new LinkedList<>();
-
-        try {
-            while (resultSet.next())
-                subjects.add(new Subject(resultSet));
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during reading result set of subjects", e);
-        }
-        return subjects;
-    }
-
-    private List<Status> getStatuses() {
-        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("statuses");
-        List<Status> statuses = new LinkedList<>();
-
-        try {
-            while (resultSet.next())
-                statuses.add(new Status(resultSet));
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during reading result set of statuses", e);
-        }
-        return statuses;
-    }
-
-    private List<University> getUniversities() {
-        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("universities");
-        List<University> universities = new LinkedList<>();
-
-        try {
-            while (resultSet.next())
-                universities.add(new University(resultSet));
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during reading result set of universities", e);
-        }
-        return universities;
-    }
-
-    private List<FieldOfStudy> getFieldOfStudies() {
-        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("fields_of_study");
-        List<FieldOfStudy> fieldsOfStudy = new LinkedList<>();
-
-        try {
-            while (resultSet.next())
-                fieldsOfStudy.add(new FieldOfStudy(resultSet));
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during reading result set of field of studies", e);
-        }
-        return fieldsOfStudy;
-    }
-
-    private List<AwardName> getAwardNames() {
-        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("award_names");
-        List<AwardName> awardNames = new LinkedList<>();
-
-        try {
-            while (resultSet.next())
-                awardNames.add(new AwardName(resultSet));
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during reading result set of award names", e);
-        }
-        return awardNames;
-    }
-
-    private List<AwardLevel> getAwardLevels() {
-        ResultSet resultSet = ancestor.getDatabaseConnection().getAllTableData("award_levels");
-        List<AwardLevel> awardLevels = new LinkedList<>();
-
-        try {
-            while (resultSet.next())
-                awardLevels.add(new AwardLevel(resultSet));
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Error occurred during reading result set of award levels", e);
-        }
-        return awardLevels;
-    }
-
-    void setAncestor(Controller ancestor) {
-        this.ancestor = ancestor;
-        setCombos();
-        setFormatter();
-        initializeColumns();
     }
 }
