@@ -19,46 +19,12 @@ class PreparedQuery {
     // 10- Integer: limit
     static final String mainTable = "" +
             "SELECT *\n" +
-            "FROM\n" +
-            "\t(\n" +
-            "\tSELECT s.student_id, s.name, s.surname, s.birth_at,\n" +
-            "\t\tCOALESCE(gss.avg, 5.00) AS gss_avg,\n" +
-            "\t\tCOALESCE(a.count, 0) AS a_count,\n" +
-            "\t\tCOALESCE(r.count, 0) AS r_count,\n" +
-            "\t\tCOALESCE(g.count, 0) AS g_count_all,\n" +
-            "\t\tCOALESCE(g.count_success, 0) AS g_count_success\n" +
-            "\tFROM students s\n" +
-            "\tLEFT JOIN\n" +
-            "\t\t(\n" +
-            "\t\tSELECT gss.student_id, ROUND(AVG(gss.mark), 2) AS avg\n" +
-            "\t  FROM graduations_from_ss gss\n" +
-            "\t  GROUP BY gss.student_id\n" +
-            "\t  ) gss ON s.student_id = gss.student_id\n" +
-            "\tLEFT JOIN\n" +
-            "\t\t(\n" +
-            "\t  SELECT a.student_id, COUNT(*)\n" +
-            "\t  FROM awards a\n" +
-            "\t  GROUP BY a.student_id\n" +
-            "\t  ) a ON s.student_id = a.student_id\n" +
-            "\tLEFT JOIN\n" +
-            "\t\t(\n" +
-            "\t\tSELECT r.student_id, COUNT(*)\n" +
-            "\t  FROM registrations r\n" +
-            "\t  GROUP BY r.student_id\n" +
-            "\t  ) r ON s.student_id = r.student_id\n" +
-            "\tLEFT JOIN\n" +
-            "\t\t(\n" +
-            "\t\tSELECT g.student_id, COUNT(*),\n" +
-            "\t\tSUM(CASE WHEN g.graduated = TRUE THEN 1 ELSE 0 END) AS count_success\n" +
-            "\t\tFROM graduations g\n" +
-            "\t\tGROUP BY g.student_id\n" +
-            "\t\t) g ON s.student_id = g.student_id\n" +
-            "\tWHERE s.name LIKE ?\n" +
-            "\tAND s.surname LIKE ?\n" +
-            "\tAND s.birth_at BETWEEN ? AND ?\n" +
-            "\t) nt\n" +
-            "WHERE nt.gss_avg BETWEEN ? AND ?\n" +
-            "AND nt.r_count BETWEEN ? AND ?\n" +
+            "FROM main_table_1 m\n" +
+            "WHERE m.name LIKE ?\n" +
+            "AND m.surname LIKE ?\n" +
+            "AND m.birth_at BETWEEN ? AND ?\n" +
+            "AND m.gss_avg BETWEEN ? AND ?\n" +
+            "AND m.r_count BETWEEN ? AND ?\n" +
             "OFFSET ?\n" +
             "LIMIT ?;";
 
