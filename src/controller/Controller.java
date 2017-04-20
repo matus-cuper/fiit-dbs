@@ -42,6 +42,8 @@ public class Controller implements Observer {
     @FXML
     private TextField nameField, surnameField, birthAtAfterField, birthAtUntilField, marksGreaterField, marksLowerField,
             registrationsGreaterField, registrationsLowerField;
+    @FXML
+    private CheckBox useViewCheck;
 
     private DatabaseConnection databaseConnection;
     private ObservableList<Student> tableData;
@@ -97,6 +99,11 @@ public class Controller implements Observer {
     public void handleUpdateButton() {
         for (Student student : mainTableView.getSelectionModel().getSelectedItems())
             createUpdateStudentView(databaseConnection.getStudent(student.getId()));
+    }
+
+    @FXML
+    public void handleUseViewCheck() {
+        databaseConnection.setUseView(useViewCheck.isSelected());
     }
 
 

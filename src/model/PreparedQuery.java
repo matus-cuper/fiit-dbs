@@ -17,7 +17,7 @@ class PreparedQuery {
     // 8 - Integer: students registrations count lower than
     // 9 - Integer: offset
     // 10- Integer: limit
-    static final String mainTable = "" +
+    static final String mainView = "" +
             "SELECT *\n" +
             "FROM main_table_1 m\n" +
             "WHERE m.name LIKE ?\n" +
@@ -25,6 +25,51 @@ class PreparedQuery {
             "AND m.birth_at BETWEEN ? AND ?\n" +
             "AND m.gss_avg BETWEEN ? AND ?\n" +
             "AND m.r_count BETWEEN ? AND ?\n" +
+            "OFFSET ?\n" +
+            "LIMIT ?;";
+
+    static final String mainTable = "" +
+            "SELECT *\n" +
+            "FROM\n" +
+            "\t(\n" +
+            "\tSELECT s.student_id, s.name, s.surname, s.birth_at,\n" +
+            "\t\tCOALESCE(gss.avg, 5.00) AS gss_avg,\n" +
+            "\t\tCOALESCE(a.count, 0) AS a_count,\n" +
+            "\t\tCOALESCE(r.count, 0) AS r_count,\n" +
+            "\t\tCOALESCE(g.count, 0) AS g_count_all,\n" +
+            "\t\tCOALESCE(g.count_success, 0) AS g_count_success\n" +
+            "\tFROM students s\n" +
+            "\tLEFT JOIN\n" +
+            "\t\t(\n" +
+            "\t\tSELECT gss.student_id, ROUND(AVG(gss.mark), 2) AS avg\n" +
+            "\t\tFROM graduations_from_ss gss\n" +
+            "\t\tGROUP BY gss.student_id\n" +
+            "\t\t) gss ON s.student_id = gss.student_id\n" +
+            "\tLEFT JOIN\n" +
+            "\t\t(\n" +
+            "\t\tSELECT a.student_id, COUNT(*)\n" +
+            "\t\tFROM awards a\n" +
+            "\t\tGROUP BY a.student_id\n" +
+            "\t\t) a ON s.student_id = a.student_id\n" +
+            "\tLEFT JOIN\n" +
+            "\t\t(\n" +
+            "\t\tSELECT r.student_id, COUNT(*)\n" +
+            "\t\tFROM registrations r\n" +
+            "\t\tGROUP BY r.student_id\n" +
+            "\t\t) r ON s.student_id = r.student_id\n" +
+            "\tLEFT JOIN\n" +
+            "\t\t(\n" +
+            "\t\tSELECT g.student_id, COUNT(*),\n" +
+            "\t\tSUM(CASE WHEN g.graduated = TRUE THEN 1 ELSE 0 END) AS count_success\n" +
+            "\t\tFROM graduations g\n" +
+            "\t\tGROUP BY g.student_id\n" +
+            "\t\t) g ON s.student_id = g.student_id\n" +
+            "\tWHERE s.name LIKE ?\n" +
+            "\tAND s.surname LIKE ?\n" +
+            "\tAND s.birth_at BETWEEN ? AND ?\n" +
+            "\t) nt\n" +
+            "WHERE nt.gss_avg BETWEEN ? AND ?\n" +
+            "AND nt.r_count BETWEEN ? AND ?\n" +
             "OFFSET ?\n" +
             "LIMIT ?;";
 
@@ -102,6 +147,8 @@ class PreparedQuery {
 
     static final String updateStudent = "UPDATE students SET (secondary_school_id, name, surname, birth_at, address, " +
             "email, phone, zip_code) = (?, ?, ?, ?, ?, ?, ?, ?) WHERE student_id = ?;";
+
+    static String refreshView = "REFRESH MATERIALIZED VIEW main_table_1;";
 
     private PreparedQuery() {}
 

@@ -26,6 +26,7 @@ public class DatabaseConnection extends Thread {
     private Statement statement = null;
     private StudentFilter filter;
 
+    private boolean useView = true;
     private boolean connectionReady = false;
     private int tableSize;
     private int actualOffset = 0;
@@ -94,7 +95,12 @@ public class DatabaseConnection extends Thread {
 
         List<Student> students = new LinkedList<>();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(PreparedQuery.mainTable);
+            PreparedStatement preparedStatement;
+            if (useView)
+                preparedStatement = connection.prepareStatement(PreparedQuery.mainView);
+            else
+                preparedStatement = connection.prepareStatement(PreparedQuery.mainTable);
+
             preparedStatement.setString(1, filter.getName());
             preparedStatement.setString(2, filter.getSurname());
             preparedStatement.setDate(3, filter.getBirthAfter());
@@ -417,5 +423,36 @@ public class DatabaseConnection extends Thread {
         actualOffset = 0;
         this.filter = filter;
         LOG.log(Level.INFO, "Filter " + filter);
+    }
+
+    public void setUseView(boolean useView) {
+        this.useView = useView;
+        if (!useView) {
+            Refresher refresher = new Refresher();
+            refresher.start();
+        }
+    }
+
+    private class Refresher extends Thread {
+        public void run() {
+            Connection connection = null;
+            Statement statement = null;
+            try {
+                connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+                statement = connection.createStatement();
+                statement.execute(PreparedQuery.refreshView);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "Error occurred during refreshing view", e);
+            } finally {
+                try {
+                    if (statement != null)
+                        statement.close();
+                    if (connection != null)
+                        connection.close();
+                } catch (SQLException e) {
+                    LOG.log(Level.SEVERE, "Error occurred during refreshing view and releasing resources", e);
+                }
+            }
+        }
     }
 }
