@@ -12,3 +12,5 @@ CREATE INDEX ON main_table_1 (surname);
 CREATE INDEX ON main_table_1 (birth_at);
 CREATE INDEX ON main_table_1 (gss_avg);
 CREATE INDEX ON main_table_1 (r_count);
+
+CREATE INDEX ON students (name, surname);
