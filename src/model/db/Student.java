@@ -109,9 +109,6 @@ public class Student {
                 email == null || phone == null || zipCode == null)
             throw new IllegalArgumentException();
 
-        if (!Utils.containOnlyLetters(name) || !Utils.containOnlyLetters(surname))
-            throw new IllegalArgumentException();
-
         if (name.length() > 30 || surname.length() > 30 || address.length() > 80 || email.length() > 70)
             throw new IllegalArgumentException();
 

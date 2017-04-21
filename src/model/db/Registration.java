@@ -8,8 +8,8 @@ import java.util.Date;
  * Created by Matus Cuper on 7.4.2017.
  *
  * Representation of registration table in database
- * Added university string because of {@link controller.NewStudentView}
- * and {@link controller.UpdateStudentView}
+ * Added university and fieldOfStudy strings because
+ * of {@link controller.NewStudentView} and {@link controller.UpdateStudentView}
  */
 public class Registration {
 
@@ -18,6 +18,7 @@ public class Registration {
     private Status status;
     private Date changedAt;
     private String university;
+    private String fieldOfStudy;
 
 
     Registration(ResultSet resultSet) throws SQLException {
@@ -36,6 +37,7 @@ public class Registration {
         this.fosAtUniversity = new FosAtUniversity(university, fieldOfStudy);
         this.status = status;
         this.university = this.fosAtUniversity.getUniversity().getName();
+        this.fieldOfStudy = this.fosAtUniversity.getFieldOfStudy().getName();
     }
 
     public Integer getId() {
@@ -60,5 +62,9 @@ public class Registration {
 
     public String getUniversity() {
         return university;
+    }
+
+    public String getFieldOfStudy() {
+        return fieldOfStudy;
     }
 }
