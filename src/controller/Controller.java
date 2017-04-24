@@ -124,6 +124,7 @@ public class Controller implements Observer {
 
 
     public Controller() {
+        // TODO make as thread pool
         databaseConnection = new DatabaseConnection();
         databaseConnection.start();
 

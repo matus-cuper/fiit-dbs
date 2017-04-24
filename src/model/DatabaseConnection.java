@@ -27,6 +27,7 @@ public class DatabaseConnection extends Thread {
     private static final String DB_USER = PropertyReader.readProperty("database.user");
     private static final String DB_PASSWORD = PropertyReader.readProperty("database.password");
 
+    // TODO make connection as connection pool
     private Connection connection = null;
     private Statement statement = null;
     private StudentFilter filter;
@@ -152,6 +153,11 @@ public class DatabaseConnection extends Thread {
             student = new Student(resultSets);
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Error occurred during selecting details about student", e);
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                LOG.log(Level.SEVERE, "Error occurred during rollback selecting details about student", e1);
+            }
         } finally {
             try {
                 connection.setAutoCommit(true);
@@ -170,6 +176,11 @@ public class DatabaseConnection extends Thread {
             connection.commit();
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Error occurred during deleting student information", e);
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                LOG.log(Level.SEVERE, "Error occurred during rollback deleting student information", e1);
+            }
         } finally {
             try {
                 connection.setAutoCommit(true);
@@ -279,6 +290,11 @@ public class DatabaseConnection extends Thread {
             LOG.log(Level.INFO, "Inserting student " + student.getId());
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Error occurred during inserting student information", e);
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                LOG.log(Level.SEVERE, "Error occurred during rollback inserting student information", e1);
+            }
         } finally {
             try {
                 connection.setAutoCommit(true);
@@ -372,6 +388,11 @@ public class DatabaseConnection extends Thread {
             LOG.log(Level.INFO, "Updating student " + student.getId());
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Error occurred during inserting student information", e);
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                LOG.log(Level.SEVERE, "Error occurred during rollback inserting student information", e1);
+            }
         } finally {
             try {
                 connection.setAutoCommit(true);
