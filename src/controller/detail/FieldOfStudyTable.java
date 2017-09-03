@@ -1,9 +1,11 @@
-package controller.db;
+package controller.detail;
 
 /**
  * Created by Matus Cuper on 9.4.2017.
  *
- * This class represents {@link model.db.FieldOfStudy} in {@link controller.DetailedView}
+ * Represent {@link model.db.FieldOfStudy} in {@link controller.DetailedView}
+ * Contain extracted commons from {@link GraduationTable} and {@link RegistrationTable}
+ * Getters have to be listed because of {@link javafx.scene.control.cell.PropertyValueFactory}
  */
 class FieldOfStudyTable {
 
@@ -36,9 +38,5 @@ class FieldOfStudyTable {
 
     public String getFieldOfStudy() {
         return fieldOfStudy;
-    }
-
-    public void setFieldOfStudy(String fieldOfStudy) {
-        this.fieldOfStudy = fieldOfStudy;
     }
 }

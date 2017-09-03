@@ -1,11 +1,12 @@
-package controller.db;
+package controller.detail;
 
 import java.util.Date;
 
 /**
  * Created by Matus Cuper on 9.4.2017.
  *
- * This class represents {@link model.db.Graduation} in {@link controller.DetailedView}
+ * Represent {@link model.db.Graduation} in {@link controller.DetailedView}
+ * Getters have to be listed because of {@link javafx.scene.control.cell.PropertyValueFactory}
  */
 public class GraduationTable extends FieldOfStudyTable {
 
@@ -26,16 +27,8 @@ public class GraduationTable extends FieldOfStudyTable {
         return startedAt;
     }
 
-    public void setStartedAt(Date startedAt) {
-        this.startedAt = startedAt;
-    }
-
     public Date getFinishedAt() {
         return finishedAt;
-    }
-
-    public void setFinishedAt(Date finishedAt) {
-        this.finishedAt = finishedAt;
     }
 
     public Boolean getGraduated() {

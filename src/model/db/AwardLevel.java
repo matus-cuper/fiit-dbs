@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents awards_level table
+ * Representation of award_levels table in database
  */
 public class AwardLevel {
 
@@ -19,9 +19,14 @@ public class AwardLevel {
         this.name = resultSet.getString("name");
     }
 
-    public AwardLevel(Integer id, String name) {
+    AwardLevel(Integer id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public Integer getId() {

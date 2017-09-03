@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents awards table
+ * Representation of awards table in database
  */
 public class Award {
 
@@ -31,6 +31,15 @@ public class Award {
         this.awardedAt = awardedAt;
     }
 
+    public Award(AwardName awardName, AwardLevel awardLevel, Date awardedAt) throws IllegalArgumentException {
+        if (awardName == null || awardLevel == null || awardedAt == null)
+            throw new IllegalArgumentException();
+
+        this.awardedAt = awardedAt;
+        this.awardName = awardName;
+        this.awardLevel = awardLevel;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -43,23 +52,11 @@ public class Award {
         return awardLevel;
     }
 
-    public void setAwardLevel(AwardLevel awardLevel) {
-        this.awardLevel = awardLevel;
-    }
-
     public AwardName getAwardName() {
         return awardName;
     }
 
-    public void setAwardName(AwardName awardName) {
-        this.awardName = awardName;
-    }
-
     public Date getAwardedAt() {
         return awardedAt;
-    }
-
-    public void setAwardedAt(Date awardedAt) {
-        this.awardedAt = awardedAt;
     }
 }

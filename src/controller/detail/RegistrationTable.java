@@ -1,11 +1,12 @@
-package controller.db;
+package controller.detail;
 
 import java.util.Date;
 
 /**
  * Created by Matus Cuper on 9.4.2017.
  *
- * This class represents {@link model.db.Registration} in {@link controller.DetailedView}
+ * Represent {@link model.db.Registration} in {@link controller.DetailedView}
+ * Getters have to be listed because of {@link javafx.scene.control.cell.PropertyValueFactory}
  */
 public class RegistrationTable extends FieldOfStudyTable {
 
@@ -23,15 +24,7 @@ public class RegistrationTable extends FieldOfStudyTable {
         return changedAt;
     }
 
-    public void setChangedAt(Date changedAt) {
-        this.changedAt = changedAt;
-    }
-
     public String getStatus() {
         return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

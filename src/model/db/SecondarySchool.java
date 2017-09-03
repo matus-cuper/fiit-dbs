@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents secondary_schools table
+ * Representation of secondary_schools table in database
  */
 public class SecondarySchool {
 
@@ -21,10 +21,15 @@ public class SecondarySchool {
         this.address = resultSet.getString("address");
     }
 
-    public SecondarySchool(Integer id, String name, String address) {
+    SecondarySchool(Integer id, String name, String address) {
         this.id = id;
         this.name = name;
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public Integer getId() {

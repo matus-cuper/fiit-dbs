@@ -6,7 +6,7 @@ import java.sql.SQLException;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * This class represents award_names table
+ * Representation of award_names table in database
  */
 public class AwardName {
 
@@ -19,9 +19,14 @@ public class AwardName {
         this.name = resultSet.getString("name");
     }
 
-    public AwardName(Integer id, String name) {
+    AwardName(Integer id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     public Integer getId() {

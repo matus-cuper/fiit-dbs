@@ -1,25 +1,31 @@
 package controller;
 
-import controller.db.*;
+import controller.detail.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.db.*;
+import model.db.Student;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Created by Matus Cuper on 8.4.2017.
  *
- * This class represents detailed view of students,
- * window pop up after double click on record
+ * Handle interaction with user on detailed view of student,
+ * will pop up after double click on record in main table,
+ * user will be able to review all information about given student
+ *
+ * After calling setter for student, Initializer Thread will be
+ * created and tables with student information are filled,
+ * other methods are only getters and initializer for these tables
  */
 public class DetailedView {
 
@@ -64,6 +70,18 @@ public class DetailedView {
 
     public DetailedView() {}
 
+    void setStudent(Student student) {
+        this.student = student;
+        LOG.log(Level.INFO, "Detailed view of student " + student.getId());
+        Initializer initializer = new Initializer();
+        initializer.start();
+    }
+
+    /**
+     * Thread will wait for rendering detailed view and after that
+     * will obtain data for given student, initialize columns for
+     * tables and fill them with data
+     */
     private class Initializer extends Thread {
         public void run() {
             try {
@@ -72,7 +90,7 @@ public class DetailedView {
                 LOG.log(Level.SEVERE, "Error occurred during waiting for studentTableView rendering", e);
             }
 
-            ObservableList<StudentTable> studentsData = FXCollections.observableArrayList(getStudents());
+            ObservableList<StudentTable> studentsData = FXCollections.observableArrayList(getStudent());
             ObservableList<SecondarySchoolTable> graduationsFromSSData = FXCollections.observableArrayList(getGraduationsFromSS());
             ObservableList<AwardTable> awardsData = FXCollections.observableArrayList(getAwards());
             ObservableList<GraduationTable> graduationsData = FXCollections.observableArrayList(getGraduations());
@@ -88,57 +106,43 @@ public class DetailedView {
         }
     }
 
-    private List<StudentTable> getStudents() {
-        List<StudentTable> students = new LinkedList<>();
+    private List<StudentTable> getStudent() {
+        List<StudentTable> student = new LinkedList<>();
 
-        students.add(new StudentTable("Name", student.getName()));
-        students.add(new StudentTable("Surname", student.getSurname()));
-        students.add(new StudentTable("Born at", student.getBirthAt().toString()));
-        students.add(new StudentTable("Address", student.getAddress()));
-        students.add(new StudentTable("Email", student.getEmail()));
-        students.add(new StudentTable("Phone", student.getPhone()));
-        students.add(new StudentTable("Zip code", student.getZipCode()));
+        student.add(new StudentTable("Name", this.student.getName()));
+        student.add(new StudentTable("Surname", this.student.getSurname()));
+        student.add(new StudentTable("Born at", this.student.getBirthAt().toString()));
+        student.add(new StudentTable("Address", this.student.getAddress()));
+        student.add(new StudentTable("Email", this.student.getEmail()));
+        student.add(new StudentTable("Phone", this.student.getPhone()));
+        student.add(new StudentTable("Zip code", this.student.getZipCode()));
 
-        return students;
+        return student;
     }
 
     private List<SecondarySchoolTable> getGraduationsFromSS() {
-        List<SecondarySchoolTable> secondarySchools = new LinkedList<>();
-        for (GraduationFromSS graduation : student.getGraduationsFromSS())
-            secondarySchools.add(new SecondarySchoolTable(student.getSecondarySchool().getName(),
-                    student.getSecondarySchool().getAddress(), graduation.getSubject().getName(), graduation.getMark(), graduation.getGraduatedAt()));
-
-        return secondarySchools;
+        return student.getGraduationsFromSS().stream().map(graduation -> new SecondarySchoolTable(student.getSecondarySchool().getName(),
+                student.getSecondarySchool().getAddress(), graduation.getSubject().getName(), graduation.getMark(),
+                graduation.getGraduatedAt())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private List<AwardTable> getAwards() {
-        List<AwardTable> awards = new LinkedList<>();
-        for (Award award : student.getAwards())
-            awards.add(new AwardTable(award.getAwardName().getName(), award.getAwardLevel().getName(), award.getAwardedAt()));
-
-        return awards;
+        return student.getAwards().stream().map(award -> new AwardTable(award.getAwardName().getName(),
+                award.getAwardLevel().getName(), award.getAwardedAt())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private List<GraduationTable> getGraduations() {
-        List<GraduationTable> graduations = new LinkedList<>();
-        for (Graduation graduation : student.getGraduations())
-            graduations.add(new GraduationTable(graduation.getFosAtUniversity().getUniversity().getName(),
-                    graduation.getFosAtUniversity().getUniversity().getAddress(),
-                    graduation.getFosAtUniversity().getFieldOfStudy().getName(),
-                    graduation.getStartedAt(), graduation.getFinishedAt(), graduation.isGraduated()));
-
-        return graduations;
+        return student.getGraduations().stream().map(graduation -> new GraduationTable(graduation.getFosAtUniversity().getUniversity().getName(),
+                graduation.getFosAtUniversity().getUniversity().getAddress(),
+                graduation.getFosAtUniversity().getFieldOfStudy().getName(), graduation.getStartedAt(),
+                graduation.getFinishedAt(), graduation.isGraduated())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private List<RegistrationTable> getRegistrations() {
-        List<RegistrationTable> registrations = new LinkedList<>();
-        for (Registration registration : student.getRegistrations())
-            registrations.add(new RegistrationTable(registration.getFosAtUniversity().getUniversity().getName(),
-                    registration.getFosAtUniversity().getUniversity().getAddress(),
-                    registration.getFosAtUniversity().getFieldOfStudy().getName(), registration.getChangedAt(),
-                    registration.getStatus().getName()));
-
-        return registrations;
+        return student.getRegistrations().stream().map(registration -> new RegistrationTable(registration.getFosAtUniversity().getUniversity().getName(),
+                registration.getFosAtUniversity().getUniversity().getAddress(),
+                registration.getFosAtUniversity().getFieldOfStudy().getName(), registration.getChangedAt(),
+                registration.getStatus().getName())).collect(Collectors.toCollection(LinkedList::new));
     }
 
     private void initializeColumns() {
@@ -167,12 +171,5 @@ public class DetailedView {
         registrationFieldOfStudyColumn.setCellValueFactory(new PropertyValueFactory<>("fieldOfStudy"));
         registrationChangedAtColumn.setCellValueFactory(new PropertyValueFactory<>("changedAt"));
         registrationStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-    }
-
-    void setStudent(Student student) {
-        this.student = student;
-        LOG.log(Level.INFO, "Detailed view of student " + student.getId());
-        Initializer initializer = new Initializer();
-        initializer.start();
     }
 }

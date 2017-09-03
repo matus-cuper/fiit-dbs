@@ -1,12 +1,15 @@
-package controller.db;
+package controller.detail;
 
 import java.util.Date;
 
 /**
  * Created by Matus Cuper on 9.4.2017.
  *
- * This class represents {@link model.db.SecondarySchool} and
- * {@link model.db.GraduationFromSS} in {@link controller.DetailedView}
+ * Represent {@link model.db.SecondarySchool} and {@link model.db.GraduationFromSS}
+ * in {@link controller.DetailedView}
+ * In contrast with database model, this table contains duplicate values of
+ * SecondarySchool information, caused by personal inner feeling, that it is right
+ * Getters have to be listed because of {@link javafx.scene.control.cell.PropertyValueFactory}
  */
 public class SecondarySchoolTable {
 
@@ -45,10 +48,6 @@ public class SecondarySchoolTable {
         return subject;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
     public Integer getMark() {
         return mark;
     }
@@ -59,9 +58,5 @@ public class SecondarySchoolTable {
 
     public Date getGraduatedAt() {
         return graduatedAt;
-    }
-
-    public void setGraduatedAt(Date graduatedAt) {
-        this.graduatedAt = graduatedAt;
     }
 }

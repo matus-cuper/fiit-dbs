@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  *
  * Reader for application properties stored in application.properties file
  */
-public class PropertyReader {
+class PropertyReader {
 
     private static final Logger LOG = Logger.getLogger(PropertyReader.class.getName());
 
@@ -24,7 +24,7 @@ public class PropertyReader {
      * @param propertyName to read
      * @return property value placed in etc/application.properties
      */
-    public static String readProperty(String propertyName) {
+    static String readProperty(String propertyName) {
         readPropertyFile();
         return properties.getProperty(propertyName);
     }

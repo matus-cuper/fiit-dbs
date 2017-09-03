@@ -1,5 +1,7 @@
 package model.db;
 
+import model.Utils;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -9,7 +11,10 @@ import java.util.List;
 /**
  * Created by Matus Cuper on 7.4.2017.
  *
- * Class represents students table
+ * Representation of students table in database
+ * Some aggregated attributes are used only for
+ * main view, getters are necessary because of
+ * {@link javafx.scene.control.cell.PropertyValueFactory}
  */
 public class Student {
 
@@ -38,7 +43,6 @@ public class Student {
     public Student(List<ResultSet> resultSets) throws SQLException {
         ResultSet studentRS = resultSets.get(0);
         studentRS.next();
-
         this.id = studentRS.getInt("student_id");
         this.secondarySchool = new SecondarySchool(studentRS.getInt("secondary_school_id"),
                 studentRS.getString("secondary_school_name"), studentRS.getString("secondary_school_address"));
@@ -80,16 +84,55 @@ public class Student {
     }
 
     public Student(Integer id, SecondarySchool secondarySchool, String name, String surname,
-                   Date birtAt, String address, String email, String phone, String zipCode) {
+                   Date birthAt, String address, String email, String phone, String zipCode) {
         this.id = id;
         this.secondarySchool = secondarySchool;
         this.name = name;
         this.surname = surname;
-        this.birthAt = birtAt;
+        this.birthAt = birthAt;
         this.address = address;
         this.email = email;
         this.phone = phone;
         this.zipCode = zipCode;
+    }
+
+    public Student(SecondarySchool secondarySchool, String name, String surname, Date birthAt, String address,
+                   String email, String phone, String zipCode) throws IllegalArgumentException {
+
+        name = Utils.removeWhitespaces(name);
+        surname = Utils.removeWhitespaces(surname);
+        email = Utils.removeWhitespaces(email);
+        phone = Utils.removeWhitespaces(phone);
+        zipCode = Utils.removeWhitespaces(zipCode);
+
+        if (name == null || surname == null || birthAt == null || address == null ||
+                email == null || phone == null || zipCode == null)
+            throw new IllegalArgumentException();
+
+        if (name.length() > 30 || surname.length() > 30 || address.length() > 80 || email.length() > 70)
+            throw new IllegalArgumentException();
+
+        if (Utils.countMatches(email, "@") != 1 ||
+                Utils.countMatches(email.substring(email.lastIndexOf("@") + 1), ".") != 1)
+            throw new IllegalArgumentException();
+
+        if (!phone.startsWith("+") ||
+                !Utils.containOnlyNumbers(phone.substring(1)) ||
+                phone.length() > 15)
+            throw new IllegalArgumentException();
+
+        if (!Utils.containOnlyNumbers(zipCode) || zipCode.length() != 5)
+            throw new IllegalArgumentException();
+
+        this.name = name;
+        this.surname = surname;
+        this.birthAt = birthAt;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.zipCode = zipCode;
+
+        this.secondarySchool = secondarySchool;
     }
 
     public Integer getId() {
@@ -102,10 +145,6 @@ public class Student {
 
     public SecondarySchool getSecondarySchool() {
         return secondarySchool;
-    }
-
-    public void setSecondarySchool(SecondarySchool secondarySchool) {
-        this.secondarySchool = secondarySchool;
     }
 
     public String getName() {
@@ -128,10 +167,6 @@ public class Student {
         return birthAt;
     }
 
-    public void setBirthAt(Date birthAt) {
-        this.birthAt = birthAt;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -152,63 +187,39 @@ public class Student {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getZipCode() {
         return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
     }
 
     public Double getMarksAverage() {
         return marksAverage;
     }
 
-    public void setMarksAverage(Double marksAverage) {
-        this.marksAverage = marksAverage;
-    }
-
     public Integer getAwardsCount() {
         return awardsCount;
-    }
-
-    public void setAwardsCount(Integer awardsCount) {
-        this.awardsCount = awardsCount;
     }
 
     public Integer getRegistrationsCount() {
         return registrationsCount;
     }
 
-    public void setRegistrationsCount(Integer registrationsCount) {
-        this.registrationsCount = registrationsCount;
-    }
-
     public Integer getGraduationsCountAll() {
         return graduationsCountAll;
-    }
-
-    public void setGraduationsCountAll(Integer graduationsCountAll) {
-        this.graduationsCountAll = graduationsCountAll;
     }
 
     public Integer getGraduationsCountSuccess() {
         return graduationsCountSuccess;
     }
 
-    public void setGraduationsCountSuccess(Integer graduationsCountSuccess) {
-        this.graduationsCountSuccess = graduationsCountSuccess;
-    }
-
     public List<Award> getAwards() {
         return awards;
     }
 
-    public void setAwards(List<Award> awards) {
+    public void setAwards(List<Award> awards) throws IllegalArgumentException {
+        for (Award award : awards)
+            if (award.getAwardedAt().before(this.birthAt))
+                throw new IllegalArgumentException();
+
         this.awards = awards;
     }
 
@@ -216,7 +227,11 @@ public class Student {
         return graduations;
     }
 
-    public void setGraduations(List<Graduation> graduations) {
+    public void setGraduations(List<Graduation> graduations) throws IllegalArgumentException {
+        for (Graduation graduation : graduations)
+            if (graduation.getStartedAt().before(this.birthAt) || graduation.getFinishedAt().before(this.birthAt))
+                throw new IllegalArgumentException();
+
         this.graduations = graduations;
     }
 
@@ -224,7 +239,11 @@ public class Student {
         return graduationsFromSS;
     }
 
-    public void setGraduationsFromSS(List<GraduationFromSS> graduationsFromSS) {
+    public void setGraduationsFromSS(List<GraduationFromSS> graduationsFromSS) throws IllegalArgumentException {
+        for (GraduationFromSS graduation : graduationsFromSS)
+            if (graduation.getGraduatedAt().before(this.birthAt))
+                throw new IllegalArgumentException();
+
         this.graduationsFromSS = graduationsFromSS;
     }
 
@@ -232,7 +251,11 @@ public class Student {
         return registrations;
     }
 
-    public void setRegistrations(List<Registration> registrations) {
+    public void setRegistrations(List<Registration> registrations) throws IllegalArgumentException {
+        for (Registration registration : registrations)
+            if (registration.getChangedAt().before(this.birthAt))
+                throw new IllegalArgumentException();
+
         this.registrations = registrations;
     }
 }
